@@ -2,7 +2,9 @@
 
 ## Objective
 
-Understand the basic information about a Kubernetes cluster.
+Explore the Kubernetes cluster and verify its basic health.
+
+---
 
 ## Commands
 
@@ -13,12 +15,31 @@ kubectl get nodes -o wide
 kubectl version
 ```
 
-## Expected Outcome
+---
 
-- View Control Plane endpoint.
-- List all Worker Nodes.
-- Check Kubernetes version.
+## Expected Output
 
-## Exam Tip
+- Control Plane endpoint
+- Worker Node information
+- Kubernetes version
 
-Always start troubleshooting by checking cluster health and node status.
+---
+
+## Explanation
+
+These commands help you verify:
+
+- Cluster connectivity
+- Node availability
+- Kubernetes version
+- Basic cluster health
+
+---
+
+## CKA Exam Tip
+
+Before troubleshooting any issue, always verify:
+
+- Cluster connectivity
+- Node status
+- Kubernetes version
