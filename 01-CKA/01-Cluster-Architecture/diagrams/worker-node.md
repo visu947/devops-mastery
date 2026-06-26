@@ -3,7 +3,6 @@
 
 ## 3️⃣ worker-node.md
 
-````markdown
 # Worker Node
 
 ## Components
