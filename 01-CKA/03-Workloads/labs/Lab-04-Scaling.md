@@ -1,21 +1,21 @@
-# Lab 04 - Rollbacks
+# Lab 02 - Scaling Deployments
 
 ## Difficulty
 
-⭐⭐ Intermediate
+⭐ Beginner
 
 ## Estimated Time
 
-25–35 minutes
+20–30 minutes
 
 ---
 
 # CKA Objectives Covered
 
-* View rollout history
-* Roll back Deployments
-* Verify Deployment revisions
-* Understand ReplicaSet history
+* Scale Deployments
+* Verify ReplicaSets
+* Observe Pod creation and deletion
+* Understand desired vs actual state
 
 ---
 
@@ -23,34 +23,69 @@
 
 In this lab, you will:
 
-* View Deployment revision history.
-* Roll back to the previous Deployment version.
-* Verify that Pods are recreated using the previous ReplicaSet.
-* Understand how Kubernetes stores Deployment revisions.
+* Scale a Deployment up.
+* Scale a Deployment down.
+* Observe how ReplicaSets maintain the desired number of Pods.
+* Verify Deployment status.
 
 ---
 
 # Architecture
 
 ```mermaid
-flowchart LR
-
-Deployment --> RSv1[ReplicaSet Revision 1]
-
-Deployment --> RSv2[ReplicaSet Revision 2]
-
-RSv2 -. Rollback .-> RSv1
-
-RSv1 --> PodsV1[Pods Version 1]
-
-RSv2 --> PodsV2[Pods Version 2]
+flowchart TD
+    Deployment --> ReplicaSet
+    ReplicaSet --> Pod1
+    ReplicaSet --> Pod2
+    ReplicaSet --> Pod3
+    ReplicaSet --> Pod4
+    ReplicaSet --> Pod5
 ```
 
 ---
 
 # Prerequisites
 
-Verify your Deployment:
+Create the Deployment if it does not already exist:
+
+```bash
+kubectl create deployment nginx --image=nginx
+```
+
+Verify:
+
+```bash
+kubectl get deploy
+kubectl get rs
+kubectl get pods
+```
+
+---
+
+# Step 1 - Check Current Replicas
+
+```bash
+kubectl get deployment nginx
+```
+
+Expected:
+
+```text
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   1/1     1            1           1m
+```
+
+---
+
+# Step 2 - Scale Up
+
+Scale to 5 replicas:
+
+```bash
+kubectl scale deployment nginx --replicas=5
+```
+
+Verify:
 
 ```bash
 kubectl get deployment nginx
@@ -60,88 +95,43 @@ kubectl get rs
 kubectl get pods
 ```
 
----
-
-# Step 1 - View Rollout History
-
-```bash
-kubectl rollout history deployment/nginx
-```
-
-Expected output:
+Expected:
 
 ```text
-REVISION   CHANGE-CAUSE
-1          Initial deployment
-2          Updated image
-```
+READY
 
----
-
-# Step 2 - View ReplicaSets
-
-```bash
-kubectl get rs
+5/5
 ```
 
 Observe:
 
-* Current ReplicaSet
-* Previous ReplicaSet
+* One ReplicaSet
+* Five Pods
+* Desired replicas = Current replicas
 
 ---
 
-# Step 3 - Roll Back
+# Step 3 - Observe Self-Healing
+
+Delete one Pod:
 
 ```bash
-kubectl rollout undo deployment/nginx
+kubectl get pods
+
+kubectl delete pod <pod-name>
 ```
 
-Expected:
-
-```text
-deployment.apps/nginx rolled back
-```
-
----
-
-# Step 4 - Monitor Rollback
-
-```bash
-kubectl rollout status deployment/nginx
-```
-
-Expected:
-
-```text
-deployment "nginx" successfully rolled out
-```
-
----
-
-# Step 5 - Verify ReplicaSets
-
-```bash
-kubectl get rs
-```
-
-Observe:
-
-* Previous ReplicaSet becomes active again.
-* Newer ReplicaSet scales down.
-
----
-
-# Step 6 - Verify Pods
+Immediately watch:
 
 ```bash
 kubectl get pods -w
 ```
 
-Watch:
+Observe:
 
-* Current Pods terminate.
-* Replacement Pods are created from the previous ReplicaSet.
+* Deleted Pod disappears.
+* ReplicaSet automatically creates a new Pod.
+* Desired replica count remains unchanged.
 
 Stop watching:
 
@@ -151,126 +141,147 @@ Ctrl + C
 
 ---
 
-# Step 7 - Verify Image
+# Step 4 - Scale Down
+
+Reduce replicas:
 
 ```bash
-kubectl describe pod <pod-name>
-```
-
-Confirm that the image matches the previous Deployment revision.
-
----
-
-# Step 8 - Roll Back to a Specific Revision
-
-Display revision history:
-
-```bash
-kubectl rollout history deployment/nginx
-```
-
-Roll back to a specific revision:
-
-```bash
-kubectl rollout undo deployment/nginx --to-revision=1
+kubectl scale deployment nginx --replicas=2
 ```
 
 Verify:
 
 ```bash
-kubectl rollout status deployment/nginx
+kubectl get deployment
+
+kubectl get rs
+
+kubectl get pods
 ```
+
+Observe:
+
+Only two Pods remain.
+
+---
+
+# Step 5 - Scale to Zero
+
+```bash
+kubectl scale deployment nginx --replicas=0
+```
+
+Verify:
+
+```bash
+kubectl get pods
+```
+
+Expected:
+
+```text
+No resources found
+```
+
+The Deployment still exists, but no Pods are running.
+
+---
+
+# Step 6 - Scale Back Up
+
+```bash
+kubectl scale deployment nginx --replicas=3
+```
+
+Verify:
+
+```bash
+kubectl get deploy
+
+kubectl get rs
+
+kubectl get pods
+```
+
+Observe that Kubernetes recreates the Pods.
 
 ---
 
 # Verification Checklist
 
-✅ Rollout history displayed.
+✅ Deployment scaled successfully.
 
-✅ Deployment rolled back successfully.
+✅ ReplicaSet maintained desired state.
 
-✅ Previous ReplicaSet active.
+✅ Pods recreated after deletion.
 
-✅ Pods recreated.
+✅ Scaling to zero removed all Pods.
 
-✅ Previous application version restored.
+✅ Scaling back up recreated the application.
 
 ---
 
 # Common Errors
 
-## No Previous Revision Available
-
-Possible cause:
-
-Only one Deployment revision exists.
-
-Verify:
-
-```bash
-kubectl rollout history deployment/nginx
-```
-
----
-
-## Rollback Does Not Restore the Application
+## Pods Not Scaling
 
 Investigate:
 
 ```bash
 kubectl describe deployment nginx
 
-kubectl get rs
-
-kubectl get pods
+kubectl describe rs
 
 kubectl get events
 ```
 
 Possible causes:
 
-* Image removed from registry.
-* Configuration changes outside the Deployment.
-* Environment differences.
+* Resource constraints
+* Node capacity
+* Scheduling failures
 
 ---
 
 # Production Discussion
 
-Rollbacks are commonly used when:
+Scaling is commonly used for:
 
-* A new release introduces errors.
-* Readiness probes fail.
-* Performance degrades.
-* Critical bugs are discovered.
-* Users report application issues after deployment.
+* Handling traffic spikes.
+* Reducing costs during low demand.
+* Maintenance windows.
+* Disaster recovery.
 
-Rollbacks should be quick, but always perform a root cause analysis after restoring service.
+Manual scaling is useful, but most production environments also use the Horizontal Pod Autoscaler (HPA).
 
 ---
 
 # Knowledge Check
 
-1. What command displays Deployment revision history?
-2. What object stores Deployment revisions?
-3. Does Kubernetes delete old ReplicaSets immediately?
-4. Can you roll back to a specific revision?
-5. Why are previous ReplicaSets retained?
+1. Which controller performs the scaling?
+2. What happens when you delete a Pod managed by a Deployment?
+3. Does scaling change the ReplicaSet or create a new one?
+4. What happens when you scale to zero?
+5. Does the Deployment still exist after scaling to zero?
 
 ---
 
 # Cleanup
 
-Leave the Deployment running.
+Leave the Deployment running with:
 
-The next lab will continue using the existing Deployment.
+```bash
+kubectl scale deployment nginx --replicas=3
+```
+
+The next lab will use this Deployment.
 
 ---
 
 # Challenge
 
-1. Update the Deployment to a newer image.
-2. Verify the rollout.
-3. Roll back to the previous revision.
-4. Verify the image running in the Pods.
-5. Explain what happened to the ReplicaSets during the rollback.
+1. Scale the Deployment to 10 replicas.
+2. Delete three Pods.
+3. Observe Kubernetes recreate them.
+4. Scale down to one replica.
+5. Explain which controller was responsible for each action.
