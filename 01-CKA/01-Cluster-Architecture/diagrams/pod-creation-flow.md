@@ -2,35 +2,38 @@
 
 ## End-to-End Request Flow
 
-```text
-Developer
-    │
-kubectl apply
-    │
-    ▼
-API Server
-    │
-Authentication
-    │
-Authorization
-    │
-Admission Controllers
-    │
-etcd
-    │
-Deployment Controller
-    │
-ReplicaSet
-    │
-Scheduler
-    │
-Worker Node
-    │
-kubelet
-    │
-Container Runtime
-    │
-Pod Running
+```mermaid
+sequenceDiagram
+
+participant User
+
+participant Kubectl
+
+participant API
+
+participant ETCD
+
+participant Scheduler
+
+participant Kubelet
+
+participant Runtime
+
+User->>Kubectl: kubectl apply
+
+Kubectl->>API: REST Request
+
+API->>ETCD: Save Desired State
+
+API->>Scheduler: Schedule Pod
+
+Scheduler->>Kubelet: Assign Node
+
+Kubelet->>Runtime: Start Container
+
+Runtime-->>Kubelet: Pod Running
+
+Kubelet-->>API: Status Update
 ```
 
 ---
