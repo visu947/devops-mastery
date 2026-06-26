@@ -1,4 +1,4 @@
-# Lab 03 - Rolling Updates
+# Lab 04 - Rollbacks
 
 ## Difficulty
 
@@ -6,17 +6,16 @@
 
 ## Estimated Time
 
-30–40 minutes
+25–35 minutes
 
 ---
 
 # CKA Objectives Covered
 
-* Perform rolling updates
-* Monitor rollout progress
-* Verify ReplicaSets
-* Observe Pod replacement
-* Understand zero-downtime deployments
+* View rollout history
+* Roll back Deployments
+* Verify Deployment revisions
+* Understand ReplicaSet history
 
 ---
 
@@ -24,11 +23,10 @@
 
 In this lab, you will:
 
-* Update a Deployment image.
-* Monitor the rollout.
-* Observe the creation of a new ReplicaSet.
-* Verify old Pods are replaced gradually.
-* Understand how Kubernetes performs zero-downtime updates.
+* View Deployment revision history.
+* Roll back to the previous Deployment version.
+* Verify that Pods are recreated using the previous ReplicaSet.
+* Understand how Kubernetes stores Deployment revisions.
 
 ---
 
@@ -37,26 +35,22 @@ In this lab, you will:
 ```mermaid
 flowchart LR
 
-OldRS[ReplicaSet v1]
+Deployment --> RSv1[ReplicaSet Revision 1]
 
-OldRS --> Pod1[nginx:1.25]
-OldRS --> Pod2[nginx:1.25]
-OldRS --> Pod3[nginx:1.25]
+Deployment --> RSv2[ReplicaSet Revision 2]
 
-NewRS[ReplicaSet v1.27]
+RSv2 -. Rollback .-> RSv1
 
-NewRS --> Pod4[nginx:1.27]
-NewRS --> Pod5[nginx:1.27]
-NewRS --> Pod6[nginx:1.27]
+RSv1 --> PodsV1[Pods Version 1]
 
-OldRS -. Rolling Update .-> NewRS
+RSv2 --> PodsV2[Pods Version 2]
 ```
 
 ---
 
 # Prerequisites
 
-Verify the Deployment exists:
+Verify your Deployment:
 
 ```bash
 kubectl get deployment nginx
@@ -68,32 +62,50 @@ kubectl get pods
 
 ---
 
-# Step 1 - Check Current Image
+# Step 1 - View Rollout History
 
 ```bash
-kubectl describe deployment nginx
+kubectl rollout history deployment/nginx
 ```
 
-Locate:
+Expected output:
 
 ```text
-Image:
+REVISION   CHANGE-CAUSE
+1          Initial deployment
+2          Updated image
 ```
 
 ---
 
-# Step 2 - Update the Image
-
-Update the Deployment:
+# Step 2 - View ReplicaSets
 
 ```bash
-kubectl set image deployment/nginx \
-nginx=nginx:1.27
+kubectl get rs
+```
+
+Observe:
+
+* Current ReplicaSet
+* Previous ReplicaSet
+
+---
+
+# Step 3 - Roll Back
+
+```bash
+kubectl rollout undo deployment/nginx
+```
+
+Expected:
+
+```text
+deployment.apps/nginx rolled back
 ```
 
 ---
 
-# Step 3 - Watch the Rollout
+# Step 4 - Monitor Rollback
 
 ```bash
 kubectl rollout status deployment/nginx
@@ -107,30 +119,20 @@ deployment "nginx" successfully rolled out
 
 ---
 
-# Step 4 - Observe ReplicaSets
+# Step 5 - Verify ReplicaSets
 
 ```bash
 kubectl get rs
 ```
 
-Notice:
+Observe:
 
-* Old ReplicaSet still exists.
-* New ReplicaSet has been created.
-
-Example:
-
-```text
-NAME                  DESIRED
-
-nginx-54c8f8d       0
-
-nginx-67c77b7       3
-```
+* Previous ReplicaSet becomes active again.
+* Newer ReplicaSet scales down.
 
 ---
 
-# Step 5 - Observe Pods
+# Step 6 - Verify Pods
 
 ```bash
 kubectl get pods -w
@@ -138,10 +140,10 @@ kubectl get pods -w
 
 Watch:
 
-* New Pods created.
-* Old Pods terminated gradually.
+* Current Pods terminate.
+* Replacement Pods are created from the previous ReplicaSet.
 
-Stop:
+Stop watching:
 
 ```text
 Ctrl + C
@@ -149,131 +151,126 @@ Ctrl + C
 
 ---
 
-# Step 6 - Verify New Image
+# Step 7 - Verify Image
 
 ```bash
-kubectl describe pod <new-pod-name>
+kubectl describe pod <pod-name>
 ```
 
-Verify:
-
-```text
-Image:
-
-nginx:1.27
-```
+Confirm that the image matches the previous Deployment revision.
 
 ---
 
-# Step 7 - View Rollout History
+# Step 8 - Roll Back to a Specific Revision
+
+Display revision history:
 
 ```bash
 kubectl rollout history deployment/nginx
 ```
 
-Observe:
-
-Deployment revisions.
-
----
-
-# Step 8 - Compare ReplicaSets
+Roll back to a specific revision:
 
 ```bash
-kubectl describe rs
+kubectl rollout undo deployment/nginx --to-revision=1
 ```
 
-Observe:
+Verify:
 
-Old ReplicaSet:
-
-```text
-Desired:
-
-0
-```
-
-New ReplicaSet:
-
-```text
-Desired:
-
-3
+```bash
+kubectl rollout status deployment/nginx
 ```
 
 ---
 
 # Verification Checklist
 
-✅ New ReplicaSet created.
+✅ Rollout history displayed.
 
-✅ Old ReplicaSet retained.
+✅ Deployment rolled back successfully.
 
-✅ New Pods running.
+✅ Previous ReplicaSet active.
 
-✅ Old Pods terminated.
+✅ Pods recreated.
 
-✅ Deployment successfully rolled out.
+✅ Previous application version restored.
 
 ---
 
 # Common Errors
 
-## Rollout Stuck
+## No Previous Revision Available
+
+Possible cause:
+
+Only one Deployment revision exists.
+
+Verify:
+
+```bash
+kubectl rollout history deployment/nginx
+```
+
+---
+
+## Rollback Does Not Restore the Application
 
 Investigate:
 
 ```bash
-kubectl rollout status deployment/nginx
-
 kubectl describe deployment nginx
+
+kubectl get rs
+
+kubectl get pods
 
 kubectl get events
 ```
 
 Possible causes:
 
-* Readiness Probe failure.
-* Image pull issue.
-* Resource shortage.
+* Image removed from registry.
+* Configuration changes outside the Deployment.
+* Environment differences.
 
 ---
 
 # Production Discussion
 
-Rolling Updates provide:
+Rollbacks are commonly used when:
 
-* Zero downtime
-* Controlled rollout
-* Easy rollback
-* Safer deployments
+* A new release introduces errors.
+* Readiness probes fail.
+* Performance degrades.
+* Critical bugs are discovered.
+* Users report application issues after deployment.
 
-This is the default Deployment strategy in Kubernetes.
+Rollbacks should be quick, but always perform a root cause analysis after restoring service.
 
 ---
 
 # Knowledge Check
 
-1. Does a Rolling Update replace all Pods at once?
-2. What new Kubernetes object is created during a Rolling Update?
-3. Why is the old ReplicaSet retained?
-4. How can you monitor rollout progress?
-5. Which command shows rollout history?
+1. What command displays Deployment revision history?
+2. What object stores Deployment revisions?
+3. Does Kubernetes delete old ReplicaSets immediately?
+4. Can you roll back to a specific revision?
+5. Why are previous ReplicaSets retained?
 
 ---
 
 # Cleanup
 
-Keep the updated Deployment.
+Leave the Deployment running.
 
-The next lab will roll back to the previous version.
+The next lab will continue using the existing Deployment.
 
 ---
 
 # Challenge
 
-1. Update the image to another version (for example, `nginx:1.28` if available, or another valid version).
-2. Monitor the rollout.
-3. Observe the new ReplicaSet.
+1. Update the Deployment to a newer image.
+2. Verify the rollout.
+3. Roll back to the previous revision.
 4. Verify the image running in the Pods.
-5. Explain why the old ReplicaSet still exists.
+5. Explain what happened to the ReplicaSets during the rollback.
