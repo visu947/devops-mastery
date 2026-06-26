@@ -25,3 +25,16 @@
 | containerd       |   | containerd       |
 | Pods             |   | Pods             |
 +------------------+   +------------------+
+
+
+## Component Summary
+----------------------------------------------
+| Component         | Responsibility         |
+| ----------------- | ---------------------- |
+| API Server        | Entry point            |
+| etcd              | Cluster database       |
+| Scheduler         | Selects node           |
+| Controllers       | Maintain desired state |
+| kubelet           | Runs Pods              |
+| kube-proxy        | Service networking     |
+| container runtime | Runs containers        |
