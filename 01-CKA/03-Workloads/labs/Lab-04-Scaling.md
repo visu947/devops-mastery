@@ -1,4 +1,4 @@
-# Lab 02 - Scaling Deployments
+# Lab 04 - Scaling Deployments
 
 ## Difficulty
 
