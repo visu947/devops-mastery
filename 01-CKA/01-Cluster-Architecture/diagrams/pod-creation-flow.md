@@ -62,3 +62,14 @@ containerd
 ↓
 
 Pod Running
+
+
+## Summary
+User submits request.
+API Server validates.
+Desired state stored in etcd.
+Controller creates ReplicaSet.
+Scheduler assigns node.
+kubelet starts Pod.
+Runtime launches container.
+kubelet reports status.
