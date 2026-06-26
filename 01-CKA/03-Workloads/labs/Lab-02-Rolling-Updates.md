@@ -1,4 +1,4 @@
-# Lab 03 - Rolling Updates
+# Lab 02 - Rolling Updates
 
 ## Difficulty
 
