@@ -1,14 +1,10 @@
 
----
-
 ## 2️⃣ pod-creation-flow.md
 
-```markdown
 # Pod Creation Flow
 
 ## Workflow
 
-```text
 Developer
 
 ↓
