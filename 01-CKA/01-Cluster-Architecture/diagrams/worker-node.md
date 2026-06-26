@@ -1,40 +1,54 @@
+# Worker Node Components
+
+## Worker Node Architecture
+
+```text
++--------------------------------------+
+|            Worker Node               |
+|--------------------------------------|
+| kubelet                              |
+| kube-proxy                           |
+| Container Runtime (containerd/CRI-O) |
+|--------------------------------------|
+| Pods                                 |
++--------------------------------------+
+```
 
 ---
 
-## 3️⃣ worker-node.md
+## kubelet
 
-# Worker Node
+Responsibilities:
 
-## Components
+- Registers the node with the cluster.
+- Watches for assigned Pods.
+- Starts containers.
+- Executes health probes.
+- Reports node and Pod status.
 
-```text
-Worker Node
+---
 
-│
+## kube-proxy
 
-├── kubelet
+Responsibilities:
 
-├── kube-proxy
+- Configures Service networking.
+- Maintains iptables or IPVS rules.
+- Enables communication between Services and Pods.
 
-├── container runtime
+---
 
-└── Pods
-
-
-kubelet
-Registers node
-Runs Pods
-Executes probes
-Reports status
-kube-proxy
-Configures Service networking
-Maintains iptables/IPVS rules
-Container Runtime
+## Container Runtime
 
 Common runtimes:
 
-containerd
-CRI-O
-Summary
+- containerd
+- CRI-O
 
-The Worker Node is responsible for running application workloads assigned by the Scheduler.
+The container runtime is responsible for pulling images and running containers.
+
+---
+
+## Summary
+
+A Worker Node executes workloads assigned by the Scheduler while kubelet, kube-proxy, and the container runtime work together to keep applications running.
