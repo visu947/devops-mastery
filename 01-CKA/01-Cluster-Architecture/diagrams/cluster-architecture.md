@@ -8,33 +8,47 @@
                  kubectl
                      │
                      ▼
-            +------------------+
-            | kube-apiserver   |
-            +------------------+
-               │      │      │
-               │      │      │
-             etcd  Scheduler Controllers
-               │
-        -------------------------
-        │                       │
-+------------------+   +------------------+
-| Worker Node 1    |   | Worker Node 2    |
-|------------------|   |------------------|
-| kubelet          |   | kubelet          |
-| kube-proxy       |   | kube-proxy       |
-| containerd       |   | containerd       |
-| Pods             |   | Pods             |
-+------------------+   +------------------+
-
+            +----------------------+
+            |   kube-apiserver     |
+            +----------------------+
+              │        │        │
+              ▼        ▼        ▼
+           etcd   Scheduler   Controller Manager
+                              │
+          -----------------------------------------
+          │                                       │
+          ▼                                       ▼
++----------------------+               +----------------------+
+|    Worker Node 1     |               |    Worker Node 2     |
+|----------------------|               |----------------------|
+| kubelet              |               | kubelet             |
+| kube-proxy           |               | kube-proxy          |
+| containerd / CRI-O   |               | containerd / CRI-O  |
+| Pods                 |               | Pods                |
++----------------------+               +----------------------+
 ```
+
+---
+
 ## Component Summary
-----------------------------------------------
-| Component         | Responsibility         |
-| ----------------- | ---------------------- |
-| API Server        | Entry point            |
-| etcd              | Cluster database       |
-| Scheduler         | Selects node           |
-| Controllers       | Maintain desired state |
-| kubelet           | Runs Pods              |
-| kube-proxy        | Service networking     |
-| container runtime | Runs containers        |
+
+| Component | Responsibility |
+|-----------|----------------|
+| kube-apiserver | Entry point to the Kubernetes API |
+| etcd | Stores cluster state |
+| kube-scheduler | Assigns Pods to Worker Nodes |
+| kube-controller-manager | Maintains desired state |
+| kubelet | Runs and monitors Pods |
+| kube-proxy | Manages Service networking |
+| Container Runtime | Runs containers |
+
+---
+
+## Production Notes
+
+In managed Kubernetes services such as Amazon EKS, Azure AKS, and Google GKE:
+
+- The cloud provider manages the Control Plane.
+- Customers primarily manage Worker Nodes and workloads.
+- etcd backups are handled by the cloud provider.
+- Direct access to Control Plane nodes is generally not available.
