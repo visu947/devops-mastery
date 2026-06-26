@@ -1,21 +1,22 @@
-# Lab 02 - Scaling Deployments
+# Lab 03 - Rolling Updates
 
 ## Difficulty
 
-⭐ Beginner
+⭐⭐ Intermediate
 
 ## Estimated Time
 
-20–30 minutes
+30–40 minutes
 
 ---
 
 # CKA Objectives Covered
 
-* Scale Deployments
+* Perform rolling updates
+* Monitor rollout progress
 * Verify ReplicaSets
-* Observe Pod creation and deletion
-* Understand desired vs actual state
+* Observe Pod replacement
+* Understand zero-downtime deployments
 
 ---
 
@@ -23,69 +24,39 @@
 
 In this lab, you will:
 
-* Scale a Deployment up.
-* Scale a Deployment down.
-* Observe how ReplicaSets maintain the desired number of Pods.
-* Verify Deployment status.
+* Update a Deployment image.
+* Monitor the rollout.
+* Observe the creation of a new ReplicaSet.
+* Verify old Pods are replaced gradually.
+* Understand how Kubernetes performs zero-downtime updates.
 
 ---
 
 # Architecture
 
 ```mermaid
-flowchart TD
-    Deployment --> ReplicaSet
-    ReplicaSet --> Pod1
-    ReplicaSet --> Pod2
-    ReplicaSet --> Pod3
-    ReplicaSet --> Pod4
-    ReplicaSet --> Pod5
+flowchart LR
+
+OldRS[ReplicaSet v1]
+
+OldRS --> Pod1[nginx:1.25]
+OldRS --> Pod2[nginx:1.25]
+OldRS --> Pod3[nginx:1.25]
+
+NewRS[ReplicaSet v1.27]
+
+NewRS --> Pod4[nginx:1.27]
+NewRS --> Pod5[nginx:1.27]
+NewRS --> Pod6[nginx:1.27]
+
+OldRS -. Rolling Update .-> NewRS
 ```
 
 ---
 
 # Prerequisites
 
-Create the Deployment if it does not already exist:
-
-```bash
-kubectl create deployment nginx --image=nginx
-```
-
-Verify:
-
-```bash
-kubectl get deploy
-kubectl get rs
-kubectl get pods
-```
-
----
-
-# Step 1 - Check Current Replicas
-
-```bash
-kubectl get deployment nginx
-```
-
-Expected:
-
-```text
-NAME    READY   UP-TO-DATE   AVAILABLE   AGE
-nginx   1/1     1            1           1m
-```
-
----
-
-# Step 2 - Scale Up
-
-Scale to 5 replicas:
-
-```bash
-kubectl scale deployment nginx --replicas=5
-```
-
-Verify:
+Verify the Deployment exists:
 
 ```bash
 kubectl get deployment nginx
@@ -95,45 +66,82 @@ kubectl get rs
 kubectl get pods
 ```
 
-Expected:
+---
 
-```text
-READY
+# Step 1 - Check Current Image
 
-5/5
+```bash
+kubectl describe deployment nginx
 ```
 
-Observe:
+Locate:
 
-* One ReplicaSet
-* Five Pods
-* Desired replicas = Current replicas
+```text
+Image:
+```
 
 ---
 
-# Step 3 - Observe Self-Healing
+# Step 2 - Update the Image
 
-Delete one Pod:
+Update the Deployment:
 
 ```bash
-kubectl get pods
-
-kubectl delete pod <pod-name>
+kubectl set image deployment/nginx \
+nginx=nginx:1.27
 ```
 
-Immediately watch:
+---
+
+# Step 3 - Watch the Rollout
+
+```bash
+kubectl rollout status deployment/nginx
+```
+
+Expected:
+
+```text
+deployment "nginx" successfully rolled out
+```
+
+---
+
+# Step 4 - Observe ReplicaSets
+
+```bash
+kubectl get rs
+```
+
+Notice:
+
+* Old ReplicaSet still exists.
+* New ReplicaSet has been created.
+
+Example:
+
+```text
+NAME                  DESIRED
+
+nginx-54c8f8d       0
+
+nginx-67c77b7       3
+```
+
+---
+
+# Step 5 - Observe Pods
 
 ```bash
 kubectl get pods -w
 ```
 
-Observe:
+Watch:
 
-* Deleted Pod disappears.
-* ReplicaSet automatically creates a new Pod.
-* Desired replica count remains unchanged.
+* New Pods created.
+* Old Pods terminated gradually.
 
-Stop watching:
+Stop:
 
 ```text
 Ctrl + C
@@ -141,147 +149,131 @@ Ctrl + C
 
 ---
 
-# Step 4 - Scale Down
-
-Reduce replicas:
+# Step 6 - Verify New Image
 
 ```bash
-kubectl scale deployment nginx --replicas=2
+kubectl describe pod <new-pod-name>
 ```
 
 Verify:
 
+```text
+Image:
+
+nginx:1.27
+```
+
+---
+
+# Step 7 - View Rollout History
+
 ```bash
-kubectl get deployment
-
-kubectl get rs
-
-kubectl get pods
+kubectl rollout history deployment/nginx
 ```
 
 Observe:
 
-Only two Pods remain.
+Deployment revisions.
 
 ---
 
-# Step 5 - Scale to Zero
+# Step 8 - Compare ReplicaSets
 
 ```bash
-kubectl scale deployment nginx --replicas=0
+kubectl describe rs
 ```
 
-Verify:
+Observe:
 
-```bash
-kubectl get pods
-```
-
-Expected:
+Old ReplicaSet:
 
 ```text
-No resources found
+Desired:
+
+0
 ```
 
-The Deployment still exists, but no Pods are running.
+New ReplicaSet:
 
----
+```text
+Desired:
 
-# Step 6 - Scale Back Up
-
-```bash
-kubectl scale deployment nginx --replicas=3
+3
 ```
-
-Verify:
-
-```bash
-kubectl get deploy
-
-kubectl get rs
-
-kubectl get pods
-```
-
-Observe that Kubernetes recreates the Pods.
 
 ---
 
 # Verification Checklist
 
-✅ Deployment scaled successfully.
+✅ New ReplicaSet created.
 
-✅ ReplicaSet maintained desired state.
+✅ Old ReplicaSet retained.
 
-✅ Pods recreated after deletion.
+✅ New Pods running.
 
-✅ Scaling to zero removed all Pods.
+✅ Old Pods terminated.
 
-✅ Scaling back up recreated the application.
+✅ Deployment successfully rolled out.
 
 ---
 
 # Common Errors
 
-## Pods Not Scaling
+## Rollout Stuck
 
 Investigate:
 
 ```bash
-kubectl describe deployment nginx
+kubectl rollout status deployment/nginx
 
-kubectl describe rs
+kubectl describe deployment nginx
 
 kubectl get events
 ```
 
 Possible causes:
 
-* Resource constraints
-* Node capacity
-* Scheduling failures
+* Readiness Probe failure.
+* Image pull issue.
+* Resource shortage.
 
 ---
 
 # Production Discussion
 
-Scaling is commonly used for:
+Rolling Updates provide:
 
-* Handling traffic spikes.
-* Reducing costs during low demand.
-* Maintenance windows.
-* Disaster recovery.
+* Zero downtime
+* Controlled rollout
+* Easy rollback
+* Safer deployments
 
-Manual scaling is useful, but most production environments also use the Horizontal Pod Autoscaler (HPA).
+This is the default Deployment strategy in Kubernetes.
 
 ---
 
 # Knowledge Check
 
-1. Which controller performs the scaling?
-2. What happens when you delete a Pod managed by a Deployment?
-3. Does scaling change the ReplicaSet or create a new one?
-4. What happens when you scale to zero?
-5. Does the Deployment still exist after scaling to zero?
+1. Does a Rolling Update replace all Pods at once?
+2. What new Kubernetes object is created during a Rolling Update?
+3. Why is the old ReplicaSet retained?
+4. How can you monitor rollout progress?
+5. Which command shows rollout history?
 
 ---
 
 # Cleanup
 
-Leave the Deployment running with:
+Keep the updated Deployment.
 
-```bash
-kubectl scale deployment nginx --replicas=3
-```
-
-The next lab will use this Deployment.
+The next lab will roll back to the previous version.
 
 ---
 
 # Challenge
 
-1. Scale the Deployment to 10 replicas.
-2. Delete three Pods.
-3. Observe Kubernetes recreate them.
-4. Scale down to one replica.
-5. Explain which controller was responsible for each action.
+1. Update the image to another version (for example, `nginx:1.28` if available, or another valid version).
+2. Monitor the rollout.
+3. Observe the new ReplicaSet.
+4. Verify the image running in the Pods.
+5. Explain why the old ReplicaSet still exists.
