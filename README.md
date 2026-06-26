@@ -1,29 +1,46 @@
-# Senior DevOps Roadmap
+# 🚀 DevOps Mastery
 
-This repository documents my preparation for Senior DevOps, Platform Engineering, and AI Platform roles.
+Welcome to my DevOps learning repository.
 
-## Certifications
+This repository documents my preparation for Senior DevOps, Platform Engineering, and AI Platform Engineer roles through certifications, hands-on labs, projects, and interview preparation.
 
-- [ ] CKA
-- [ ] Terraform Associate
-- [ ] AWS SAA
+---
 
-## Topics
+## 🎯 Certifications
 
-- Kubernetes
-- Terraform
-- AWS
-- GitOps
-- Jenkins
-- Helm
-- FluxCD
-- AI Agents
-- Python
-- System Design
+- [ ] Certified Kubernetes Administrator (CKA)
+- [ ] HashiCorp Terraform Associate
+- [ ] AWS Solutions Architect Associate
 
-## Projects
+---
 
-- AI Kubernetes Troubleshooter
-- AI Jenkins Agent
-- AI Incident Commander
-- AI Terraform Generator
+## 📚 Learning Roadmap
+
+### CKA
+
+- [x] Cluster Architecture
+- [ ] Pods
+- [ ] Workloads
+- [ ] Scheduling
+- [ ] Networking
+- [ ] Storage
+- [ ] Security
+- [ ] Cluster Maintenance
+- [ ] Troubleshooting
+- [ ] Mock Exams
+
+### Terraform
+
+Coming Soon...
+
+### AWS SAA
+
+Coming Soon...
+
+### AI Agents
+
+Coming Soon...
+
+---
+
+## 📂 Repository Structure
