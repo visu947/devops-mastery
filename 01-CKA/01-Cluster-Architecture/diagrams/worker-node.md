@@ -2,16 +2,26 @@
 
 ## Worker Node Architecture
 
-```text
-+--------------------------------------+
-|            Worker Node               |
-|--------------------------------------|
-| kubelet                              |
-| kube-proxy                           |
-| Container Runtime (containerd/CRI-O) |
-|--------------------------------------|
-| Pods                                 |
-+--------------------------------------+
+```mermaid
+flowchart TB
+
+Worker[Worker Node]
+
+Worker --> Kubelet
+
+Worker --> Proxy
+
+Worker --> Runtime
+
+Runtime --> Pods
+
+Kubelet[kubelet]
+
+Proxy[kube-proxy]
+
+Runtime[containerd]
+
+Pods((Pods))
 ```
 
 ---
