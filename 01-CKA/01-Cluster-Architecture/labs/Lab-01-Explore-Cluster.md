@@ -1,4 +1,3 @@
-````markdown
 # Lab 01 - Explore the Cluster
 
 ## Objective
