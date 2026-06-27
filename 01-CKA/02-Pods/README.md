@@ -81,7 +81,24 @@ Pod
 ├── Shared Storage
 └── Shared Lifecycle
 ```
-
+                 Pod
++--------------------------------------+
+| IP: 10.244.1.15                      |
+|                                      |
+| Shared:                              |
+| ✓ Network                            |
+| ✓ localhost                          |
+| ✓ Volumes                            |
+| ✓ Pod lifecycle                      |
+|                                      |
+|  +-------------+  +---------------+  |
+|  | Container A |  | Container B   |  |
+|  |             |  |               |  |
+|  | Own FS      |  | Own FS        |  |
+|  | Own Env     |  | Own Env       |  |
+|  | Own Limits  |  | Own Limits    |  |
+|  +-------------+  +---------------+  |
++--------------------------------------+
 ---
 
 # Characteristics of a Pod
