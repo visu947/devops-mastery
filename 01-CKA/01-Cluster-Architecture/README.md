@@ -200,37 +200,64 @@ It evaluates all available worker nodes and selects the most suitable one.
 
 ---
 
-# kube-controller-manager
+# Kubernetes Controllers
 
-## Purpose
+The **kube-controller-manager** runs multiple controllers. Each controller continuously watches the Kubernetes API Server, compares the **desired state** with the **current state**, and takes corrective action whenever differences are detected.
 
-Controllers continuously compare the desired state with the current state and take corrective action when differences are found.
+Controllers do **not** communicate directly with each other. They interact indirectly through the **API Server** using the reconciliation loop.
 
-Examples:
+## Common Controllers
 
-* Deployment Controller
-* ReplicaSet Controller
-* Node Controller
-* Job Controller
-* EndpointSlice Controller
+### Deployment Controller
 
-### Example
+* Monitors Deployment resources.
+* Creates or updates ReplicaSets.
+* Manages rolling updates and rollbacks.
 
-Desired replicas:
+### ReplicaSet Controller
 
-```
-3
-```
+* Ensures the desired number of Pod replicas are running.
+* Creates new Pods when replicas are missing.
+* Removes excess Pods when replicas are reduced.
 
-Current running replicas:
+### Node Controller
 
-```
-2
-```
+* Monitors the health of worker nodes.
+* Marks nodes as `NotReady` when they become unreachable.
+* Evicts Pods from unhealthy nodes after configured timeouts.
 
-The Deployment Controller creates one additional Pod so the actual state matches the desired state.
+### Job Controller
 
----
+* Monitors Job resources.
+* Creates Pods to complete one-time tasks.
+* Tracks successful and failed Pod executions.
+* Marks Jobs as completed when the required number of successful Pods finish.
+
+### EndpointSlice Controller
+
+* Monitors Services and Pods.
+* Creates and updates EndpointSlice resources.
+* Ensures Services always have an up-to-date list of healthy backend Pods.
+
+## Controller Responsibilities
+
+Controllers answer the question:
+
+> **"What should exist?"**
+
+For example, if a Deployment is scaled from **1** to **5** replicas:
+
+1. The **Deployment Controller** updates the ReplicaSet.
+2. The **ReplicaSet Controller** creates four new Pod objects.
+3. The **Scheduler** assigns those Pods to worker nodes.
+4. The **kubelet** on each assigned node starts the containers.
+
+## Key Takeaway
+
+Controllers **do not run containers** and **do not choose nodes**.
+
+Their responsibility is to continuously reconcile the cluster until the **actual state matches the desired state** stored in Kubernetes.
+
 
 # cloud-controller-manager
 
