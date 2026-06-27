@@ -80,7 +80,7 @@ Pod
 ├── Shared Network
 ├── Shared Storage
 └── Shared Lifecycle
-```
+
                  Pod
 +--------------------------------------+
 | IP: 10.244.1.15                      |
@@ -99,6 +99,7 @@ Pod
 |  | Own Limits  |  | Own Limits    |  |
 |  +-------------+  +---------------+  |
 +--------------------------------------+
+```
 ---
 
 # Characteristics of a Pod
