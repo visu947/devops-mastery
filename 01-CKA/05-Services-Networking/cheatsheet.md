@@ -4,6 +4,26 @@
 
 ---
 
+```text
+
+                    Internet
+                        │
+                        ▼
+               AWS Load Balancer
+                        │
+                        ▼
+             Ingress Controller
+                        │
+      ┌─────────────────┼─────────────────┐
+      ▼                 ▼                 ▼
+ payment-service   order-service   inventory-service
+      │                 │                 │
+   ┌──┴──┐           ┌──┴──┐          ┌───┴───┐
+   ▼     ▼           ▼     ▼          ▼       ▼
+Pod1   Pod2        Pod1   Pod2      Pod1    Pod2
+
+```
+
 # Kubernetes Networking Flow
 
 ```text
