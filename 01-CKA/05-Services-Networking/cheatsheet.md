@@ -5,22 +5,27 @@
 ---
 
 ```text
-
-                    Internet
-                        │
-                        ▼
-               AWS Load Balancer
-                        │
-                        ▼
-             Ingress Controller
-                        │
-      ┌─────────────────┼─────────────────┐
-      ▼                 ▼                 ▼
- payment-service   order-service   inventory-service
-      │                 │                 │
-   ┌──┴──┐           ┌──┴──┐          ┌───┴───┐
-   ▼     ▼           ▼     ▼          ▼       ▼
-Pod1   Pod2        Pod1   Pod2      Pod1    Pod2
+                  Internet
+                     │
+                     ▼
+          AWS Load Balancer (ELB)
+                     │
+                     ▼
+      Service (type=LoadBalancer)
+      ingress-nginx-controller
+                     │
+                     ▼
+       NGINX Ingress Controller Pods
+             (Deployment)
+                     │
+                     ▼
+         ClusterIP Services
+    ┌────────────┬─────────────┐
+    ▼            ▼             ▼
+payment-service order-service inventory-service
+    │            │             │
+    ▼            ▼             ▼
+ Payment Pods   Order Pods   Inventory Pods
 
 ```
 ```text
