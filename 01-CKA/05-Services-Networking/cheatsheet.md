@@ -23,7 +23,26 @@
 Pod1   Pod2        Pod1   Pod2      Pod1    Pod2
 
 ```
+```text
 
+                   Internet
+                       │
+                       ▼
+          AWS / Azure / GCP LoadBalancer
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+   NGINX Pod 1    NGINX Pod 2    NGINX Pod 3
+        │              │              │
+        └──────────────┼──────────────┘
+                       ▼
+                payment-service
+                       ▼
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+ Payment Pod1    Payment Pod2    Payment Pod3
+ 
+```
 # Kubernetes Networking Flow
 
 ```text
