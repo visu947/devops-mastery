@@ -280,36 +280,41 @@ Kubernetes
 │ 2. Observability ⭐⭐⭐⭐⭐
 ─────────────────────────────────────────────
 
-    Metrics Server
-    ├── kubectl top
-    ├── Node Metrics
-    └── Pod Metrics
-
-    Logging
-    ├── kubectl logs
-    ├── Previous Logs
-    ├── Multi-container Pods
-    └── Streaming Logs
-
-    Debugging
-    ├── kubectl describe
-    ├── kubectl exec
-    ├── kubectl cp
-    ├── kubectl debug
-    └── Events
-
-    Probes
-    ├── Liveness
-    ├── Readiness
-    ├── Startup
-    └── Common Failures
-
-    Production Monitoring
-    ├── Prometheus
-    ├── Grafana
-    ├── Alertmanager
-    ├── Loki
-    └── OpenTelemetry
+ Observability & Troubleshooting
+├── Logs
+│   ├── kubectl logs
+│   ├── Previous logs
+│   ├── Multi-container Pods
+│   └── Streaming logs
+│
+├── Describe
+│   ├── kubectl describe
+│   ├── Events
+│   └── Object inspection
+│
+├── Exec & Debug
+│   ├── kubectl exec
+│   ├── kubectl cp
+│   ├── kubectl debug
+│   └── Ephemeral containers
+│
+├── Metrics
+│   ├── kubectl top
+│   ├── Metrics Server
+│   └── Resource usage
+│
+├── Probes
+│   ├── Liveness
+│   ├── Readiness
+│   └── Startup
+│
+├── Production Monitoring
+│   ├── Prometheus
+│   ├── Grafana
+│   ├── Alertmanager
+│   └── OpenTelemetry
+│
+└── Real Troubleshooting
 
     Troubleshooting Scenarios
 
