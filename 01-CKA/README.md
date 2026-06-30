@@ -231,7 +231,7 @@ Resource Management
 ├── OOMKilled
 ├── CPU Throttling
 ├── Evictions
-├── ResourceQuota
+├── ResourceQuota (allocate resource namespace)
 ├── LimitRange
 └── Production Troubleshooting
 
