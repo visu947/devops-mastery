@@ -196,6 +196,21 @@ GitOps   95%
 Kubernetes (Remaining)
 
 1. Resource Management ⭐⭐⭐⭐⭐
+Resource Management
+
+├── CPU
+├── Memory
+├── Requests
+├── Limits
+├── Scheduler Decisions
+├── QoS Classes
+├── OOMKilled
+├── CPU Throttling
+├── Evictions
+├── ResourceQuota
+├── LimitRange
+└── Production Troubleshooting
+
 2. Observability & Troubleshooting ⭐⭐⭐⭐⭐
 3. Autoscaling ⭐⭐⭐⭐⭐
 4. Helm / Package Management ⭐⭐⭐⭐
