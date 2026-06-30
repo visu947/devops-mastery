@@ -191,5 +191,15 @@ Scheduling	95%
 Networking	98%
 Storage	98%
 Security	95%
-GitOps
+GitOps   95%
+
+Kubernetes (Remaining)
+
+1. Resource Management ⭐⭐⭐⭐⭐
+2. Observability & Troubleshooting ⭐⭐⭐⭐⭐
+3. Autoscaling ⭐⭐⭐⭐⭐
+4. Helm / Package Management ⭐⭐⭐⭐
+5. Backup & Disaster Recovery ⭐⭐⭐⭐
+6. Multi-Cluster Concepts ⭐⭐
+
 ```
