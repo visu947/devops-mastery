@@ -195,16 +195,35 @@ GitOps   95%
 
 Kubernetes (Remaining)
 
-1. Resource Management ⭐⭐⭐⭐⭐
-Resource Management
+Kubernetes
 
-├── CPU
-├── Memory
-├── Requests
-├── Limits
-├── Scheduler Decisions
-├── QoS Classes
-                  QoS Classes
+├─────────────────────────────────────────────
+│ 1. Resource Management ⭐⭐⭐⭐⭐
+├─────────────────────────────────────────────
+
+    CPU
+    ├── CPU Units (Core, millicores)
+    ├── CPU Scheduling
+    ├── CPU Requests
+    ├── CPU Limits
+    ├── CPU Throttling
+    └── CPU Troubleshooting
+
+    Memory
+    ├── Memory Units
+    ├── Memory Requests
+    ├── Memory Limits
+    ├── OOMKilled
+    ├── Evictions
+    └── Memory Troubleshooting
+
+    Scheduler
+    ├── Scheduler Decisions
+    ├── Requests vs Limits
+    ├── Allocatable Resources
+    ├── Pending Pods
+    └── Scheduling Failures
+    ├── QoS Classes
 
         ┌─────────────────────────────┐
         │ 🟢 Guaranteed               │
@@ -228,6 +247,225 @@ Resource Management
         │ No Limits                   │
         │ First to be evicted         │
         └─────────────────────────────┘
+
+    ├── Guaranteed
+    ├── Burstable
+    ├── BestEffort
+    ├── Eviction Priority
+    └── Production Examples
+
+    ResourceQuota
+    ├── Namespace Limits
+    ├── Object Count Quotas
+    ├── Compute Quotas
+    └── Production Examples
+
+    LimitRange
+    ├── Default Requests
+    ├── Default Limits
+    ├── Min Resources
+    ├── Max Resources
+    └── Production Examples
+
+    Production Troubleshooting
+    ├── Pending
+    ├── OOMKilled
+    ├── CrashLoopBackOff
+    ├── Evicted
+    ├── Insufficient CPU
+    ├── Insufficient Memory
+    └── kubectl Commands
+
+─────────────────────────────────────────────
+│ 2. Observability ⭐⭐⭐⭐⭐
+─────────────────────────────────────────────
+
+    Metrics Server
+    ├── kubectl top
+    ├── Node Metrics
+    └── Pod Metrics
+
+    Logging
+    ├── kubectl logs
+    ├── Previous Logs
+    ├── Multi-container Pods
+    └── Streaming Logs
+
+    Debugging
+    ├── kubectl describe
+    ├── kubectl exec
+    ├── kubectl cp
+    ├── kubectl debug
+    └── Events
+
+    Probes
+    ├── Liveness
+    ├── Readiness
+    ├── Startup
+    └── Common Failures
+
+    Production Monitoring
+    ├── Prometheus
+    ├── Grafana
+    ├── Alertmanager
+    ├── Loki
+    └── OpenTelemetry
+
+    Troubleshooting Scenarios
+
+─────────────────────────────────────────────
+│ 3. Autoscaling ⭐⭐⭐⭐⭐
+─────────────────────────────────────────────
+
+    Horizontal Pod Autoscaler
+    ├── Metrics Server
+    ├── CPU Scaling
+    ├── Memory Scaling
+    ├── HPA Algorithm
+    ├── YAML
+    └── Production
+
+    Vertical Pod Autoscaler
+    ├── Recommendations
+    ├── Auto Mode
+    ├── Recreate Mode
+    └── Limitations
+
+    Cluster Autoscaler
+    ├── Pending Pods
+    ├── Node Groups
+    ├── Scale Up
+    ├── Scale Down
+    └── Production
+
+    KEDA
+    ├── Event Driven
+    ├── Kafka
+    ├── RabbitMQ
+    ├── Prometheus
+    └── Azure Queues
+
+─────────────────────────────────────────────
+│ 4. Helm / Package Management ⭐⭐⭐⭐
+─────────────────────────────────────────────
+
+    Helm Basics
+    Charts
+    Repositories
+    Values.yaml
+    Templates
+    Functions
+    Helpers
+    Dependencies
+    Install
+    Upgrade
+    Rollback
+    Hooks
+    OCI Registries
+
+─────────────────────────────────────────────
+│ 5. Backup & Disaster Recovery ⭐⭐⭐⭐
+─────────────────────────────────────────────
+
+    etcd
+    ├── Backup
+    ├── Restore
+    └── Encryption
+
+    PV Backups
+    ├── Snapshots
+    ├── Restore
+    └── CSI
+
+    Velero
+
+    Disaster Recovery
+    ├── Single Cluster
+    ├── Multi Region
+    └── Production
+
+─────────────────────────────────────────────
+│ 6. Multi-Cluster ⭐⭐
+─────────────────────────────────────────────
+
+    kubeconfig
+    Contexts
+    Multiple Clusters
+    kubectl config
+    Federation
+    GitOps
+    Fleet Management
+
+─────────────────────────────────────────────
+│ 7. CKA Troubleshooting ⭐⭐⭐⭐⭐
+─────────────────────────────────────────────
+
+    Pod Issues
+    Network Issues
+    DNS Issues
+    Storage Issues
+    Security Issues
+    Scheduler Issues
+    Resource Issues
+
+─────────────────────────────────────────────
+│ 8. Production Architecture ⭐⭐⭐⭐⭐
+─────────────────────────────────────────────
+
+    Complete Flow
+
+    User
+
+      ↓
+
+    API Server
+
+      ↓
+
+    Scheduler
+
+      ↓
+
+    Node
+
+      ↓
+
+    kubelet
+
+      ↓
+
+    Runtime
+
+      ↓
+
+    Networking
+
+      ↓
+
+    Storage
+
+      ↓
+
+    Security
+
+      ↓
+
+    Monitoring
+
+      ↓
+
+    Autoscaling
+
+1. Resource Management ⭐⭐⭐⭐⭐
+Resource Management
+
+├── CPU
+├── Memory
+├── Requests
+├── Limits
+├── Scheduler Decisions
+├── QoS Classes
+                 
 ├── OOMKilled
 ├── CPU Throttling
 ├── Evictions
