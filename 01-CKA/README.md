@@ -204,6 +204,30 @@ Resource Management
 ├── Limits
 ├── Scheduler Decisions
 ├── QoS Classes
+                  QoS Classes
+
+        ┌─────────────────────────────┐
+        │ 🟢 Guaranteed               │
+        │ Requests = Limits           │
+        │ Highest protection          │
+        │ Last to be evicted          │
+        └─────────────────────────────┘
+                    ▲
+                    │
+        ┌─────────────────────────────┐
+        │ 🟡 Burstable                │
+        │ Requests < Limits           │
+        │ Can burst when resources    │
+        │ Medium eviction priority    │
+        └─────────────────────────────┘
+                    ▲
+                    │
+        ┌─────────────────────────────┐
+        │ 🔴 BestEffort               │
+        │ No Requests                 │
+        │ No Limits                   │
+        │ First to be evicted         │
+        └─────────────────────────────┘
 ├── OOMKilled
 ├── CPU Throttling
 ├── Evictions
