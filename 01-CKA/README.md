@@ -374,6 +374,13 @@ Network    Cache             Load Average
     ├── RabbitMQ
     ├── Prometheus
     └── Azure Queues
+| Component              | What it scales                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------ |
+| **HPA**                | Number of **Pods** based on CPU, memory, or metrics                            |
+| **VPA**                | CPU and memory **requests/limits** of a Pod  (increases size of pod)           |
+| **Cluster Autoscaler** | Number of Kubernetes **worker nodes**                                          |
+| **KEDA**               | Number of **Pods** based on external events (Kafka, RabbitMQ, SQS, Cron, etc.) |
+
 
 ─────────────────────────────────────────────
 │ 4. Helm / Package Management ⭐⭐⭐⭐
