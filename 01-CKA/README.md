@@ -400,6 +400,13 @@ Network    Cache             Load Average
     Hooks
     OCI Registries
 
+    FluxCD
+    Flux
+      ├── Source Controller
+      ├── Kustomize Controller
+      ├── Helm Controller ⭐⭐⭐⭐⭐
+      ├── Notification Controller
+
 ─────────────────────────────────────────────
 │ 5. Backup & Disaster Recovery ⭐⭐⭐⭐
 ─────────────────────────────────────────────
