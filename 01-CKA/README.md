@@ -307,6 +307,12 @@ Kubernetes
 │   ├── Liveness
 │   ├── Readiness
 │   └── Startup
+|    | Probe     | Failure Result                                                                                          |
+|    | --------- | ------------------------------------------------------------------------------------------------------- |
+|    | Startup   | Wait for startup (if it never succeeds within the configured threshold, kubelet restarts the container) |
+|    | Liveness  | Restart the container                                                                                   |
+|    | Readiness | Remove the Pod from Service endpoints (no restart)                                                      |
+|    ----------------------------------------------------------------------------------------------------------------------|
 │
 ├── Production Monitoring
 │   ├── Prometheus
@@ -461,27 +467,5 @@ Kubernetes
 
     Autoscaling
 
-1. Resource Management ⭐⭐⭐⭐⭐
-Resource Management
-
-├── CPU
-├── Memory
-├── Requests
-├── Limits
-├── Scheduler Decisions
-├── QoS Classes
-                 
-├── OOMKilled
-├── CPU Throttling
-├── Evictions
-├── ResourceQuota (allocate resource namespace)
-├── LimitRange
-└── Production Troubleshooting
-
-2. Observability & Troubleshooting ⭐⭐⭐⭐⭐
-3. Autoscaling ⭐⭐⭐⭐⭐
-4. Helm / Package Management ⭐⭐⭐⭐
-5. Backup & Disaster Recovery ⭐⭐⭐⭐
-6. Multi-Cluster Concepts ⭐⭐
 
 ```
