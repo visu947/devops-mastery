@@ -316,6 +316,25 @@ Kubernetes
 │
 ├── Production Monitoring
 │   ├── Prometheus
+             Prometheus
+
+     ┌──────────┼──────────────┐
+
+     ▼          ▼              ▼
+
+ kubelet    Application     Node Exporter
+
+(cAdvisor)   /metrics          OS Metrics
+
+     │          │                 │
+
+CPU        HTTP Requests      Disk
+
+Memory     JVM GC            Filesystem
+
+Network    Cache             Load Average
+
+
 │   ├── Grafana
 │   ├── Alertmanager
 │   └── OpenTelemetry
