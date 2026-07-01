@@ -407,6 +407,22 @@ Network    Cache             Load Average
       ├── Helm Controller ⭐⭐⭐⭐⭐
       ├── Notification Controller
 
+
+| Component                   | Responsibility                                               |
+| --------------------------- | ------------------------------------------------------------ |
+| GitHub                      | Stores source code, Helm charts, and GitOps manifests        |
+| CI (Jenkins/GitHub Actions) | Builds, tests, scans, pushes images                          |
+| JFrog Artifactory           | Stores Docker images and Helm charts                         |
+| FluxCD                      | Watches Git and reconciles cluster state                     |
+| Helm                        | Renders templates into Kubernetes manifests                  |
+| Rancher                     | Manages Kubernetes clusters, users, RBAC, and infrastructure |
+| Kubernetes                  | Runs the workloads                                           |
+| Prometheus                  | Collects metrics                                             |
+| Grafana                     | Visualizes metrics                                           |
+| HPA                         | Scales Pods                                                  |
+| Cluster Autoscaler          | Scales worker nodes                                          |
+
+
 ─────────────────────────────────────────────
 │ 5. Backup & Disaster Recovery ⭐⭐⭐⭐
 ─────────────────────────────────────────────
