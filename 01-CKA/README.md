@@ -1,5 +1,5 @@
 ``` text
-I'll summarize everything we've completed and what's left.
+I'll summarize everything we've completed
 
 Module 1 - Kubernetes Architecture ✅
 
