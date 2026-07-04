@@ -228,19 +228,153 @@ Understanding: 100%
 
 Understanding: 100%
 
-Module 3 - Scheduling ✅
+# Module 3 - Scheduling ✅
 
 We covered:
 
 ✅ Labels
+├── Concept: Key-value pairs attached to Kubernetes objects.
+├── Production: Used for application grouping, environment, team and version.
+├── Best Practice: Use consistent labeling across all workloads.
+├── Interview Tip: Labels identify objects; Selectors find them.
+└── Questions I Asked
+    Q. Can Labels be changed after deployment?
+    A. Yes. Labels are mutable and can be updated.
+
+---------------------------------------------------------
+
 ✅ Selectors
+├── Concept: Used to select Kubernetes objects based on Labels.
+├── Production: Services and ReplicaSets use Selectors to find Pods.
+├── Best Practice: Keep Labels and Selectors consistent.
+├── Interview Tip: Wrong Selector = No Pods matched.
+└── Questions I Asked
+    Q. Does Service know Pod IPs directly?
+    A. No. Service uses Label Selectors to discover Pods.
+
+---------------------------------------------------------
+
 ✅ NodeSelector
+├── Concept: Schedules Pods only onto nodes with matching Labels.
+├── Production: GPU nodes, SSD nodes, Database nodes.
+├── Best Practice: Use for simple scheduling requirements.
+├── Interview Tip: Exact label match required.
+└── Questions I Asked
+    Q. What happens if no matching node exists?
+    A. Pod remains Pending.
+
+---------------------------------------------------------
+
 ✅ Node Affinity
+├── Concept: Advanced scheduling based on node labels.
+├── Production: Preferred or required node placement.
+├── Best Practice: Prefer "preferredDuringScheduling" when possible.
+├── Interview Tip: More flexible than NodeSelector.
+└── Questions I Asked
+    Q. Difference between NodeSelector and Node Affinity?
+    A. NodeSelector supports exact matching only. Node Affinity supports expressions and preferred rules.
+
+---------------------------------------------------------
+
 ✅ Pod Affinity
+├── Concept: Schedule Pods close to other Pods.
+├── Production: Microservices with heavy communication.
+├── Best Practice: Use when low latency between services is required.
+├── Interview Tip: Improves communication performance.
+└── Questions I Asked
+    Q. Example?
+    A. Web Pod prefers same node/zone as Cache Pod.
+
+---------------------------------------------------------
+
 ✅ Pod Anti-Affinity
+├── Concept: Prevent Pods from running together.
+├── Production: High Availability.
+├── Best Practice: Spread replicas across nodes or zones.
+├── Interview Tip: Prevents a single node failure from affecting all replicas.
+└── Questions I Asked
+    Q. Why use Anti-Affinity?
+    A. To improve fault tolerance and availability.
+
+---------------------------------------------------------
+
 ✅ Taints
+├── Concept: Prevent Pods from being scheduled onto specific nodes.
+├── Production: Dedicated GPU, Database or Infrastructure nodes.
+├── Best Practice: Taint special-purpose nodes.
+├── Interview Tip: Taints repel Pods.
+└── Questions I Asked
+    Q. What happens if a Pod has no matching Toleration?
+    A. Scheduler will not place it on the tainted node.
+
+---------------------------------------------------------
+
 ✅ Tolerations
+├── Concept: Allow Pods to run on tainted nodes.
+├── Production: Monitoring, Infrastructure and GPU workloads.
+├── Best Practice: Add only when necessary.
+├── Interview Tip: Toleration allows scheduling but doesn't force it.
+└── Questions I Asked
+    Q. Does Toleration guarantee scheduling?
+    A. No. It only removes the restriction imposed by the Taint.
+
+---------------------------------------------------------
+
 ✅ PriorityClass
+├── Concept: Assigns scheduling priority to Pods.
+├── Production: Critical system Pods receive higher priority.
+├── Best Practice: Reserve highest priorities for platform components.
+├── Interview Tip: Higher priority Pods can preempt lower priority Pods.
+└── Questions I Asked
+    Q. What happens if the cluster is full?
+    A. Lower priority Pods may be preempted to schedule higher priority Pods.
+
+---------------------------------------------------------
+
+Quick Comparison
+
+| Resource          | Primary Purpose                          |
+|-------------------|------------------------------------------|
+| Labels            | Identify Kubernetes Objects              |
+| Selectors         | Find Objects using Labels                |
+| NodeSelector      | Simple Node Scheduling                   |
+| Node Affinity     | Advanced Node Scheduling                 |
+| Pod Affinity      | Place Pods Together                      |
+| Pod AntiAffinity  | Spread Pods Apart                        |
+| Taints            | Keep Pods Away                           |
+| Tolerations       | Allow Pods onto Tainted Nodes            |
+| PriorityClass     | Decide Scheduling Priority               |
+
+Production Best Practices
+
+✔ Label everything consistently.
+✔ Use Node Affinity instead of NodeSelector for flexibility.
+✔ Use Pod Anti-Affinity for highly available applications.
+✔ Taint infrastructure nodes.
+✔ Give critical platform Pods higher PriorityClass.
+✔ Don't overuse required affinity rules.
+
+Memory Trick
+
+Labels
+     │
+Selectors
+
+Node
+├── NodeSelector
+└── Node Affinity
+
+Pods
+├── Pod Affinity
+└── Pod Anti-Affinity
+
+Taints
+     │
+Tolerations
+
+PriorityClass
+     │
+Preemption
 
 Understanding: 95%
 
