@@ -92,8 +92,6 @@ We covered:
 
 Understanding: 100%
 
-Module 2 - Workloads ✅
-
 # Module 2 - Workloads ✅
 
 We covered:
