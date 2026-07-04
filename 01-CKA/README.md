@@ -1,11 +1,14 @@
-```text
+``` text
+
 I'll summarize everything we've completed
+
 
 # Module 1 - Kubernetes Architecture ✅
 
-We covered:
+## Topics Covered
 
-✅ Control Plane
+
+### Control Plane
 ├── Concept: Brain of Kubernetes containing management components.
 ├── Production: Usually 3 Control Plane nodes for High Availability.
 ├── Best Practice: Never run a single control plane in production.
@@ -16,7 +19,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ API Server
+
+### API Server
 ├── Concept: Entry point for every Kubernetes request.
 ├── Production: All components communicate through the API Server.
 ├── Best Practice: Never access etcd directly from applications.
@@ -27,7 +31,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Scheduler
+
+### Scheduler
 ├── Concept: Chooses the best worker node for Pods.
 ├── Production: Uses Requests, Affinity, Taints, Resources and Policies.
 ├── Best Practice: Always define CPU/Memory Requests.
@@ -38,7 +43,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Controller Manager
+
+### Controller Manager
 ├── Concept: Continuously reconciles actual state to desired state.
 ├── Production: Runs Deployment, ReplicaSet, Node and Job controllers.
 ├── Best Practice: Never manually recreate Pods managed by Deployments.
@@ -46,7 +52,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ etcd
+
+### etcd
 ├── Concept: Distributed key-value database storing Kubernetes desired state.
 ├── Production: Run 3 or 5 member HA clusters.
 ├── Best Practice: Take regular snapshots.
@@ -60,7 +67,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Worker Nodes
+
+### Worker Nodes
 ├── Concept: Execute application workloads.
 ├── Production: Scale horizontally using Cluster Autoscaler.
 ├── Best Practice: Keep workers stateless.
@@ -68,7 +76,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ kubelet
+
+### kubelet
 ├── Concept: Kubernetes agent running on every worker node.
 ├── Production: Communicates with the API Server.
 ├── Best Practice: kubelet should never be stopped manually.
@@ -76,7 +85,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ kube-proxy
+
+### kube-proxy
 ├── Concept: Implements Kubernetes Services networking.
 ├── Production: Maintains iptables/IPVS rules.
 ├── Best Practice: Usually managed automatically.
@@ -84,7 +94,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Container Runtime
+
+### Container Runtime
 ├── Concept: Runs containers (containerd, CRI-O, etc.).
 ├── Production: containerd is most commonly used today.
 ├── Best Practice: Docker Engine is no longer required.
@@ -94,11 +105,13 @@ Understanding: 100%
 
 Module 2 - Workloads ✅
 
+
 # Module 2 - Workloads ✅
 
-We covered:
+## Topics Covered
 
-✅ Pod
+
+### Pod
 ├── Concept: Smallest deployable unit in Kubernetes containing one or more containers.
 ├── Production: Usually one container per Pod (sidecars are common exceptions).
 ├── Best Practice: Never create standalone Pods in production.
@@ -109,7 +122,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ ReplicaSet
+
+### ReplicaSet
 ├── Concept: Maintains the desired number of Pod replicas.
 ├── Production: Automatically created and managed by Deployments.
 ├── Best Practice: Rarely create ReplicaSets manually.
@@ -120,7 +134,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Deployment
+
+### Deployment
 ├── Concept: Manages ReplicaSets and provides rolling updates.
 ├── Production: Most stateless applications run as Deployments.
 ├── Best Practice: Always use RollingUpdate strategy.
@@ -134,7 +149,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ DaemonSet
+
+### DaemonSet
 ├── Concept: Ensures one Pod runs on every selected node.
 ├── Production: Used for monitoring, logging and networking agents.
 ├── Best Practice: Use Node Selectors/Taints if only certain nodes require it.
@@ -145,7 +161,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ StatefulSet
+
+### StatefulSet
 ├── Concept: Manages stateful applications with stable identity and storage.
 ├── Production: Used for databases and clustered applications.
 ├── Best Practice: Use PersistentVolumes with StatefulSets.
@@ -159,7 +176,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Job
+
+### Job
 ├── Concept: Runs a task until it completes successfully.
 ├── Production: Database migrations, backups, data imports.
 ├── Best Practice: Jobs should be idempotent whenever possible.
@@ -170,7 +188,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ CronJob
+
+### CronJob
 ├── Concept: Runs Jobs on a schedule.
 ├── Production: Nightly backups, cleanup tasks, reports.
 ├── Best Practice: Configure concurrencyPolicy to avoid overlapping executions.
@@ -228,11 +247,13 @@ Understanding: 100%
 
 Understanding: 100%
 
+
 # Module 3 - Scheduling ✅
 
-We covered:
+## Topics Covered
 
-✅ Labels
+
+### Labels
 ├── Concept: Key-value pairs attached to Kubernetes objects.
 ├── Production: Used for application grouping, environment, team and version.
 ├── Best Practice: Use consistent labeling across all workloads.
@@ -243,7 +264,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Selectors
+
+### Selectors
 ├── Concept: Used to select Kubernetes objects based on Labels.
 ├── Production: Services and ReplicaSets use Selectors to find Pods.
 ├── Best Practice: Keep Labels and Selectors consistent.
@@ -254,7 +276,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ NodeSelector
+
+### NodeSelector
 ├── Concept: Schedules Pods only onto nodes with matching Labels.
 ├── Production: GPU nodes, SSD nodes, Database nodes.
 ├── Best Practice: Use for simple scheduling requirements.
@@ -265,7 +288,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Node Affinity
+
+### Node Affinity
 ├── Concept: Advanced scheduling based on node labels.
 ├── Production: Preferred or required node placement.
 ├── Best Practice: Prefer "preferredDuringScheduling" when possible.
@@ -276,7 +300,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Pod Affinity
+
+### Pod Affinity
 ├── Concept: Schedule Pods close to other Pods.
 ├── Production: Microservices with heavy communication.
 ├── Best Practice: Use when low latency between services is required.
@@ -287,7 +312,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Pod Anti-Affinity
+
+### Pod Anti-Affinity
 ├── Concept: Prevent Pods from running together.
 ├── Production: High Availability.
 ├── Best Practice: Spread replicas across nodes or zones.
@@ -298,7 +324,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Taints
+
+### Taints
 ├── Concept: Prevent Pods from being scheduled onto specific nodes.
 ├── Production: Dedicated GPU, Database or Infrastructure nodes.
 ├── Best Practice: Taint special-purpose nodes.
@@ -309,7 +336,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Tolerations
+
+### Tolerations
 ├── Concept: Allow Pods to run on tainted nodes.
 ├── Production: Monitoring, Infrastructure and GPU workloads.
 ├── Best Practice: Add only when necessary.
@@ -320,7 +348,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ PriorityClass
+
+### PriorityClass
 ├── Concept: Assigns scheduling priority to Pods.
 ├── Production: Critical system Pods receive higher priority.
 ├── Best Practice: Reserve highest priorities for platform components.
@@ -378,11 +407,13 @@ Preemption
 
 Understanding: 95%
 
+
 # Module 4 - Networking ✅
 
-We covered:
+## Topics Covered
 
-✅ CNI (Container Network Interface)
+
+### CNI (Container Network Interface)
 ├── Concept: Standard interface that provides Pod networking.
 ├── Production: Every cluster requires one CNI plugin.
 ├── Best Practice: Use Calico or Cilium for production.
@@ -393,7 +424,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Calico
+
+### Calico
 ├── Concept: CNI plugin providing networking and NetworkPolicies.
 ├── Production: One of the most widely used enterprise CNIs.
 ├── Best Practice: Use when strong NetworkPolicy support is required.
@@ -401,7 +433,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Cilium
+
+### Cilium
 ├── Concept: eBPF-based CNI with advanced networking and security.
 ├── Production: High-performance networking and observability.
 ├── Best Practice: Preferred for modern Kubernetes platforms.
@@ -409,7 +442,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Flannel
+
+### Flannel
 ├── Concept: Lightweight CNI providing Pod networking only.
 ├── Production: Common in small or learning environments.
 ├── Best Practice: Pair with another solution if NetworkPolicies are needed.
@@ -417,7 +451,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Pod Networking
+
+### Pod Networking
 ├── Concept: Every Pod receives its own IP address.
 ├── Production: Pods communicate directly without NAT.
 ├── Best Practice: Never assume Pod IPs are permanent.
@@ -428,7 +463,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ ClusterIP
+
+### ClusterIP
 ├── Concept: Internal Service accessible only inside the cluster.
 ├── Production: Default Service type.
 ├── Best Practice: Use for internal microservice communication.
@@ -439,7 +475,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ NodePort
+
+### NodePort
 ├── Concept: Exposes Service on a static port of every node.
 ├── Production: Mostly used for testing or behind external load balancers.
 ├── Best Practice: Avoid exposing production applications directly.
@@ -447,7 +484,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ LoadBalancer
+
+### LoadBalancer
 ├── Concept: Creates an external cloud load balancer.
 ├── Production: AWS ALB/NLB, Azure Load Balancer, GCP Load Balancer.
 ├── Best Practice: Preferred cloud-native external access.
@@ -458,7 +496,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Ingress
+
+### Ingress
 ├── Concept: HTTP/HTTPS routing for multiple Services.
 ├── Production: Single entry point for applications.
 ├── Best Practice: Use Ingress instead of multiple LoadBalancers.
@@ -469,7 +508,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Ingress Controller
+
+### Ingress Controller
 ├── Concept: Watches Ingress resources and configures routing.
 ├── Production: NGINX, Traefik, HAProxy, AWS Load Balancer Controller.
 ├── Best Practice: Deploy at least two replicas for HA.
@@ -480,7 +520,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ CoreDNS
+
+### CoreDNS
 ├── Concept: Kubernetes DNS server.
 ├── Production: Resolves Service names to ClusterIPs.
 ├── Best Practice: Applications should use Service names instead of Pod IPs.
@@ -491,7 +532,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Endpoints
+
+### Endpoints
 ├── Concept: Stores the Pod IPs behind a Service.
 ├── Production: Automatically managed by Kubernetes.
 ├── Best Practice: Never create manually.
@@ -499,7 +541,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ EndpointSlices
+
+### EndpointSlices
 ├── Concept: Scalable replacement for Endpoints.
 ├── Production: Used automatically in large clusters.
 ├── Best Practice: Required for thousands of Pods.
@@ -507,7 +550,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ NetworkPolicies
+
+### NetworkPolicies
 ├── Concept: Firewall rules for Pod-to-Pod communication.
 ├── Production: Implements Zero Trust networking.
 ├── Best Practice: Default deny, explicitly allow required traffic.
@@ -574,11 +618,13 @@ NetworkPolicy
 Traffic Control
 
 Understanding: 98%
+
 # Module 5 - Storage ✅
 
-We covered:
+## Topics Covered
 
-✅ Volumes
+
+### Volumes
 ├── Concept: Temporary storage attached to a Pod.
 ├── Production: Used for sharing data between containers.
 ├── Best Practice: Use only for ephemeral data.
@@ -586,7 +632,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ emptyDir
+
+### emptyDir
 ├── Concept: Temporary storage created when Pod starts.
 ├── Production: Cache, scratch space, shared files.
 ├── Best Practice: Never store important data.
@@ -597,7 +644,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ hostPath
+
+### hostPath
 ├── Concept: Mounts a directory from the worker node.
 ├── Production: Mostly for system/infrastructure Pods.
 ├── Best Practice: Avoid for application workloads.
@@ -605,7 +653,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ ConfigMap Volume
+
+### ConfigMap Volume
 ├── Concept: Mount configuration files into Pods.
 ├── Production: Application configs.
 ├── Best Practice: Store configuration only.
@@ -613,7 +662,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Secret Volume
+
+### Secret Volume
 ├── Concept: Mount Kubernetes Secrets as files.
 ├── Production: Certificates, passwords, API keys.
 ├── Best Practice: Prefer External Secrets/Vault for production.
@@ -621,7 +671,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ PersistentVolume (PV)
+
+### PersistentVolume (PV)
 ├── Concept: Actual storage resource.
 ├── Production: Database and application data.
 ├── Best Practice: Provision dynamically using StorageClass.
@@ -629,7 +680,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ PersistentVolumeClaim (PVC)
+
+### PersistentVolumeClaim (PVC)
 ├── Concept: Request for storage.
 ├── Production: Applications consume PVCs instead of PVs.
 ├── Best Practice: Applications should never reference PV directly.
@@ -640,7 +692,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ StorageClass
+
+### StorageClass
 ├── Concept: Defines how storage is dynamically provisioned.
 ├── Production: SSD, HDD, Premium, GP3, etc.
 ├── Best Practice: Make one StorageClass default.
@@ -651,7 +704,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ CSI Driver (Container Storage Interface)
+
+### CSI Driver (Container Storage Interface)
 ├── Concept: Standard interface between Kubernetes and storage.
 ├── Production: AWS EBS, Azure Disk, vSphere, Longhorn, Ceph.
 ├── Best Practice: Use vendor-supported CSI drivers.
@@ -662,7 +716,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Static Provisioning
+
+### Static Provisioning
 ├── Concept: Administrator manually creates PVs.
 ├── Production: Legacy environments.
 ├── Best Practice: Use only when required.
@@ -670,7 +725,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Dynamic Provisioning
+
+### Dynamic Provisioning
 ├── Concept: Kubernetes automatically creates PVs.
 ├── Production: Most modern clusters.
 ├── Best Practice: Use StorageClasses.
@@ -678,7 +734,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ StatefulSet Storage
+
+### StatefulSet Storage
 ├── Concept: Each Pod receives its own PersistentVolume.
 ├── Production: PostgreSQL, MySQL, MongoDB.
 ├── Best Practice: Never share database volumes.
@@ -689,7 +746,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Access Modes
+
+### Access Modes
 ├── ReadWriteOnce (RWO)
 ├── ReadOnlyMany (ROX)
 ├── ReadWriteMany (RWX)
@@ -702,7 +760,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Reclaim Policy
+
+### Reclaim Policy
 ├── Retain
 ├── Delete
 ├── Recycle (Deprecated)
@@ -714,7 +773,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Volume Expansion
+
+### Volume Expansion
 ├── Concept: Increase PVC size without recreating it.
 ├── Production: StorageClass must allow expansion.
 ├── Best Practice: Verify application filesystem expansion.
@@ -722,7 +782,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Volume Binding Mode
+
+### Volume Binding Mode
 ├── Immediate
 ├── WaitForFirstConsumer
 ├── Production: WaitForFirstConsumer avoids wrong zone allocation.
@@ -730,7 +791,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ VolumeSnapshot
+
+### VolumeSnapshot
 ├── Concept: Point-in-time snapshot of a PersistentVolume.
 ├── Production: Backup and Disaster Recovery.
 ├── Best Practice: Integrate with Velero.
@@ -738,21 +800,24 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ VolumeSnapshotClass
+
+### VolumeSnapshotClass
 ├── Concept: Defines snapshot provider and parameters.
 ├── Production: Maps to CSI Driver.
 ├── Interview Tip: Similar to StorageClass but for snapshots.
 
 ---------------------------------------------------------
 
-✅ VolumeSnapshotContent
+
+### VolumeSnapshotContent
 ├── Concept: Represents the actual snapshot in the storage backend.
 ├── Production: Managed automatically.
 ├── Interview Tip: Similar relationship as PV ↔ PVC.
 
 ---------------------------------------------------------
 
-✅ Restore
+
+### Restore
 ├── Concept: Create a new PVC from a VolumeSnapshot.
 ├── Production: Disaster Recovery.
 ├── Best Practice: Test restores regularly.
@@ -833,13 +898,15 @@ A.
 
 Understanding: 98%
 
+
 # Module 6 - Security ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Users
+
+### Users
 ├── Concept: External identities authenticated outside Kubernetes.
 ├── Production: Admins, DevOps Engineers, CI/CD Systems.
 ├── Best Practice: Integrate with OIDC/LDAP instead of certificates.
@@ -847,7 +914,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Groups
+
+### Groups
 ├── Concept: Collection of Users.
 ├── Production: DevOps, Developers, QA, Security Teams.
 ├── Best Practice: Assign RBAC to Groups instead of individual Users.
@@ -855,7 +923,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ ServiceAccount
+
+### ServiceAccount
 ├── Concept: Identity used by Pods.
 ├── Production: Every application should use its own ServiceAccount.
 ├── Best Practice: Never use default ServiceAccount in production.
@@ -866,7 +935,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Authentication
+
+### Authentication
 ├── Concept: Verifies identity.
 ├── Production: OIDC, Certificates, ServiceAccount Tokens.
 ├── Best Practice: Use OIDC for enterprise authentication.
@@ -874,7 +944,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ OIDC
+
+### OIDC
 ├── Concept: External identity provider integration.
 ├── Production: Azure AD, Okta, Keycloak, Google.
 ├── Best Practice: Centralize authentication.
@@ -882,7 +953,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Certificates
+
+### Certificates
 ├── Concept: TLS certificates authenticate Kubernetes components.
 ├── Production: API Server, kubelet, etcd.
 ├── Best Practice: Rotate certificates before expiration.
@@ -890,7 +962,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ RBAC
+
+### RBAC
 ├── Concept: Controls permissions inside Kubernetes.
 ├── Production: Least Privilege Access.
 ├── Best Practice: Never grant cluster-admin unnecessarily.
@@ -901,7 +974,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Role
+
+### Role
 ├── Concept: Namespace-level permissions.
 ├── Production: Application namespace access.
 ├── Best Practice: Prefer Role over ClusterRole when possible.
@@ -909,7 +983,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ ClusterRole
+
+### ClusterRole
 ├── Concept: Cluster-wide permissions.
 ├── Production: Platform components and administrators.
 ├── Best Practice: Grant only when cluster-wide access is required.
@@ -917,7 +992,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ RoleBinding
+
+### RoleBinding
 ├── Concept: Assigns Role to User, Group or ServiceAccount.
 ├── Production: Namespace access.
 ├── Best Practice: Use Groups instead of individual Users.
@@ -925,7 +1001,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ ClusterRoleBinding
+
+### ClusterRoleBinding
 ├── Concept: Assigns ClusterRole cluster-wide.
 ├── Production: Platform administrators.
 ├── Best Practice: Limit usage carefully.
@@ -933,7 +1010,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Admission Controllers
+
+### Admission Controllers
 ├── Concept: Validate or modify requests before persistence.
 ├── Production: Policy enforcement.
 ├── Best Practice: Enable required admission plugins.
@@ -941,7 +1019,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Mutating Admission
+
+### Mutating Admission
 ├── Concept: Modifies Kubernetes objects.
 ├── Production: Inject sidecars, labels, annotations.
 ├── Best Practice: Keep mutations predictable.
@@ -949,7 +1028,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Validating Admission
+
+### Validating Admission
 ├── Concept: Accepts or rejects requests.
 ├── Production: Security and compliance.
 ├── Best Practice: Reject insecure workloads.
@@ -957,7 +1037,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Pod Security Admission
+
+### Pod Security Admission
 ├── Concept: Enforces Pod security standards.
 ├── Production: Restricted, Baseline, Privileged.
 ├── Best Practice: Use Restricted policy whenever possible.
@@ -965,7 +1046,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ SecurityContext
+
+### SecurityContext
 ├── Concept: Defines container security settings.
 ├── Production: Non-root containers.
 ├── Best Practice: Drop unnecessary Linux capabilities.
@@ -976,7 +1058,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Privileged Containers
+
+### Privileged Containers
 ├── Concept: Containers with host-level privileges.
 ├── Production: Only infrastructure components.
 ├── Best Practice: Avoid unless absolutely necessary.
@@ -984,7 +1067,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Linux Capabilities
+
+### Linux Capabilities
 ├── Concept: Fine-grained Linux privileges.
 ├── Production: Grant only required capabilities.
 ├── Best Practice: Drop ALL, then add only what is needed.
@@ -992,7 +1076,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ readOnlyRootFilesystem
+
+### readOnlyRootFilesystem
 ├── Concept: Makes container filesystem read-only.
 ├── Production: Prevents runtime modifications.
 ├── Best Practice: Enable wherever possible.
@@ -1000,7 +1085,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Kubernetes Secrets
+
+### Kubernetes Secrets
 ├── Concept: Stores sensitive information.
 ├── Production: Small secrets only.
 ├── Best Practice: Avoid storing production secrets directly.
@@ -1011,7 +1097,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Vault
+
+### Vault
 ├── Concept: External Secret Management.
 ├── Production: Dynamic credentials and secret rotation.
 ├── Best Practice: Never hardcode production credentials.
@@ -1022,7 +1109,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ External Secrets Operator
+
+### External Secrets Operator
 ├── Concept: Synchronizes external secrets into Kubernetes.
 ├── Production: Vault, AWS Secrets Manager, Azure Key Vault.
 ├── Best Practice: Keep Kubernetes Secrets synchronized automatically.
@@ -1033,7 +1121,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Vault Agent
+
+### Vault Agent
 ├── Concept: Sidecar that retrieves secrets directly from Vault.
 ├── Production: Dynamic secret injection.
 ├── Best Practice: Avoid application code talking directly to Vault.
@@ -1041,7 +1130,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Secrets Store CSI Driver
+
+### Secrets Store CSI Driver
 ├── Concept: Mounts external secrets directly into Pods.
 ├── Production: Vault, Azure Key Vault, AWS Secrets Manager.
 ├── Best Practice: Avoid persisting secrets inside Kubernetes.
@@ -1052,7 +1142,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Secret Rotation
+
+### Secret Rotation
 ├── Concept: Automatically updates credentials.
 ├── Production: Database passwords, API keys, certificates.
 ├── Best Practice: Rotate secrets regularly.
@@ -1060,7 +1151,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Image Security
+
+### Image Security
 ├── Concept: Secure container images.
 ├── Production: Scan every image before deployment.
 ├── Best Practice: Use immutable image tags.
@@ -1068,7 +1160,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Audit Logs
+
+### Audit Logs
 ├── Concept: Records Kubernetes API activity.
 ├── Production: Security investigations and compliance.
 ├── Best Practice: Store logs centrally.
@@ -1142,13 +1235,15 @@ A. Limits impact of credential leaks.
 
 Understanding: 95%
 
+
 # Module 7 - Resource Management ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ CPU
+
+### CPU
 ├── Concept: CPU is measured in cores (1000m = 1 CPU).
 ├── Production: Scheduler uses CPU Requests for scheduling.
 ├── Best Practice: Always define CPU Requests.
@@ -1159,7 +1254,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ CPU Requests
+
+### CPU Requests
 ├── Concept: Minimum CPU guaranteed for a Pod.
 ├── Production: Used by Scheduler for node placement.
 ├── Best Practice: Set realistic Requests based on usage.
@@ -1167,7 +1263,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ CPU Limits
+
+### CPU Limits
 ├── Concept: Maximum CPU a container can consume.
 ├── Production: Prevents noisy neighbor issues.
 ├── Best Practice: Don't set Limits too low.
@@ -1175,7 +1272,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ CPU Throttling
+
+### CPU Throttling
 ├── Concept: Linux CFS limits CPU usage.
 ├── Production: High latency often indicates throttling.
 ├── Best Practice: Monitor throttled containers.
@@ -1186,7 +1284,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Memory
+
+### Memory
 ├── Concept: RAM allocated to a container.
 ├── Production: Memory cannot be throttled.
 ├── Best Practice: Define Requests and Limits.
@@ -1194,7 +1293,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Memory Requests
+
+### Memory Requests
 ├── Concept: Guaranteed memory for scheduling.
 ├── Production: Scheduler uses Requests only.
 ├── Best Practice: Set based on normal workload.
@@ -1202,7 +1302,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Memory Limits
+
+### Memory Limits
 ├── Concept: Maximum memory allowed.
 ├── Production: Prevents one Pod exhausting node memory.
 ├── Best Practice: Avoid unlimited memory.
@@ -1210,7 +1311,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ OOMKilled
+
+### OOMKilled
 ├── Concept: Container exceeded Memory Limit.
 ├── Production: Container restarted by Kubernetes.
 ├── Best Practice: Increase memory or optimize application.
@@ -1221,7 +1323,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Scheduler Decisions
+
+### Scheduler Decisions
 ├── Concept: Scheduler considers Requests, not Limits.
 ├── Production: Requests determine node placement.
 ├── Best Practice: Never leave Requests undefined.
@@ -1232,7 +1335,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Allocatable Resources
+
+### Allocatable Resources
 ├── Concept: Resources available after Kubernetes reserves system resources.
 ├── Production: kubeReserved + systemReserved reduce available capacity.
 ├── Best Practice: Reserve resources for system components.
@@ -1246,7 +1350,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Pending Pods
+
+### Pending Pods
 ├── Concept: Pod waiting for scheduling.
 ├── Production: Usually insufficient CPU, Memory or constraints.
 ├── Best Practice: Check Events first.
@@ -1254,7 +1359,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ QoS Classes
+
+### QoS Classes
 ├── Guaranteed
 │   ├── Requests = Limits
 │   ├── Highest Priority
@@ -1282,7 +1388,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Evictions
+
+### Evictions
 ├── Concept: Kubernetes removes Pods during node resource pressure.
 ├── Production: Protects node stability.
 ├── Best Practice: Define Requests to avoid early eviction.
@@ -1303,7 +1410,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ ResourceQuota
+
+### ResourceQuota
 ├── Concept: Limits total namespace resource consumption.
 ├── Production: Prevents one team consuming all cluster resources.
 ├── Best Practice: Apply per namespace.
@@ -1314,7 +1422,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ LimitRange
+
+### LimitRange
 ├── Concept: Sets default/min/max Requests and Limits.
 ├── Production: Prevents Pods without resource definitions.
 ├── Best Practice: Configure with ResourceQuota.
@@ -1400,13 +1509,15 @@ A. Yes. That's the recommended production setup.
 
 Understanding: 100%
 
+
 # Module 8 - Observability & Troubleshooting ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Logs
+
+### Logs
 ├── Concept: View application and container logs.
 ├── Production: First step during application failures.
 ├── Best Practice: Centralize logs (ELK/Loki/Splunk).
@@ -1417,7 +1528,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ kubectl logs
+
+### kubectl logs
 ├── Concept: Display container logs.
 ├── Production: Troubleshoot application issues.
 ├── Best Practice: Use --previous for crashed containers.
@@ -1431,7 +1543,8 @@ kubectl logs --previous <pod>
 
 ---------------------------------------------------------
 
-✅ Previous Logs
+
+### Previous Logs
 ├── Concept: Shows logs from previous container instance.
 ├── Production: Useful after CrashLoopBackOff.
 ├── Best Practice: Always check previous logs after restart.
@@ -1439,7 +1552,8 @@ kubectl logs --previous <pod>
 
 ---------------------------------------------------------
 
-✅ Multi-Container Pods
+
+### Multi-Container Pods
 ├── Concept: View logs from specific container.
 ├── Production: Sidecars (Istio, Vault Agent, FluentBit).
 ├── Best Practice: Always specify container name.
@@ -1451,7 +1565,8 @@ kubectl logs <pod> -c <container>
 
 ---------------------------------------------------------
 
-✅ Describe
+
+### Describe
 ├── Concept: Displays Kubernetes object details and events.
 ├── Production: Check scheduling failures and probe failures.
 ├── Best Practice: Always inspect Events section.
@@ -1463,7 +1578,8 @@ kubectl describe pod <pod>
 
 ---------------------------------------------------------
 
-✅ Events
+
+### Events
 ├── Concept: Timeline of Kubernetes actions.
 ├── Production: Scheduling, OOMKilled, Probe Failures.
 ├── Best Practice: Check newest events first.
@@ -1471,7 +1587,8 @@ kubectl describe pod <pod>
 
 ---------------------------------------------------------
 
-✅ kubectl exec
+
+### kubectl exec
 ├── Concept: Execute commands inside a container.
 ├── Production: Validate connectivity and configuration.
 ├── Best Practice: Use for debugging only.
@@ -1485,7 +1602,8 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-✅ kubectl cp
+
+### kubectl cp
 ├── Concept: Copy files between local machine and Pod.
 ├── Production: Export logs, import configs.
 ├── Best Practice: Avoid modifying production Pods.
@@ -1493,7 +1611,8 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-✅ kubectl debug
+
+### kubectl debug
 ├── Concept: Launch temporary debugging container.
 ├── Production: Distroless container troubleshooting.
 ├── Best Practice: Remove debug containers after use.
@@ -1501,7 +1620,8 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-✅ Ephemeral Containers
+
+### Ephemeral Containers
 ├── Concept: Temporary containers used only for debugging.
 ├── Production: Troubleshoot minimal images.
 ├── Best Practice: Never use as permanent containers.
@@ -1509,7 +1629,8 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-✅ Metrics Server
+
+### Metrics Server
 ├── Concept: Collects CPU and Memory usage from kubelets.
 ├── Production: Required for HPA and kubectl top.
 ├── Best Practice: Install in every production cluster.
@@ -1524,7 +1645,8 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-✅ kubectl top
+
+### kubectl top
 ├── Concept: Displays live CPU and Memory usage.
 ├── Production: Quick resource inspection.
 ├── Best Practice: Verify Metrics Server is running.
@@ -1538,7 +1660,8 @@ kubectl top node
 
 ---------------------------------------------------------
 
-✅ Liveness Probe
+
+### Liveness Probe
 ├── Concept: Checks whether application is alive.
 ├── Production: Restarts unhealthy containers.
 ├── Best Practice: Don't make probes too aggressive.
@@ -1549,7 +1672,8 @@ kubectl top node
 
 ---------------------------------------------------------
 
-✅ Readiness Probe
+
+### Readiness Probe
 ├── Concept: Determines if Pod can receive traffic.
 ├── Production: Prevents traffic to unhealthy Pods.
 ├── Best Practice: Configure before exposing applications.
@@ -1560,7 +1684,8 @@ kubectl top node
 
 ---------------------------------------------------------
 
-✅ Startup Probe
+
+### Startup Probe
 ├── Concept: Gives slow-starting applications time to initialize.
 ├── Production: Java/Spring Boot applications.
 ├── Best Practice: Use for long startup times.
@@ -1597,7 +1722,8 @@ Failure → Removed from Service
 
 ---------------------------------------------------------
 
-✅ Prometheus
+
+### Prometheus
 ├── Concept: Collects and stores time-series metrics.
 ├── Production: Monitoring and alerting.
 ├── Best Practice: Scrape only required metrics.
@@ -1614,7 +1740,8 @@ Failure → Removed from Service
 
 ---------------------------------------------------------
 
-✅ Application Metrics
+
+### Application Metrics
 ├── Concept: Business and application-specific metrics.
 ├── Production: HTTP Requests, JVM, Cache, Queue Length.
 ├── Best Practice: Follow Prometheus metric naming.
@@ -1630,7 +1757,8 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-✅ kubelet / cAdvisor Metrics
+
+### kubelet / cAdvisor Metrics
 ├── Concept: Container resource metrics.
 ├── Production: CPU, Memory, Network.
 ├── Best Practice: Used by Prometheus and Metrics Server.
@@ -1638,7 +1766,8 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-✅ Node Exporter
+
+### Node Exporter
 ├── Concept: OS-level metrics.
 ├── Production: CPU, Disk, Filesystem, Load Average.
 ├── Best Practice: Deploy as DaemonSet.
@@ -1646,7 +1775,8 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-✅ Grafana
+
+### Grafana
 ├── Concept: Visualizes Prometheus metrics.
 ├── Production: Dashboards for applications and clusters.
 ├── Best Practice: Build reusable dashboards.
@@ -1654,7 +1784,8 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-✅ Alertmanager
+
+### Alertmanager
 ├── Concept: Sends alerts from Prometheus.
 ├── Production: Slack, Teams, Email, PagerDuty.
 ├── Best Practice: Reduce alert fatigue.
@@ -1662,7 +1793,8 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-✅ OpenTelemetry
+
+### OpenTelemetry
 ├── Concept: Standard framework for Metrics, Logs and Traces.
 ├── Production: Distributed tracing.
 ├── Best Practice: Instrument applications once.
@@ -1743,13 +1875,15 @@ A. kubelet restarts the container.
 
 Understanding: 100%
 
+
 # Module 9 - Autoscaling ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Horizontal Pod Autoscaler (HPA)
+
+### Horizontal Pod Autoscaler (HPA)
 ├── Concept: Automatically increases/decreases the number of Pods.
 ├── Production: Used for stateless applications.
 ├── Best Practice: Configure CPU/Memory Requests before enabling HPA.
@@ -1763,7 +1897,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Metrics Server
+
+### Metrics Server
 ├── Concept: Collects CPU and Memory usage from kubelets.
 ├── Production: Required by HPA.
 ├── Best Practice: Install on every cluster.
@@ -1774,7 +1909,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ HPA Algorithm
+
+### HPA Algorithm
 ├── Concept: Compares current utilization against target utilization.
 ├── Production: Continuously reconciles desired replica count.
 ├── Best Practice: Set realistic target utilization.
@@ -1798,7 +1934,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ CPU Scaling
+
+### CPU Scaling
 ├── Concept: Scale based on average CPU utilization.
 ├── Production: Most common HPA metric.
 ├── Best Practice: CPU Requests must be defined.
@@ -1806,7 +1943,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Memory Scaling
+
+### Memory Scaling
 ├── Concept: Scale based on average memory utilization.
 ├── Production: Useful for memory-intensive applications.
 ├── Best Practice: Monitor OOMKilled before enabling.
@@ -1814,7 +1952,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Custom Metrics
+
+### Custom Metrics
 ├── Concept: Scale using application metrics.
 ├── Production: Queue Length, HTTP Requests, Active Sessions.
 ├── Best Practice: Use Prometheus Adapter.
@@ -1822,7 +1961,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ External Metrics
+
+### External Metrics
 ├── Concept: Scale using external systems.
 ├── Production: Kafka, RabbitMQ, AWS SQS.
 ├── Best Practice: Usually implemented with KEDA.
@@ -1830,7 +1970,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Vertical Pod Autoscaler (VPA)
+
+### Vertical Pod Autoscaler (VPA)
 ├── Concept: Adjusts CPU and Memory Requests/Limits.
 ├── Production: Best for long-running workloads.
 ├── Best Practice: Start with Recommendation Mode.
@@ -1845,7 +1986,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Recommendation Mode
+
+### Recommendation Mode
 ├── Concept: Suggests optimal CPU/Memory.
 ├── Production: Most commonly used mode.
 ├── Best Practice: Review recommendations before applying.
@@ -1853,7 +1995,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Auto Mode
+
+### Auto Mode
 ├── Concept: Automatically updates resource requests.
 ├── Production: Less common.
 ├── Best Practice: Use carefully.
@@ -1861,7 +2004,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Cluster Autoscaler
+
+### Cluster Autoscaler
 ├── Concept: Adds or removes Worker Nodes.
 ├── Production: Cloud-managed node groups.
 ├── Best Practice: Configure min/max node counts.
@@ -1878,7 +2022,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Node Groups
+
+### Node Groups
 ├── Concept: Group of worker nodes managed together.
 ├── Production: AWS ASG, Azure VMSS, GCP MIG.
 ├── Best Practice: Separate workloads by node groups.
@@ -1886,7 +2031,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Scale Up
+
+### Scale Up
 ├── Concept: Add Worker Nodes.
 ├── Production: Triggered by Pending Pods.
 ├── Best Practice: Ensure cloud quotas allow scaling.
@@ -1894,7 +2040,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ Scale Down
+
+### Scale Down
 ├── Concept: Remove underutilized Worker Nodes.
 ├── Production: Reduces infrastructure cost.
 ├── Best Practice: Drain nodes before removal.
@@ -1902,7 +2049,8 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-✅ KEDA
+
+### KEDA
 ├── Concept: Event-driven autoscaling.
 ├── Production: Kafka, RabbitMQ, Azure Queue, SQS.
 ├── Best Practice: Use when CPU isn't the scaling factor.
@@ -2072,13 +2220,15 @@ A. No. Prometheus exposes metrics. HPA performs scaling.
 
 Understanding: 100%
 
+
 # Module 10 - Helm / GitOps / Platform Engineering ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Helm
+
+### Helm
 ├── Concept: Kubernetes Package Manager.
 ├── Production: Standard way to deploy applications.
 ├── Best Practice: One reusable chart per application.
@@ -2089,7 +2239,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Charts
+
+### Charts
 ├── Concept: Package containing Kubernetes templates.
 ├── Production: One chart per application/platform component.
 ├── Best Practice: Keep charts reusable.
@@ -2097,7 +2248,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ values.yaml
+
+### values.yaml
 ├── Concept: Stores configurable values.
 ├── Production: Different values for Dev/QA/Prod.
 ├── Best Practice: Keep templates generic.
@@ -2105,7 +2257,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Templates
+
+### Templates
 ├── Concept: Dynamic Kubernetes manifests.
 ├── Production: Deployment, Service, Ingress, HPA, etc.
 ├── Best Practice: Parameterize everything.
@@ -2113,7 +2266,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Helm Functions
+
+### Helm Functions
 ├── default()
 ├── required()
 ├── quote()
@@ -2124,7 +2278,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ _helpers.tpl
+
+### _helpers.tpl
 ├── Concept: Reusable helper functions.
 ├── Production: Names, Labels, ServiceAccounts.
 ├── Best Practice: Avoid duplicate YAML.
@@ -2135,7 +2290,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Chart Dependencies
+
+### Chart Dependencies
 ├── Concept: Helm charts depending on other charts.
 ├── Production: Redis, PostgreSQL, Common Libraries.
 ├── Best Practice: Pin chart versions.
@@ -2143,7 +2299,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ OCI Registry
+
+### OCI Registry
 ├── Concept: Stores Helm Charts like container images.
 ├── Production: JFrog, Harbor, Azure ACR.
 ├── Best Practice: Version charts.
@@ -2151,7 +2308,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Helm Install
+
+### Helm Install
 ├── Concept: Deploy application.
 ├── Production: Usually automated through GitOps.
 ├── Best Practice: Avoid manual production installs.
@@ -2159,7 +2317,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Helm Upgrade
+
+### Helm Upgrade
 ├── Concept: Update an existing release.
 ├── Production: Deploy new application versions.
 ├── Best Practice: Upgrade using GitOps.
@@ -2167,7 +2326,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Helm Rollback
+
+### Helm Rollback
 ├── Concept: Restore previous release.
 ├── Production: Failed deployments.
 ├── Best Practice: Keep release history.
@@ -2175,7 +2335,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ FluxCD
+
+### FluxCD
 ├── Concept: GitOps operator.
 ├── Production: Continuously reconciles Git with Kubernetes.
 ├── Best Practice: Never kubectl apply directly in production.
@@ -2186,35 +2347,40 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Source Controller
+
+### Source Controller
 ├── Concept: Watches Git repositories.
 ├── Production: Detects Git changes.
 ├── Interview Tip: Downloads Git contents.
 
 ---------------------------------------------------------
 
-✅ Helm Controller
+
+### Helm Controller
 ├── Concept: Installs and upgrades Helm Releases.
 ├── Production: Most commonly used Flux controller.
 ├── Interview Tip: Executes Helm operations automatically.
 
 ---------------------------------------------------------
 
-✅ Kustomize Controller
+
+### Kustomize Controller
 ├── Concept: Deploys Kustomize resources.
 ├── Production: Platform components.
 ├── Interview Tip: Alternative to Helm.
 
 ---------------------------------------------------------
 
-✅ Notification Controller
+
+### Notification Controller
 ├── Concept: Sends GitOps events.
 ├── Production: Slack, Teams, Webhooks.
 ├── Interview Tip: Optional component.
 
 ---------------------------------------------------------
 
-✅ HelmRelease
+
+### HelmRelease
 ├── Concept: Kubernetes resource describing Helm deployment.
 ├── Production: Managed through Git.
 ├── Best Practice: Never edit directly in cluster.
@@ -2225,7 +2391,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ GitOps
+
+### GitOps
 ├── Concept: Git is the desired state.
 ├── Production: Every infrastructure change goes through Git.
 ├── Best Practice: Pull Requests for every change.
@@ -2236,14 +2403,16 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ GitHub
+
+### GitHub
 ├── Concept: Stores application, Helm and GitOps repositories.
 ├── Production: Version control and approvals.
 ├── Interview Tip: Nothing changes without Git.
 
 ---------------------------------------------------------
 
-✅ Jenkins
+
+### Jenkins
 ├── Concept: CI Pipeline.
 ├── Production: Build, Test, Scan, Push.
 ├── Best Practice: Build image only once.
@@ -2251,7 +2420,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ JFrog Artifactory
+
+### JFrog Artifactory
 ├── Concept: Artifact Repository.
 ├── Production: Docker Images and Helm Charts.
 ├── Best Practice: Promote same image across environments.
@@ -2262,7 +2432,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Rancher
+
+### Rancher
 ├── Concept: Kubernetes Cluster Management.
 ├── Production: RBAC, Cluster Provisioning, Monitoring.
 ├── Best Practice: Manage multiple clusters centrally.
@@ -2474,13 +2645,15 @@ A. Yes. Platform components are commonly installed via HelmRelease.
 
 Understanding: 100%
 
+
 # Module 11 - Backup & Disaster Recovery ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Backup Strategy
+
+### Backup Strategy
 ├── Concept: Protect Kubernetes configuration and business data.
 ├── Production: Multiple backup layers.
 ├── Best Practice: Regularly test restores.
@@ -2488,7 +2661,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ etcd
+
+### etcd
 ├── Concept: Stores Kubernetes desired state.
 ├── Production: HA cluster with 3 or 5 members.
 ├── Best Practice: Schedule regular snapshots.
@@ -2502,7 +2676,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ etcd Backup
+
+### etcd Backup
 ├── Concept: Snapshot of Kubernetes metadata.
 ├── Production: Self-managed clusters.
 ├── Best Practice: Store backups outside the cluster.
@@ -2514,7 +2689,8 @@ etcdctl snapshot save backup.db
 
 ---------------------------------------------------------
 
-✅ etcd Restore
+
+### etcd Restore
 ├── Concept: Restore cluster metadata.
 ├── Production: Used after control plane failure.
 ├── Best Practice: Verify snapshot integrity.
@@ -2526,7 +2702,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Managed Kubernetes
+
+### Managed Kubernetes
 ├── Concept: Cloud provider manages etcd.
 ├── Production: EKS, AKS, GKE.
 ├── Best Practice: Focus on workload backups.
@@ -2537,7 +2714,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Velero
+
+### Velero
 ├── Concept: Backup and Restore Kubernetes Objects.
 ├── Production: Installed using Helm + FluxCD.
 ├── Best Practice: Schedule automated backups.
@@ -2551,7 +2729,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Velero Restore
+
+### Velero Restore
 ├── Concept: Recreates Kubernetes resources.
 ├── Production: Namespace or cluster recovery.
 ├── Best Practice: Test restore regularly.
@@ -2559,7 +2738,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ What Velero Backs Up
+
+### What Velero Backs Up
 ├── Deployments
 ├── StatefulSets
 ├── Services
@@ -2575,7 +2755,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Persistent Volume Backup
+
+### Persistent Volume Backup
 ├── Concept: Backup business/application data.
 ├── Production: CSI Snapshots.
 ├── Best Practice: Snapshot databases frequently.
@@ -2583,7 +2764,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ CSI (Container Storage Interface)
+
+### CSI (Container Storage Interface)
 ├── Concept: Standard storage interface.
 ├── Production: AWS EBS, Azure Disk, vSphere, Longhorn.
 ├── Best Practice: Use vendor-supported CSI Driver.
@@ -2594,7 +2776,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Volume Snapshot
+
+### Volume Snapshot
 ├── Concept: Point-in-time storage snapshot.
 ├── Production: Disaster Recovery.
 ├── Best Practice: Automate snapshot schedules.
@@ -2602,7 +2785,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Volume Restore
+
+### Volume Restore
 ├── Concept: Restore PVC from snapshot.
 ├── Production: Database recovery.
 ├── Best Practice: Verify application consistency.
@@ -2610,7 +2794,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Crash Consistent Backup
+
+### Crash Consistent Backup
 ├── Concept: Storage snapshot during normal writes.
 ├── Production: Common CSI snapshots.
 ├── Best Practice: Suitable for many workloads.
@@ -2621,7 +2806,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Application Consistent Backup
+
+### Application Consistent Backup
 ├── Concept: Application flushes writes before snapshot.
 ├── Production: Critical databases.
 ├── Best Practice: Combine with native database backups.
@@ -2632,7 +2818,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Database Native Backup
+
+### Database Native Backup
 ├── Concept: Backup created by database itself.
 ├── Production: PostgreSQL, MySQL, Oracle, MongoDB.
 ├── Best Practice: Combine with CSI snapshots.
@@ -2640,7 +2827,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Backup Storage
+
+### Backup Storage
 ├── Concept: External backup repository.
 ├── Production: S3, Azure Blob, GCS, MinIO.
 ├── Best Practice: Store outside the cluster.
@@ -2651,7 +2839,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Backup Scheduling
+
+### Backup Scheduling
 ├── Concept: Automated recurring backups.
 ├── Production: Daily objects, hourly databases.
 ├── Best Practice: Define retention policy.
@@ -2659,7 +2848,8 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ Disaster Recovery (DR)
+
+### Disaster Recovery (DR)
 ├── Concept: Recover workloads after failure.
 ├── Production: Documented DR procedures.
 ├── Best Practice: Perform DR drills.
@@ -2667,14 +2857,16 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-✅ RPO (Recovery Point Objective)
+
+### RPO (Recovery Point Objective)
 ├── Concept: Maximum acceptable data loss.
 ├── Production: Defines backup frequency.
 ├── Interview Tip: Lower RPO = More frequent backups.
 
 ---------------------------------------------------------
 
-✅ RTO (Recovery Time Objective)
+
+### RTO (Recovery Time Objective)
 ├── Concept: Maximum acceptable recovery time.
 ├── Production: Defines recovery expectations.
 ├── Interview Tip: Lower RTO = Faster recovery.
@@ -2858,13 +3050,15 @@ Cloud Team
 ├── Cross Region Replication
 └── IAM Permissions
 
+
 # Module 12 - Multi-Cluster Management ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Multi-Cluster
+
+### Multi-Cluster
 ├── Concept: Manage multiple Kubernetes clusters.
 ├── Production: Dev, QA, Stage, Prod or Multi-Region.
 ├── Best Practice: Separate production from non-production.
@@ -2872,7 +3066,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Why Multiple Clusters?
+
+### Why Multiple Clusters?
 ├── Environment Isolation
 ├── Security Isolation
 ├── Regional Deployment
@@ -2883,7 +3078,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ kubeconfig
+
+### kubeconfig
 ├── Concept: Stores cluster connection information.
 ├── Production: Developers manage multiple clusters.
 ├── Best Practice: Keep kubeconfig secure.
@@ -2897,7 +3093,8 @@ kubectl config get-contexts
 
 ---------------------------------------------------------
 
-✅ Context
+
+### Context
 ├── Concept: Active cluster + user + namespace.
 ├── Production: Switch between environments safely.
 ├── Best Practice: Verify current context before deployment.
@@ -2911,7 +3108,8 @@ kubectl config use-context production
 
 ---------------------------------------------------------
 
-✅ Multiple Contexts
+
+### Multiple Contexts
 ├── Concept: Multiple clusters in one kubeconfig.
 ├── Production: Dev, QA, Stage, Prod.
 ├── Best Practice: Name contexts clearly.
@@ -2919,7 +3117,8 @@ kubectl config use-context production
 
 ---------------------------------------------------------
 
-✅ Rancher
+
+### Rancher
 ├── Concept: Centralized Kubernetes management.
 ├── Production: Manage hundreds of clusters.
 ├── Best Practice: Centralize RBAC and monitoring.
@@ -2930,7 +3129,8 @@ kubectl config use-context production
 
 ---------------------------------------------------------
 
-✅ Fleet (Rancher GitOps)
+
+### Fleet (Rancher GitOps)
 ├── Concept: GitOps for multiple clusters.
 ├── Production: Deploy same application to many clusters.
 ├── Best Practice: Organize clusters into groups.
@@ -2938,7 +3138,8 @@ kubectl config use-context production
 
 ---------------------------------------------------------
 
-✅ FluxCD Multi-Cluster
+
+### FluxCD Multi-Cluster
 ├── Concept: Each cluster runs its own Flux.
 ├── Production: Every cluster watches its own Git path.
 ├── Best Practice: Separate environment folders.
@@ -2962,7 +3163,8 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-✅ Cluster Registration
+
+### Cluster Registration
 ├── Concept: Register cluster with Rancher.
 ├── Production: Central visibility.
 ├── Best Practice: Secure cluster registration tokens.
@@ -2970,7 +3172,8 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-✅ Cluster Templates
+
+### Cluster Templates
 ├── Concept: Standardize cluster creation.
 ├── Production: Same configuration everywhere.
 ├── Best Practice: Version templates.
@@ -2978,7 +3181,8 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-✅ Multi-Region
+
+### Multi-Region
 ├── Concept: Deploy workloads across regions.
 ├── Production: Disaster Recovery and Low Latency.
 ├── Best Practice: Replicate critical workloads.
@@ -2986,7 +3190,8 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-✅ Disaster Recovery Cluster
+
+### Disaster Recovery Cluster
 ├── Concept: Secondary standby cluster.
 ├── Production: Business Continuity.
 ├── Best Practice: Test failover regularly.
@@ -2994,7 +3199,8 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-✅ Federation
+
+### Federation
 ├── Concept: Kubernetes-native multi-cluster management.
 ├── Production: Rarely used today.
 ├── Best Practice: GitOps is preferred.
@@ -3163,13 +3369,15 @@ A. No. GitOps + Rancher/Fleet is more common today.
 
 Understanding: 100%
 
+
 # Module 13 - CKA & Production Troubleshooting ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Troubleshooting Approach
+
+### Troubleshooting Approach
 ├── Concept: Follow a structured troubleshooting process.
 ├── Production: Don't jump to conclusions.
 ├── Best Practice: Start from the symptom and work downward.
@@ -3191,7 +3399,8 @@ Cluster
 
 ---------------------------------------------------------
 
-✅ Pod Pending
+
+### Pod Pending
 ├── Concept: Pod has not been scheduled.
 ├── Production: Usually scheduling issue.
 ├── Best Practice: Check Events first.
@@ -3212,7 +3421,8 @@ kubectl get events
 
 ---------------------------------------------------------
 
-✅ CrashLoopBackOff
+
+### CrashLoopBackOff
 ├── Concept: Container repeatedly crashes.
 ├── Production: One of the most common incidents.
 ├── Best Practice: Check previous logs.
@@ -3232,7 +3442,8 @@ kubectl describe pod
 
 ---------------------------------------------------------
 
-✅ ImagePullBackOff
+
+### ImagePullBackOff
 ├── Concept: Kubernetes cannot download image.
 ├── Production: Registry or authentication issue.
 ├── Best Practice: Verify image tag and credentials.
@@ -3245,7 +3456,8 @@ kubectl describe pod
 
 ---------------------------------------------------------
 
-✅ OOMKilled
+
+### OOMKilled
 ├── Concept: Container exceeded Memory Limit.
 ├── Production: Very common.
 ├── Best Practice: Increase memory or optimize application.
@@ -3258,7 +3470,8 @@ kubectl describe pod
 
 ---------------------------------------------------------
 
-✅ CPU Throttling
+
+### CPU Throttling
 ├── Concept: Container exceeded CPU Limit.
 ├── Production: Causes slow applications.
 ├── Best Practice: Review CPU Requests/Limits.
@@ -3269,7 +3482,8 @@ kubectl describe pod
 
 ---------------------------------------------------------
 
-✅ Service Issues
+
+### Service Issues
 ├── Concept: Service cannot reach Pods.
 ├── Production: Label mismatch.
 ├── Best Practice: Verify Selectors.
@@ -3283,7 +3497,8 @@ kubectl get endpoints
 
 ---------------------------------------------------------
 
-✅ DNS Issues
+
+### DNS Issues
 ├── Concept: Service name resolution failure.
 ├── Production: CoreDNS problems.
 ├── Best Practice: Test DNS inside Pod.
@@ -3297,7 +3512,8 @@ dig service
 
 ---------------------------------------------------------
 
-✅ Ingress Issues
+
+### Ingress Issues
 ├── Concept: External traffic cannot reach application.
 ├── Production: Most common ingress incidents.
 ├── Best Practice: Check Ingress Controller logs.
@@ -3305,7 +3521,8 @@ dig service
 
 ---------------------------------------------------------
 
-✅ Network Issues
+
+### Network Issues
 ├── Concept: Pod communication failures.
 ├── Production: CNI or NetworkPolicy.
 ├── Best Practice: Test connectivity from another Pod.
@@ -3321,7 +3538,8 @@ wget
 
 ---------------------------------------------------------
 
-✅ NetworkPolicy Issues
+
+### NetworkPolicy Issues
 ├── Concept: Traffic blocked.
 ├── Production: Security policy problem.
 ├── Best Practice: Start with Default Deny carefully.
@@ -3329,7 +3547,8 @@ wget
 
 ---------------------------------------------------------
 
-✅ Storage Issues
+
+### Storage Issues
 ├── Concept: PVC cannot bind.
 ├── Production: StorageClass or CSI issue.
 ├── Best Practice: Verify StorageClass.
@@ -3343,7 +3562,8 @@ kubectl describe pvc
 
 ---------------------------------------------------------
 
-✅ CSI Issues
+
+### CSI Issues
 ├── Concept: Storage Driver failure.
 ├── Production: Volume Attach failures.
 ├── Best Practice: Check CSI Controller logs.
@@ -3351,7 +3571,8 @@ kubectl describe pvc
 
 ---------------------------------------------------------
 
-✅ Node Issues
+
+### Node Issues
 ├── Concept: Worker unhealthy.
 ├── Production: Hardware or kubelet problems.
 ├── Best Practice: Check Node Conditions.
@@ -3365,7 +3586,8 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-✅ Scheduler Issues
+
+### Scheduler Issues
 ├── Concept: Scheduler unable to place Pod.
 ├── Production: Resource shortage.
 ├── Best Practice: Review Events.
@@ -3373,7 +3595,8 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-✅ RBAC Issues
+
+### RBAC Issues
 ├── Concept: Permission denied.
 ├── Production: ServiceAccount permissions.
 ├── Best Practice: Least Privilege.
@@ -3381,7 +3604,8 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-✅ Secret Issues
+
+### Secret Issues
 ├── Concept: Missing credentials.
 ├── Production: Vault/ESO synchronization.
 ├── Best Practice: Verify Secret exists.
@@ -3389,7 +3613,8 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-✅ ConfigMap Issues
+
+### ConfigMap Issues
 ├── Concept: Missing configuration.
 ├── Production: Wrong application config.
 ├── Best Practice: Validate mounted files.
@@ -3397,7 +3622,8 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-✅ Control Plane Issues
+
+### Control Plane Issues
 ├── Concept: API Server unavailable.
 ├── Production: Cluster-wide outage.
 ├── Best Practice: Monitor control plane components.
@@ -3577,13 +3803,15 @@ Scheduling constraints or insufficient resources.
 
 Understanding: 100%
 
+
 # Module 14 - Complete Production Architecture ✅
 
-We covered:
+## Topics Covered
 
 =========================================================
 
-✅ Developer
+
+### Developer
 ├── Concept: Develops application code.
 ├── Production: Feature branches and Pull Requests.
 ├── Best Practice: Merge only after CI passes.
@@ -3591,7 +3819,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ GitHub
+
+### GitHub
 ├── Concept: Source of Truth for Code and Infrastructure.
 ├── Production: Application Repo + GitOps Repo.
 ├── Best Practice: Protect main branch.
@@ -3599,7 +3828,8 @@ We covered:
 
 ---------------------------------------------------------
 
-✅ Jenkins (CI)
+
+### Jenkins (CI)
 ├── Concept: Continuous Integration.
 ├── Production: Build, Test, Scan and Publish.
 ├── Best Practice: Build image only once.
@@ -3631,7 +3861,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ JFrog Artifactory
+
+### JFrog Artifactory
 ├── Concept: Stores Docker Images and Helm Charts.
 ├── Production: Single artifact promoted across environments.
 ├── Best Practice: Never rebuild for QA/Stage/Prod.
@@ -3639,7 +3870,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ GitOps Repository
+
+### GitOps Repository
 ├── Concept: Stores deployment configuration.
 ├── Production: Dev/QA/Stage/Prod folders.
 ├── Best Practice: Pull Request for every deployment.
@@ -3650,7 +3882,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ FluxCD
+
+### FluxCD
 ├── Concept: Continuously reconciles Git with Kubernetes.
 ├── Production: Deploys platform and applications.
 ├── Best Practice: No kubectl apply in Production.
@@ -3658,7 +3891,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Helm
+
+### Helm
 ├── Concept: Deploys reusable Kubernetes templates.
 ├── Production: Applications and Platform Components.
 ├── Best Practice: One Chart per application.
@@ -3666,7 +3900,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ API Server
+
+### API Server
 ├── Concept: Entry point into Kubernetes.
 ├── Production: All communication flows through API Server.
 ├── Best Practice: Never bypass API Server.
@@ -3674,7 +3909,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ etcd
+
+### etcd
 ├── Concept: Stores Kubernetes desired state.
 ├── Production: 3 or 5 member HA cluster.
 ├── Best Practice: Schedule snapshots.
@@ -3682,7 +3918,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Scheduler
+
+### Scheduler
 ├── Concept: Chooses worker node.
 ├── Production: Uses Requests, Affinity, Taints.
 ├── Best Practice: Define Requests.
@@ -3690,7 +3927,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ kubelet
+
+### kubelet
 ├── Concept: Node Agent.
 ├── Production: Runs Pods.
 ├── Best Practice: Monitor kubelet health.
@@ -3698,7 +3936,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ containerd
+
+### containerd
 ├── Concept: Container Runtime.
 ├── Production: Runs application containers.
 ├── Best Practice: Standard runtime.
@@ -3706,7 +3945,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ CNI
+
+### CNI
 ├── Concept: Provides Pod networking.
 ├── Production: Calico or Cilium.
 ├── Best Practice: Enable Network Policies.
@@ -3714,7 +3954,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ CSI
+
+### CSI
 ├── Concept: Provides Persistent Storage.
 ├── Production: AWS EBS, Azure Disk, Longhorn, vSphere.
 ├── Best Practice: Dynamic Provisioning.
@@ -3722,7 +3963,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Service
+
+### Service
 ├── Concept: Stable endpoint for Pods.
 ├── Production: Internal communication.
 ├── Best Practice: Never call Pod IPs.
@@ -3730,7 +3972,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Ingress
+
+### Ingress
 ├── Concept: External HTTP/HTTPS Routing.
 ├── Production: Single entry point.
 ├── Best Practice: Use Ingress Controller.
@@ -3738,7 +3981,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ CoreDNS
+
+### CoreDNS
 ├── Concept: Service Discovery.
 ├── Production: Internal DNS.
 ├── Best Practice: Use Service Names.
@@ -3746,7 +3990,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Prometheus
+
+### Prometheus
 ├── Concept: Collect Metrics.
 ├── Production: Infrastructure + Application Monitoring.
 ├── Best Practice: Scrape only required metrics.
@@ -3754,7 +3999,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Grafana
+
+### Grafana
 ├── Concept: Dashboard.
 ├── Production: Cluster Visualization.
 ├── Best Practice: Build reusable dashboards.
@@ -3762,7 +4008,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Alertmanager
+
+### Alertmanager
 ├── Concept: Alert Notification.
 ├── Production: Slack, Teams, PagerDuty.
 ├── Best Practice: Alert on symptoms.
@@ -3770,7 +4017,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Metrics Server
+
+### Metrics Server
 ├── Concept: Resource Metrics.
 ├── Production: CPU & Memory.
 ├── Best Practice: Install on every cluster.
@@ -3778,7 +4026,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ HPA
+
+### HPA
 ├── Concept: Scale Pods.
 ├── Production: CPU, Memory or Custom Metrics.
 ├── Best Practice: Define Requests.
@@ -3786,7 +4035,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ VPA
+
+### VPA
 ├── Concept: Resize Pods.
 ├── Production: Recommendation Mode.
 ├── Best Practice: Review recommendations.
@@ -3794,7 +4044,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Cluster Autoscaler
+
+### Cluster Autoscaler
 ├── Concept: Scale Worker Nodes.
 ├── Production: AWS ASG, Azure VMSS.
 ├── Best Practice: Configure min/max nodes.
@@ -3802,7 +4053,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Vault
+
+### Vault
 ├── Concept: Secret Management.
 ├── Production: Dynamic Secrets.
 ├── Best Practice: Never hardcode credentials.
@@ -3810,7 +4062,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ External Secrets Operator
+
+### External Secrets Operator
 ├── Concept: Sync Vault Secrets.
 ├── Production: Kubernetes Secret Synchronization.
 ├── Best Practice: Rotate Secrets.
@@ -3818,7 +4071,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Velero
+
+### Velero
 ├── Concept: Backup Kubernetes Objects.
 ├── Production: Scheduled Backups.
 ├── Best Practice: Test Restore.
@@ -3826,7 +4080,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ CSI Snapshot
+
+### CSI Snapshot
 ├── Concept: Backup Persistent Volumes.
 ├── Production: Database Recovery.
 ├── Best Practice: Combine with Database Backup.
@@ -3834,7 +4089,8 @@ Push Image
 
 ---------------------------------------------------------
 
-✅ Database Backup
+
+### Database Backup
 ├── Concept: Native Database Backup.
 ├── Production: PostgreSQL WAL, pg_dump, MySQL Dump.
 ├── Best Practice: Application Consistent Backups.
