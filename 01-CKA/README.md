@@ -2001,7 +2001,334 @@ A. kubelet restarts the container.
 
 Understanding: 100%
 
+# Module 9 - Autoscaling ✅
 
+We covered:
+
+=========================================================
+
+✅ Horizontal Pod Autoscaler (HPA)
+├── Concept: Automatically increases/decreases the number of Pods.
+├── Production: Used for stateless applications.
+├── Best Practice: Configure CPU/Memory Requests before enabling HPA.
+├── Interview Tip: HPA scales Pods, NOT Nodes.
+└── Questions I Asked
+    Q. Does Kubernetes automatically scale Pods?
+    A. No. HPA must be configured.
+
+    Q. Will HPA scale back down?
+    A. Yes. It scales down when utilization remains below the target.
+
+---------------------------------------------------------
+
+✅ Metrics Server
+├── Concept: Collects CPU and Memory usage from kubelets.
+├── Production: Required by HPA.
+├── Best Practice: Install on every cluster.
+├── Interview Tip: Metrics Server stores short-term metrics only.
+└── Questions I Asked
+    Q. Why does HPA need Metrics Server?
+    A. Kubernetes doesn't calculate resource usage itself.
+
+---------------------------------------------------------
+
+✅ HPA Algorithm
+├── Concept: Compares current utilization against target utilization.
+├── Production: Continuously reconciles desired replica count.
+├── Best Practice: Set realistic target utilization.
+├── Interview Tip: Uses CPU/Memory Requests as baseline.
+
+Example
+
+Current CPU = 90%
+
+Target CPU = 80%
+
+Current Pods = 3
+
+↓
+
+HPA scales
+
+↓
+
+Pods = 4~6
+
+---------------------------------------------------------
+
+✅ CPU Scaling
+├── Concept: Scale based on average CPU utilization.
+├── Production: Most common HPA metric.
+├── Best Practice: CPU Requests must be defined.
+├── Interview Tip: Utilization is based on Requests.
+
+---------------------------------------------------------
+
+✅ Memory Scaling
+├── Concept: Scale based on average memory utilization.
+├── Production: Useful for memory-intensive applications.
+├── Best Practice: Monitor OOMKilled before enabling.
+├── Interview Tip: Memory usage tends to be less elastic than CPU.
+
+---------------------------------------------------------
+
+✅ Custom Metrics
+├── Concept: Scale using application metrics.
+├── Production: Queue Length, HTTP Requests, Active Sessions.
+├── Best Practice: Use Prometheus Adapter.
+├── Interview Tip: Doesn't require CPU-based scaling.
+
+---------------------------------------------------------
+
+✅ External Metrics
+├── Concept: Scale using external systems.
+├── Production: Kafka, RabbitMQ, AWS SQS.
+├── Best Practice: Usually implemented with KEDA.
+├── Interview Tip: Doesn't depend on Pod resource usage.
+
+---------------------------------------------------------
+
+✅ Vertical Pod Autoscaler (VPA)
+├── Concept: Adjusts CPU and Memory Requests/Limits.
+├── Production: Best for long-running workloads.
+├── Best Practice: Start with Recommendation Mode.
+├── Interview Tip: VPA changes Pod size, not Pod count.
+└── Questions I Asked
+    Q. What happens after VPA changes resources?
+    A. Existing Pod is recreated (depending on mode).
+
+    Q. Doesn't this break GitOps?
+    A. Recommendation Mode doesn't modify manifests.
+       Platform teams review recommendations before updating Git.
+
+---------------------------------------------------------
+
+✅ Recommendation Mode
+├── Concept: Suggests optimal CPU/Memory.
+├── Production: Most commonly used mode.
+├── Best Practice: Review recommendations before applying.
+├── Interview Tip: Doesn't restart Pods.
+
+---------------------------------------------------------
+
+✅ Auto Mode
+├── Concept: Automatically updates resource requests.
+├── Production: Less common.
+├── Best Practice: Use carefully.
+├── Interview Tip: May recreate Pods.
+
+---------------------------------------------------------
+
+✅ Cluster Autoscaler
+├── Concept: Adds or removes Worker Nodes.
+├── Production: Cloud-managed node groups.
+├── Best Practice: Configure min/max node counts.
+├── Interview Tip: Triggered by Pending Pods.
+└── Questions I Asked
+    Q. Who creates the new worker node?
+    A. Cluster Autoscaler talks to AWS/Azure/GCP APIs.
+
+    Q. Does Cluster Autoscaler join the node?
+    A. Cloud creates the VM, Kubernetes joins it automatically.
+
+    Q. Does Cluster Autoscaler work locally?
+    A. Usually no. Mostly designed for cloud providers.
+
+---------------------------------------------------------
+
+✅ Node Groups
+├── Concept: Group of worker nodes managed together.
+├── Production: AWS ASG, Azure VMSS, GCP MIG.
+├── Best Practice: Separate workloads by node groups.
+├── Interview Tip: Cluster Autoscaler scales node groups.
+
+---------------------------------------------------------
+
+✅ Scale Up
+├── Concept: Add Worker Nodes.
+├── Production: Triggered by Pending Pods.
+├── Best Practice: Ensure cloud quotas allow scaling.
+├── Interview Tip: Pods trigger node scaling.
+
+---------------------------------------------------------
+
+✅ Scale Down
+├── Concept: Remove underutilized Worker Nodes.
+├── Production: Reduces infrastructure cost.
+├── Best Practice: Drain nodes before removal.
+├── Interview Tip: Doesn't remove nodes running critical Pods.
+
+---------------------------------------------------------
+
+✅ KEDA
+├── Concept: Event-driven autoscaling.
+├── Production: Kafka, RabbitMQ, Azure Queue, SQS.
+├── Best Practice: Use when CPU isn't the scaling factor.
+├── Interview Tip: Creates HPA automatically.
+└── Questions I Asked
+    Q. Is KEDA cloud-specific?
+    A. No. It works anywhere Kubernetes runs.
+
+    Q. Does KEDA scale Worker Nodes?
+    A. No. KEDA scales Pods. Cluster Autoscaler scales Nodes.
+
+    Q. Can Prometheus scale Pods directly?
+    A. No. Prometheus provides metrics. HPA performs scaling.
+
+---------------------------------------------------------
+
+Autoscaling Comparison
+
+| Component | Scales |
+|-----------|----------------------------------------------|
+| HPA | Number of Pods |
+| VPA | CPU & Memory Requests/Limits |
+| Cluster Autoscaler | Worker Nodes |
+| KEDA | Pods based on External Events |
+
+---------------------------------------------------------
+
+Production Flow
+
+User Traffic
+
+↓
+
+Application CPU = 90%
+
+↓
+
+Metrics Server
+
+↓
+
+HPA
+
+↓
+
+Deployment
+
+↓
+
+Pods
+
+↓
+
+If Pods Pending
+
+↓
+
+Cluster Autoscaler
+
+↓
+
+Cloud Provider
+
+↓
+
+New Worker Node
+
+---------------------------------------------------------
+
+Production Best Practices
+
+✔ Always define Requests before HPA.
+✔ Start VPA in Recommendation Mode.
+✔ Use Cluster Autoscaler in cloud environments.
+✔ Use KEDA for event-driven workloads.
+✔ Don't run HPA and VPA on CPU simultaneously.
+✔ Configure PodDisruptionBudgets with Autoscaling.
+✔ Monitor scaling events.
+
+---------------------------------------------------------
+
+Common Production Mistakes
+
+❌ HPA without Metrics Server
+
+❌ Missing CPU Requests
+
+❌ VPA Auto Mode with GitOps
+
+❌ Tiny minReplicas causing cold starts
+
+❌ Scaling databases using HPA
+
+---------------------------------------------------------
+
+Memory Trick
+
+Metrics Server
+        │
+        ▼
+HPA
+        │
+Pods
+
+──────────────
+
+VPA
+        │
+Pod Size
+
+──────────────
+
+Pending Pods
+        │
+Cluster Autoscaler
+        │
+Worker Nodes
+
+──────────────
+
+Kafka
+RabbitMQ
+SQS
+        │
+KEDA
+        │
+HPA
+        │
+Pods
+
+---------------------------------------------------------
+
+Questions I Asked
+
+Q. Why does HPA need Metrics Server?
+A. Metrics Server provides CPU/Memory usage.
+
+Q. Does HPA automatically scale back down?
+A. Yes.
+
+Q. What is targetCPUUtilization:80?
+A. Desired average CPU utilization before scaling.
+
+Q. Does Kubernetes automatically scale Pods?
+A. No. HPA must be configured.
+
+Q. Does VPA modify Git?
+A. No. Recommendation Mode only suggests values.
+
+Q. How do I see VPA recommendations?
+A. kubectl describe vpa <name>
+
+Q. Who installs Cluster Autoscaler?
+A. Platform Team (often via Helm + FluxCD).
+
+Q. Does Cluster Autoscaler create EC2 instances?
+A. Yes. Through the cloud provider APIs.
+
+Q. Can Cluster Autoscaler work on-prem?
+A. Limited. Mostly cloud-focused.
+
+Q. Is KEDA another HPA?
+A. No. KEDA creates/manages HPA using external events.
+
+Q. Can Prometheus scale Pods?
+A. No. Prometheus exposes metrics. HPA performs scaling.
+
+Understanding: 100%
 
 
 
