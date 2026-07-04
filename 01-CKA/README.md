@@ -1,48 +1,58 @@
 I'll summarize everything we've completed
 
-
 # Module 1 - Kubernetes Architecture ✅
 
-## Topics Covered
+``` text
 
 
-### Control Plane
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
+
+✅ Control Plane
 ├── Concept: Brain of Kubernetes containing management components.
 ├── Production: Usually 3 Control Plane nodes for High Availability.
 ├── Best Practice: Never run a single control plane in production.
 ├── Interview Tip: Worker nodes can fail; control plane should remain available.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What is the most important component?
     A. etcd. Without etcd Kubernetes loses its desired state.
 
 ---------------------------------------------------------
 
-
-### API Server
+✅ API Server
 ├── Concept: Entry point for every Kubernetes request.
 ├── Production: All components communicate through the API Server.
 ├── Best Practice: Never access etcd directly from applications.
 ├── Interview Tip: API Server is stateless; etcd stores the data.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Scheduler talk directly to etcd?
     A. No. Scheduler communicates only with the API Server.
 
 ---------------------------------------------------------
 
-
-### Scheduler
+✅ Scheduler
 ├── Concept: Chooses the best worker node for Pods.
 ├── Production: Uses Requests, Affinity, Taints, Resources and Policies.
 ├── Best Practice: Always define CPU/Memory Requests.
 ├── Interview Tip: Scheduler never starts Pods; kubelet does.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Scheduler use Limits?
     A. No. Scheduling decisions are based on Requests.
 
 ---------------------------------------------------------
 
-
-### Controller Manager
+✅ Controller Manager
 ├── Concept: Continuously reconciles actual state to desired state.
 ├── Production: Runs Deployment, ReplicaSet, Node and Job controllers.
 ├── Best Practice: Never manually recreate Pods managed by Deployments.
@@ -50,13 +60,15 @@ I'll summarize everything we've completed
 
 ---------------------------------------------------------
 
-
-### etcd
+✅ etcd
 ├── Concept: Distributed key-value database storing Kubernetes desired state.
 ├── Production: Run 3 or 5 member HA clusters.
 ├── Best Practice: Take regular snapshots.
 ├── Interview Tip: etcd stores metadata, not application data.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What should be backed up?
     A. etcd + Persistent Volumes.
 
@@ -65,8 +77,7 @@ I'll summarize everything we've completed
 
 ---------------------------------------------------------
 
-
-### Worker Nodes
+✅ Worker Nodes
 ├── Concept: Execute application workloads.
 ├── Production: Scale horizontally using Cluster Autoscaler.
 ├── Best Practice: Keep workers stateless.
@@ -74,8 +85,7 @@ I'll summarize everything we've completed
 
 ---------------------------------------------------------
 
-
-### kubelet
+✅ kubelet
 ├── Concept: Kubernetes agent running on every worker node.
 ├── Production: Communicates with the API Server.
 ├── Best Practice: kubelet should never be stopped manually.
@@ -83,8 +93,7 @@ I'll summarize everything we've completed
 
 ---------------------------------------------------------
 
-
-### kube-proxy
+✅ kube-proxy
 ├── Concept: Implements Kubernetes Services networking.
 ├── Production: Maintains iptables/IPVS rules.
 ├── Best Practice: Usually managed automatically.
@@ -92,8 +101,7 @@ I'll summarize everything we've completed
 
 ---------------------------------------------------------
 
-
-### Container Runtime
+✅ Container Runtime
 ├── Concept: Runs containers (containerd, CRI-O, etc.).
 ├── Production: containerd is most commonly used today.
 ├── Best Practice: Docker Engine is no longer required.
@@ -102,43 +110,55 @@ I'll summarize everything we've completed
 Understanding: 100%
 
 Module 2 - Workloads ✅
-
+```
 
 # Module 2 - Workloads ✅
 
-## Topics Covered
+``` text
 
 
-### Pod
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
+
+✅ Pod
 ├── Concept: Smallest deployable unit in Kubernetes containing one or more containers.
 ├── Production: Usually one container per Pod (sidecars are common exceptions).
 ├── Best Practice: Never create standalone Pods in production.
 ├── Interview Tip: Pods are ephemeral; Deployments manage their lifecycle.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Should we create Pods directly?
     A. No. Use Deployments, StatefulSets, DaemonSets or Jobs.
 
 ---------------------------------------------------------
 
-
-### ReplicaSet
+✅ ReplicaSet
 ├── Concept: Maintains the desired number of Pod replicas.
 ├── Production: Automatically created and managed by Deployments.
 ├── Best Practice: Rarely create ReplicaSets manually.
 ├── Interview Tip: ReplicaSet only manages Pod count.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Do we create ReplicaSets manually?
     A. Usually no. Deployments create and manage them.
 
 ---------------------------------------------------------
 
-
-### Deployment
+✅ Deployment
 ├── Concept: Manages ReplicaSets and provides rolling updates.
 ├── Production: Most stateless applications run as Deployments.
 ├── Best Practice: Always use RollingUpdate strategy.
 ├── Interview Tip: Deployment → ReplicaSet → Pods.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. If a Pod dies, who recreates it?
     A. ReplicaSet recreates the Pod; Deployment manages the ReplicaSet.
 
@@ -147,25 +167,29 @@ Module 2 - Workloads ✅
 
 ---------------------------------------------------------
 
-
-### DaemonSet
+✅ DaemonSet
 ├── Concept: Ensures one Pod runs on every selected node.
 ├── Production: Used for monitoring, logging and networking agents.
 ├── Best Practice: Use Node Selectors/Taints if only certain nodes require it.
 ├── Interview Tip: New node joins → DaemonSet automatically schedules a Pod.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Give real examples?
     A. Prometheus Node Exporter, Fluent Bit, Calico, Cilium, Security Agents.
 
 ---------------------------------------------------------
 
-
-### StatefulSet
+✅ StatefulSet
 ├── Concept: Manages stateful applications with stable identity and storage.
 ├── Production: Used for databases and clustered applications.
 ├── Best Practice: Use PersistentVolumes with StatefulSets.
 ├── Interview Tip: Pods are created and deleted in order.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why not Deployment for PostgreSQL?
     A. Deployment Pods are interchangeable. Databases require stable identity and persistent storage.
 
@@ -174,31 +198,38 @@ Module 2 - Workloads ✅
 
 ---------------------------------------------------------
 
-
-### Job
+✅ Job
 ├── Concept: Runs a task until it completes successfully.
 ├── Production: Database migrations, backups, data imports.
 ├── Best Practice: Jobs should be idempotent whenever possible.
 ├── Interview Tip: Job finishes once the task completes successfully.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens if the Pod fails?
     A. Kubernetes retries until the Job succeeds or reaches the backoff limit.
 
 ---------------------------------------------------------
 
-
-### CronJob
+✅ CronJob
 ├── Concept: Runs Jobs on a schedule.
 ├── Production: Nightly backups, cleanup tasks, reports.
 ├── Best Practice: Configure concurrencyPolicy to avoid overlapping executions.
 ├── Interview Tip: CronJob creates Jobs; Jobs create Pods.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does CronJob run Pods directly?
     A. No. CronJob creates a Job, which then creates the Pod.
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Resource     | Primary Purpose                           |
 |--------------|-------------------------------------------|
@@ -210,7 +241,10 @@ Quick Comparison
 | Job          | One-time task                             |
 | CronJob      | Scheduled task                            |
 
+
+
 Production Best Practices
+
 
 ✔ Don't create standalone Pods.
 ✔ Use Deployments for stateless applications.
@@ -219,7 +253,10 @@ Production Best Practices
 ✔ Use Jobs for one-time operations.
 ✔ Use CronJobs for scheduled operations.
 
+
+
 Memory Trick
+
 
 Pod
     │
@@ -244,121 +281,148 @@ One Pod per Node
 Understanding: 100%
 
 Understanding: 100%
-
+```
 
 # Module 3 - Scheduling ✅
 
-## Topics Covered
+``` text
 
 
-### Labels
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
+
+✅ Labels
 ├── Concept: Key-value pairs attached to Kubernetes objects.
 ├── Production: Used for application grouping, environment, team and version.
 ├── Best Practice: Use consistent labeling across all workloads.
 ├── Interview Tip: Labels identify objects; Selectors find them.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Can Labels be changed after deployment?
     A. Yes. Labels are mutable and can be updated.
 
 ---------------------------------------------------------
 
-
-### Selectors
+✅ Selectors
 ├── Concept: Used to select Kubernetes objects based on Labels.
 ├── Production: Services and ReplicaSets use Selectors to find Pods.
 ├── Best Practice: Keep Labels and Selectors consistent.
 ├── Interview Tip: Wrong Selector = No Pods matched.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Service know Pod IPs directly?
     A. No. Service uses Label Selectors to discover Pods.
 
 ---------------------------------------------------------
 
-
-### NodeSelector
+✅ NodeSelector
 ├── Concept: Schedules Pods only onto nodes with matching Labels.
 ├── Production: GPU nodes, SSD nodes, Database nodes.
 ├── Best Practice: Use for simple scheduling requirements.
 ├── Interview Tip: Exact label match required.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens if no matching node exists?
     A. Pod remains Pending.
 
 ---------------------------------------------------------
 
-
-### Node Affinity
+✅ Node Affinity
 ├── Concept: Advanced scheduling based on node labels.
 ├── Production: Preferred or required node placement.
 ├── Best Practice: Prefer "preferredDuringScheduling" when possible.
 ├── Interview Tip: More flexible than NodeSelector.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Difference between NodeSelector and Node Affinity?
     A. NodeSelector supports exact matching only. Node Affinity supports expressions and preferred rules.
 
 ---------------------------------------------------------
 
-
-### Pod Affinity
+✅ Pod Affinity
 ├── Concept: Schedule Pods close to other Pods.
 ├── Production: Microservices with heavy communication.
 ├── Best Practice: Use when low latency between services is required.
 ├── Interview Tip: Improves communication performance.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Example?
     A. Web Pod prefers same node/zone as Cache Pod.
 
 ---------------------------------------------------------
 
-
-### Pod Anti-Affinity
+✅ Pod Anti-Affinity
 ├── Concept: Prevent Pods from running together.
 ├── Production: High Availability.
 ├── Best Practice: Spread replicas across nodes or zones.
 ├── Interview Tip: Prevents a single node failure from affecting all replicas.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why use Anti-Affinity?
     A. To improve fault tolerance and availability.
 
 ---------------------------------------------------------
 
-
-### Taints
+✅ Taints
 ├── Concept: Prevent Pods from being scheduled onto specific nodes.
 ├── Production: Dedicated GPU, Database or Infrastructure nodes.
 ├── Best Practice: Taint special-purpose nodes.
 ├── Interview Tip: Taints repel Pods.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens if a Pod has no matching Toleration?
     A. Scheduler will not place it on the tainted node.
 
 ---------------------------------------------------------
 
-
-### Tolerations
+✅ Tolerations
 ├── Concept: Allow Pods to run on tainted nodes.
 ├── Production: Monitoring, Infrastructure and GPU workloads.
 ├── Best Practice: Add only when necessary.
 ├── Interview Tip: Toleration allows scheduling but doesn't force it.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Toleration guarantee scheduling?
     A. No. It only removes the restriction imposed by the Taint.
 
 ---------------------------------------------------------
 
-
-### PriorityClass
+✅ PriorityClass
 ├── Concept: Assigns scheduling priority to Pods.
 ├── Production: Critical system Pods receive higher priority.
 ├── Best Practice: Reserve highest priorities for platform components.
 ├── Interview Tip: Higher priority Pods can preempt lower priority Pods.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens if the cluster is full?
     A. Lower priority Pods may be preempted to schedule higher priority Pods.
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Resource          | Primary Purpose                          |
 |-------------------|------------------------------------------|
@@ -372,7 +436,10 @@ Quick Comparison
 | Tolerations       | Allow Pods onto Tainted Nodes            |
 | PriorityClass     | Decide Scheduling Priority               |
 
+
+
 Production Best Practices
+
 
 ✔ Label everything consistently.
 ✔ Use Node Affinity instead of NodeSelector for flexibility.
@@ -381,7 +448,10 @@ Production Best Practices
 ✔ Give critical platform Pods higher PriorityClass.
 ✔ Don't overuse required affinity rules.
 
+
+
 Memory Trick
+
 
 Labels
      │
@@ -404,26 +474,33 @@ PriorityClass
 Preemption
 
 Understanding: 95%
-
+```
 
 # Module 4 - Networking ✅
 
-## Topics Covered
+``` text
 
 
-### CNI (Container Network Interface)
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
+
+✅ CNI (Container Network Interface)
 ├── Concept: Standard interface that provides Pod networking.
 ├── Production: Every cluster requires one CNI plugin.
 ├── Best Practice: Use Calico or Cilium for production.
 ├── Interview Tip: Kubernetes provides the interface (CNI), plugins provide networking.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Rancher provide CNI?
     A. No. Rancher installs/configures a CNI plugin (Calico, Cilium, etc.).
 
 ---------------------------------------------------------
 
-
-### Calico
+✅ Calico
 ├── Concept: CNI plugin providing networking and NetworkPolicies.
 ├── Production: One of the most widely used enterprise CNIs.
 ├── Best Practice: Use when strong NetworkPolicy support is required.
@@ -431,8 +508,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### Cilium
+✅ Cilium
 ├── Concept: eBPF-based CNI with advanced networking and security.
 ├── Production: High-performance networking and observability.
 ├── Best Practice: Preferred for modern Kubernetes platforms.
@@ -440,8 +516,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### Flannel
+✅ Flannel
 ├── Concept: Lightweight CNI providing Pod networking only.
 ├── Production: Common in small or learning environments.
 ├── Best Practice: Pair with another solution if NetworkPolicies are needed.
@@ -449,32 +524,35 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### Pod Networking
+✅ Pod Networking
 ├── Concept: Every Pod receives its own IP address.
 ├── Production: Pods communicate directly without NAT.
 ├── Best Practice: Never assume Pod IPs are permanent.
 ├── Interview Tip: Pod IP changes when Pod is recreated.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Can Pods communicate directly?
     A. Yes. Kubernetes networking allows Pod-to-Pod communication.
 
 ---------------------------------------------------------
 
-
-### ClusterIP
+✅ ClusterIP
 ├── Concept: Internal Service accessible only inside the cluster.
 ├── Production: Default Service type.
 ├── Best Practice: Use for internal microservice communication.
 ├── Interview Tip: Not accessible outside the cluster.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Is ClusterIP reachable from outside?
     A. No. Only from within the cluster.
 
 ---------------------------------------------------------
 
-
-### NodePort
+✅ NodePort
 ├── Concept: Exposes Service on a static port of every node.
 ├── Production: Mostly used for testing or behind external load balancers.
 ├── Best Practice: Avoid exposing production applications directly.
@@ -482,56 +560,63 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### LoadBalancer
+✅ LoadBalancer
 ├── Concept: Creates an external cloud load balancer.
 ├── Production: AWS ALB/NLB, Azure Load Balancer, GCP Load Balancer.
 ├── Best Practice: Preferred cloud-native external access.
 ├── Interview Tip: Requires cloud provider integration.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Who creates the LoadBalancer?
     A. Cloud Controller Manager communicates with the cloud provider.
 
 ---------------------------------------------------------
 
-
-### Ingress
+✅ Ingress
 ├── Concept: HTTP/HTTPS routing for multiple Services.
 ├── Production: Single entry point for applications.
 ├── Best Practice: Use Ingress instead of multiple LoadBalancers.
 ├── Interview Tip: Ingress requires an Ingress Controller.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Ingress route traffic by itself?
     A. No. The Ingress Controller implements the routing.
 
 ---------------------------------------------------------
 
-
-### Ingress Controller
+✅ Ingress Controller
 ├── Concept: Watches Ingress resources and configures routing.
 ├── Production: NGINX, Traefik, HAProxy, AWS Load Balancer Controller.
 ├── Best Practice: Deploy at least two replicas for HA.
 ├── Interview Tip: Similar to a Kubernetes Operator.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Who develops the Ingress Controller?
     A. Platform team installs and manages it; application teams only create Ingress resources.
 
 ---------------------------------------------------------
 
-
-### CoreDNS
+✅ CoreDNS
 ├── Concept: Kubernetes DNS server.
 ├── Production: Resolves Service names to ClusterIPs.
 ├── Best Practice: Applications should use Service names instead of Pod IPs.
 ├── Interview Tip: CoreDNS replaces kube-dns.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. How does payment.default resolve?
     A. CoreDNS returns the ClusterIP of the Service.
 
 ---------------------------------------------------------
 
-
-### Endpoints
+✅ Endpoints
 ├── Concept: Stores the Pod IPs behind a Service.
 ├── Production: Automatically managed by Kubernetes.
 ├── Best Practice: Never create manually.
@@ -539,8 +624,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### EndpointSlices
+✅ EndpointSlices
 ├── Concept: Scalable replacement for Endpoints.
 ├── Production: Used automatically in large clusters.
 ├── Best Practice: Required for thousands of Pods.
@@ -548,19 +632,24 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### NetworkPolicies
+✅ NetworkPolicies
 ├── Concept: Firewall rules for Pod-to-Pod communication.
 ├── Production: Implements Zero Trust networking.
 ├── Best Practice: Default deny, explicitly allow required traffic.
 ├── Interview Tip: Requires a CNI supporting NetworkPolicies.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Kubernetes enforce NetworkPolicies?
     A. No. The CNI plugin (Calico/Cilium) enforces them.
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Resource            | Primary Purpose                       |
 |--------------------|----------------------------------------|
@@ -578,7 +667,10 @@ Quick Comparison
 | EndpointSlices     | Scalable Endpoints                     |
 | NetworkPolicies    | Pod Firewall                           |
 
+
+
 Production Best Practices
+
 
 ✔ Use ClusterIP for internal services.
 ✔ Use Ingress instead of multiple LoadBalancers.
@@ -589,7 +681,10 @@ Production Best Practices
 ✔ Deploy multiple Ingress Controller replicas.
 ✔ Monitor CoreDNS health.
 
+
+
 Memory Trick
+
 
 Internet
      │
@@ -616,13 +711,19 @@ NetworkPolicy
 Traffic Control
 
 Understanding: 98%
+```
 
 # Module 5 - Storage ✅
 
-## Topics Covered
+``` text
 
 
-### Volumes
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
+
+✅ Volumes
 ├── Concept: Temporary storage attached to a Pod.
 ├── Production: Used for sharing data between containers.
 ├── Best Practice: Use only for ephemeral data.
@@ -630,20 +731,21 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### emptyDir
+✅ emptyDir
 ├── Concept: Temporary storage created when Pod starts.
 ├── Production: Cache, scratch space, shared files.
 ├── Best Practice: Never store important data.
 ├── Interview Tip: Removed when Pod is deleted.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does emptyDir survive Pod restart?
     A. Container restart = Yes. Pod recreation = No.
 
 ---------------------------------------------------------
 
-
-### hostPath
+✅ hostPath
 ├── Concept: Mounts a directory from the worker node.
 ├── Production: Mostly for system/infrastructure Pods.
 ├── Best Practice: Avoid for application workloads.
@@ -651,8 +753,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### ConfigMap Volume
+✅ ConfigMap Volume
 ├── Concept: Mount configuration files into Pods.
 ├── Production: Application configs.
 ├── Best Practice: Store configuration only.
@@ -660,8 +761,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Secret Volume
+✅ Secret Volume
 ├── Concept: Mount Kubernetes Secrets as files.
 ├── Production: Certificates, passwords, API keys.
 ├── Best Practice: Prefer External Secrets/Vault for production.
@@ -669,8 +769,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### PersistentVolume (PV)
+✅ PersistentVolume (PV)
 ├── Concept: Actual storage resource.
 ├── Production: Database and application data.
 ├── Best Practice: Provision dynamically using StorageClass.
@@ -678,44 +777,49 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### PersistentVolumeClaim (PVC)
+✅ PersistentVolumeClaim (PVC)
 ├── Concept: Request for storage.
 ├── Production: Applications consume PVCs instead of PVs.
 ├── Best Practice: Applications should never reference PV directly.
 ├── Interview Tip: Namespace resource.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Pod mount PV directly?
     A. No. Pod mounts PVC, PVC binds to PV.
 
 ---------------------------------------------------------
 
-
-### StorageClass
+✅ StorageClass
 ├── Concept: Defines how storage is dynamically provisioned.
 ├── Production: SSD, HDD, Premium, GP3, etc.
 ├── Best Practice: Make one StorageClass default.
 ├── Interview Tip: Enables Dynamic Provisioning.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Static vs Dynamic Provisioning?
     A. Static = Admin creates PV. Dynamic = Kubernetes creates PV automatically.
 
 ---------------------------------------------------------
 
-
-### CSI Driver (Container Storage Interface)
+✅ CSI Driver (Container Storage Interface)
 ├── Concept: Standard interface between Kubernetes and storage.
 ├── Production: AWS EBS, Azure Disk, vSphere, Longhorn, Ceph.
 ├── Best Practice: Use vendor-supported CSI drivers.
 ├── Interview Tip: CSI is for Storage, CNI is for Networking.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Rancher provide CSI?
     A. No. Rancher manages clusters; storage backend provides the CSI driver.
 
 ---------------------------------------------------------
 
-
-### Static Provisioning
+✅ Static Provisioning
 ├── Concept: Administrator manually creates PVs.
 ├── Production: Legacy environments.
 ├── Best Practice: Use only when required.
@@ -723,8 +827,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Dynamic Provisioning
+✅ Dynamic Provisioning
 ├── Concept: Kubernetes automatically creates PVs.
 ├── Production: Most modern clusters.
 ├── Best Practice: Use StorageClasses.
@@ -732,47 +835,52 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### StatefulSet Storage
+✅ StatefulSet Storage
 ├── Concept: Each Pod receives its own PersistentVolume.
 ├── Production: PostgreSQL, MySQL, MongoDB.
 ├── Best Practice: Never share database volumes.
 ├── Interview Tip: Stable identity + Stable storage.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why StatefulSet instead of Deployment?
     A. Databases require stable hostname and dedicated storage.
 
 ---------------------------------------------------------
 
-
-### Access Modes
+✅ Access Modes
 ├── ReadWriteOnce (RWO)
 ├── ReadOnlyMany (ROX)
 ├── ReadWriteMany (RWX)
 ├── ReadWriteOncePod (RWOP)
 ├── Production: Choose based on storage backend.
 ├── Interview Tip: Not every storage supports RWX.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does AWS EBS support RWX?
     A. No. EBS supports RWO. RWX typically requires EFS, CephFS, NFS, etc.
 
 ---------------------------------------------------------
 
-
-### Reclaim Policy
+✅ Reclaim Policy
 ├── Retain
 ├── Delete
 ├── Recycle (Deprecated)
 ├── Production: Retain for important databases.
 ├── Interview Tip: Controls what happens after PVC deletion.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Which policy is safest for production databases?
     A. Retain.
 
 ---------------------------------------------------------
 
-
-### Volume Expansion
+✅ Volume Expansion
 ├── Concept: Increase PVC size without recreating it.
 ├── Production: StorageClass must allow expansion.
 ├── Best Practice: Verify application filesystem expansion.
@@ -780,8 +888,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Volume Binding Mode
+✅ Volume Binding Mode
 ├── Immediate
 ├── WaitForFirstConsumer
 ├── Production: WaitForFirstConsumer avoids wrong zone allocation.
@@ -789,8 +896,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### VolumeSnapshot
+✅ VolumeSnapshot
 ├── Concept: Point-in-time snapshot of a PersistentVolume.
 ├── Production: Backup and Disaster Recovery.
 ├── Best Practice: Integrate with Velero.
@@ -798,24 +904,21 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### VolumeSnapshotClass
+✅ VolumeSnapshotClass
 ├── Concept: Defines snapshot provider and parameters.
 ├── Production: Maps to CSI Driver.
 ├── Interview Tip: Similar to StorageClass but for snapshots.
 
 ---------------------------------------------------------
 
-
-### VolumeSnapshotContent
+✅ VolumeSnapshotContent
 ├── Concept: Represents the actual snapshot in the storage backend.
 ├── Production: Managed automatically.
 ├── Interview Tip: Similar relationship as PV ↔ PVC.
 
 ---------------------------------------------------------
 
-
-### Restore
+✅ Restore
 ├── Concept: Create a new PVC from a VolumeSnapshot.
 ├── Production: Disaster Recovery.
 ├── Best Practice: Test restores regularly.
@@ -823,7 +926,10 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Resource               | Purpose                              |
 |------------------------|--------------------------------------|
@@ -841,7 +947,10 @@ Quick Comparison
 | VolumeSnapshotClass    | Snapshot Configuration               |
 | VolumeSnapshotContent  | Actual Snapshot                      |
 
+
+
 Production Best Practices
+
 
 ✔ Use Dynamic Provisioning.
 ✔ Never mount PV directly.
@@ -852,7 +961,10 @@ Production Best Practices
 ✔ Monitor storage capacity.
 ✔ Use StorageClasses consistently.
 
+
+
 Memory Trick
+
 
 Pod
  │
@@ -872,7 +984,10 @@ VolumeSnapshot
  │
 Restore
 
+
+
 Questions I Asked
+
 
 Q. Does Rancher provide CSI?
 A. No. Storage backend provides the CSI Driver.
@@ -895,16 +1010,21 @@ A.
 • Database Native Backups
 
 Understanding: 98%
-
+```
 
 # Module 6 - Security ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Users
+✅ Users
 ├── Concept: External identities authenticated outside Kubernetes.
 ├── Production: Admins, DevOps Engineers, CI/CD Systems.
 ├── Best Practice: Integrate with OIDC/LDAP instead of certificates.
@@ -912,8 +1032,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Groups
+✅ Groups
 ├── Concept: Collection of Users.
 ├── Production: DevOps, Developers, QA, Security Teams.
 ├── Best Practice: Assign RBAC to Groups instead of individual Users.
@@ -921,20 +1040,21 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### ServiceAccount
+✅ ServiceAccount
 ├── Concept: Identity used by Pods.
 ├── Production: Every application should use its own ServiceAccount.
 ├── Best Practice: Never use default ServiceAccount in production.
 ├── Interview Tip: Pods authenticate using ServiceAccounts.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Difference between User and ServiceAccount?
     A. Users are for humans; ServiceAccounts are for Pods.
 
 ---------------------------------------------------------
 
-
-### Authentication
+✅ Authentication
 ├── Concept: Verifies identity.
 ├── Production: OIDC, Certificates, ServiceAccount Tokens.
 ├── Best Practice: Use OIDC for enterprise authentication.
@@ -942,8 +1062,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### OIDC
+✅ OIDC
 ├── Concept: External identity provider integration.
 ├── Production: Azure AD, Okta, Keycloak, Google.
 ├── Best Practice: Centralize authentication.
@@ -951,8 +1070,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Certificates
+✅ Certificates
 ├── Concept: TLS certificates authenticate Kubernetes components.
 ├── Production: API Server, kubelet, etcd.
 ├── Best Practice: Rotate certificates before expiration.
@@ -960,20 +1078,21 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### RBAC
+✅ RBAC
 ├── Concept: Controls permissions inside Kubernetes.
 ├── Production: Least Privilege Access.
 ├── Best Practice: Never grant cluster-admin unnecessarily.
 ├── Interview Tip: Authorization answers "What can you do?"
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Authentication vs Authorization?
     A. Authentication verifies identity. RBAC authorizes actions.
 
 ---------------------------------------------------------
 
-
-### Role
+✅ Role
 ├── Concept: Namespace-level permissions.
 ├── Production: Application namespace access.
 ├── Best Practice: Prefer Role over ClusterRole when possible.
@@ -981,8 +1100,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### ClusterRole
+✅ ClusterRole
 ├── Concept: Cluster-wide permissions.
 ├── Production: Platform components and administrators.
 ├── Best Practice: Grant only when cluster-wide access is required.
@@ -990,8 +1108,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### RoleBinding
+✅ RoleBinding
 ├── Concept: Assigns Role to User, Group or ServiceAccount.
 ├── Production: Namespace access.
 ├── Best Practice: Use Groups instead of individual Users.
@@ -999,8 +1116,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### ClusterRoleBinding
+✅ ClusterRoleBinding
 ├── Concept: Assigns ClusterRole cluster-wide.
 ├── Production: Platform administrators.
 ├── Best Practice: Limit usage carefully.
@@ -1008,8 +1124,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Admission Controllers
+✅ Admission Controllers
 ├── Concept: Validate or modify requests before persistence.
 ├── Production: Policy enforcement.
 ├── Best Practice: Enable required admission plugins.
@@ -1017,8 +1132,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Mutating Admission
+✅ Mutating Admission
 ├── Concept: Modifies Kubernetes objects.
 ├── Production: Inject sidecars, labels, annotations.
 ├── Best Practice: Keep mutations predictable.
@@ -1026,8 +1140,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Validating Admission
+✅ Validating Admission
 ├── Concept: Accepts or rejects requests.
 ├── Production: Security and compliance.
 ├── Best Practice: Reject insecure workloads.
@@ -1035,8 +1148,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Pod Security Admission
+✅ Pod Security Admission
 ├── Concept: Enforces Pod security standards.
 ├── Production: Restricted, Baseline, Privileged.
 ├── Best Practice: Use Restricted policy whenever possible.
@@ -1044,20 +1156,21 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### SecurityContext
+✅ SecurityContext
 ├── Concept: Defines container security settings.
 ├── Production: Non-root containers.
 ├── Best Practice: Drop unnecessary Linux capabilities.
 ├── Interview Tip: First place to harden workloads.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why runAsNonRoot?
     A. Reduces privilege escalation risk.
 
 ---------------------------------------------------------
 
-
-### Privileged Containers
+✅ Privileged Containers
 ├── Concept: Containers with host-level privileges.
 ├── Production: Only infrastructure components.
 ├── Best Practice: Avoid unless absolutely necessary.
@@ -1065,8 +1178,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Linux Capabilities
+✅ Linux Capabilities
 ├── Concept: Fine-grained Linux privileges.
 ├── Production: Grant only required capabilities.
 ├── Best Practice: Drop ALL, then add only what is needed.
@@ -1074,8 +1186,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### readOnlyRootFilesystem
+✅ readOnlyRootFilesystem
 ├── Concept: Makes container filesystem read-only.
 ├── Production: Prevents runtime modifications.
 ├── Best Practice: Enable wherever possible.
@@ -1083,44 +1194,49 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Kubernetes Secrets
+✅ Kubernetes Secrets
 ├── Concept: Stores sensitive information.
 ├── Production: Small secrets only.
 ├── Best Practice: Avoid storing production secrets directly.
 ├── Interview Tip: Base64 encoding is NOT encryption.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Are Kubernetes Secrets secure?
     A. Better than ConfigMaps, but use Vault for production.
 
 ---------------------------------------------------------
 
-
-### Vault
+✅ Vault
 ├── Concept: External Secret Management.
 ├── Production: Dynamic credentials and secret rotation.
 ├── Best Practice: Never hardcode production credentials.
 ├── Interview Tip: Industry standard for enterprise secrets.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why use Vault if Kubernetes has Secrets?
     A. Vault provides encryption, auditing, rotation and dynamic secrets.
 
 ---------------------------------------------------------
 
-
-### External Secrets Operator
+✅ External Secrets Operator
 ├── Concept: Synchronizes external secrets into Kubernetes.
 ├── Production: Vault, AWS Secrets Manager, Azure Key Vault.
 ├── Best Practice: Keep Kubernetes Secrets synchronized automatically.
 ├── Interview Tip: Kubernetes never stores master credentials.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does ESO continuously sync?
     A. Yes. Secrets are automatically refreshed.
 
 ---------------------------------------------------------
 
-
-### Vault Agent
+✅ Vault Agent
 ├── Concept: Sidecar that retrieves secrets directly from Vault.
 ├── Production: Dynamic secret injection.
 ├── Best Practice: Avoid application code talking directly to Vault.
@@ -1128,20 +1244,21 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Secrets Store CSI Driver
+✅ Secrets Store CSI Driver
 ├── Concept: Mounts external secrets directly into Pods.
 ├── Production: Vault, Azure Key Vault, AWS Secrets Manager.
 ├── Best Practice: Avoid persisting secrets inside Kubernetes.
 ├── Interview Tip: Secrets are mounted as files.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Difference between ESO and CSI Driver?
     A. ESO creates Kubernetes Secrets. CSI mounts secrets directly into Pods.
 
 ---------------------------------------------------------
 
-
-### Secret Rotation
+✅ Secret Rotation
 ├── Concept: Automatically updates credentials.
 ├── Production: Database passwords, API keys, certificates.
 ├── Best Practice: Rotate secrets regularly.
@@ -1149,8 +1266,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Image Security
+✅ Image Security
 ├── Concept: Secure container images.
 ├── Production: Scan every image before deployment.
 ├── Best Practice: Use immutable image tags.
@@ -1158,8 +1274,7 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
-
-### Audit Logs
+✅ Audit Logs
 ├── Concept: Records Kubernetes API activity.
 ├── Production: Security investigations and compliance.
 ├── Best Practice: Store logs centrally.
@@ -1167,7 +1282,10 @@ Understanding: 98%
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Component | Purpose |
 |-----------|---------|
@@ -1181,7 +1299,10 @@ Quick Comparison
 | SecurityContext | Container Security |
 | Audit Logs | API Tracking |
 
+
+
 Production Best Practices
+
 
 ✔ Use OIDC.
 ✔ Never use default ServiceAccount.
@@ -1193,7 +1314,10 @@ Production Best Practices
 ✔ Scan every container image.
 ✔ Enable Audit Logging.
 
+
+
 Memory Trick
+
 
 Authentication
         │
@@ -1215,7 +1339,10 @@ CSI Secret Store
         │
 Mounted Secret
 
+
+
 Questions I Asked
+
 
 Q. Vault vs Kubernetes Secrets?
 A. Vault manages secrets. Kubernetes consumes them.
@@ -1232,28 +1359,35 @@ Q. Why Secret Rotation?
 A. Limits impact of credential leaks.
 
 Understanding: 95%
-
+```
 
 # Module 7 - Resource Management ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### CPU
+✅ CPU
 ├── Concept: CPU is measured in cores (1000m = 1 CPU).
 ├── Production: Scheduler uses CPU Requests for scheduling.
 ├── Best Practice: Always define CPU Requests.
 ├── Interview Tip: CPU Limit exceeded = Throttling, NOT killing.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens if CPU exceeds Limit?
     A. Linux throttles CPU usage. Container keeps running.
 
 ---------------------------------------------------------
 
-
-### CPU Requests
+✅ CPU Requests
 ├── Concept: Minimum CPU guaranteed for a Pod.
 ├── Production: Used by Scheduler for node placement.
 ├── Best Practice: Set realistic Requests based on usage.
@@ -1261,8 +1395,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### CPU Limits
+✅ CPU Limits
 ├── Concept: Maximum CPU a container can consume.
 ├── Production: Prevents noisy neighbor issues.
 ├── Best Practice: Don't set Limits too low.
@@ -1270,20 +1403,21 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### CPU Throttling
+✅ CPU Throttling
 ├── Concept: Linux CFS limits CPU usage.
 ├── Production: High latency often indicates throttling.
 ├── Best Practice: Monitor throttled containers.
 ├── Interview Tip: CPU throttling ≠ Crash.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does the application stop?
     A. No. It continues with reduced CPU time.
 
 ---------------------------------------------------------
 
-
-### Memory
+✅ Memory
 ├── Concept: RAM allocated to a container.
 ├── Production: Memory cannot be throttled.
 ├── Best Practice: Define Requests and Limits.
@@ -1291,8 +1425,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### Memory Requests
+✅ Memory Requests
 ├── Concept: Guaranteed memory for scheduling.
 ├── Production: Scheduler uses Requests only.
 ├── Best Practice: Set based on normal workload.
@@ -1300,8 +1433,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### Memory Limits
+✅ Memory Limits
 ├── Concept: Maximum memory allowed.
 ├── Production: Prevents one Pod exhausting node memory.
 ├── Best Practice: Avoid unlimited memory.
@@ -1309,37 +1441,43 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### OOMKilled
+✅ OOMKilled
 ├── Concept: Container exceeded Memory Limit.
 ├── Production: Container restarted by Kubernetes.
 ├── Best Practice: Increase memory or optimize application.
 ├── Interview Tip: OOMKilled affects only that container.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens when memory exceeds Limit?
     A. Kernel kills the container immediately.
 
 ---------------------------------------------------------
 
-
-### Scheduler Decisions
+✅ Scheduler Decisions
 ├── Concept: Scheduler considers Requests, not Limits.
 ├── Production: Requests determine node placement.
 ├── Best Practice: Never leave Requests undefined.
 ├── Interview Tip: Scheduler ignores actual runtime usage.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Scheduler use Limits?
     A. No. Only Requests.
 
 ---------------------------------------------------------
 
-
-### Allocatable Resources
+✅ Allocatable Resources
 ├── Concept: Resources available after Kubernetes reserves system resources.
 ├── Production: kubeReserved + systemReserved reduce available capacity.
 ├── Best Practice: Reserve resources for system components.
 ├── Interview Tip: Node Capacity ≠ Allocatable.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Kubernetes reserve resources by default?
     A. Yes. System components consume part of node resources.
 
@@ -1348,8 +1486,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### Pending Pods
+✅ Pending Pods
 ├── Concept: Pod waiting for scheduling.
 ├── Production: Usually insufficient CPU, Memory or constraints.
 ├── Best Practice: Check Events first.
@@ -1357,8 +1494,7 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### QoS Classes
+✅ QoS Classes
 ├── Guaranteed
 │   ├── Requests = Limits
 │   ├── Highest Priority
@@ -1377,7 +1513,10 @@ Understanding: 95%
 ├── Production: Use Guaranteed for critical workloads.
 ├── Best Practice: Avoid BestEffort in production.
 ├── Interview Tip: QoS affects Eviction order.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. If LimitRange sets Requests only, what QoS?
     A. Burstable.
 
@@ -1386,13 +1525,15 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### Evictions
+✅ Evictions
 ├── Concept: Kubernetes removes Pods during node resource pressure.
 ├── Production: Protects node stability.
 ├── Best Practice: Define Requests to avoid early eviction.
 ├── Interview Tip: Different from OOMKilled.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. OOMKilled vs Eviction?
     A.
       OOMKilled → Container exceeded its Memory Limit.
@@ -1408,25 +1549,29 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
-
-### ResourceQuota
+✅ ResourceQuota
 ├── Concept: Limits total namespace resource consumption.
 ├── Production: Prevents one team consuming all cluster resources.
 ├── Best Practice: Apply per namespace.
 ├── Interview Tip: Namespace-level control.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Production environments use ResourceQuota?
     A. Yes. Almost every multi-team cluster.
 
 ---------------------------------------------------------
 
-
-### LimitRange
+✅ LimitRange
 ├── Concept: Sets default/min/max Requests and Limits.
 ├── Production: Prevents Pods without resource definitions.
 ├── Best Practice: Configure with ResourceQuota.
 ├── Interview Tip: Namespace-level defaults.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Best practice?
     A.
       ✔ Requests
@@ -1436,7 +1581,10 @@ Understanding: 95%
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Component | Purpose |
 |-----------|---------|
@@ -1451,7 +1599,10 @@ Quick Comparison
 | BestEffort | Lowest QoS |
 | Eviction | Node Protection |
 
+
+
 Production Best Practices
+
 
 ✔ Always define Requests.
 ✔ Define Memory Limits.
@@ -1463,7 +1614,10 @@ Production Best Practices
 ✔ Monitor CPU Throttling.
 ✔ Keep Allocatable resources in mind.
 
+
+
 Memory Trick
+
 
 CPU
 │
@@ -1485,7 +1639,10 @@ Burstable
 ↓
 Guaranteed
 
+
+
 Questions I Asked
+
 
 Q. Does Kubernetes reserve resources for itself?
 A. Yes. kubeReserved/systemReserved reduce Allocatable resources.
@@ -1506,34 +1663,47 @@ Q. Is it best practice to use Requests, Limits, ResourceQuota and LimitRange tog
 A. Yes. That's the recommended production setup.
 
 Understanding: 100%
-
+```
 
 # Module 8 - Observability & Troubleshooting ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Logs
+✅ Logs
 ├── Concept: View application and container logs.
 ├── Production: First step during application failures.
 ├── Best Practice: Centralize logs (ELK/Loki/Splunk).
 ├── Interview Tip: Logs show application behavior, not cluster state.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Which should I check first?
     A. kubectl logs, then kubectl describe.
 
 ---------------------------------------------------------
 
-
-### kubectl logs
+✅ kubectl logs
 ├── Concept: Display container logs.
 ├── Production: Troubleshoot application issues.
 ├── Best Practice: Use --previous for crashed containers.
 ├── Interview Tip: Reads stdout/stderr only.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl logs <pod>
 kubectl logs -f <pod>
@@ -1541,8 +1711,7 @@ kubectl logs --previous <pod>
 
 ---------------------------------------------------------
 
-
-### Previous Logs
+✅ Previous Logs
 ├── Concept: Shows logs from previous container instance.
 ├── Production: Useful after CrashLoopBackOff.
 ├── Best Practice: Always check previous logs after restart.
@@ -1550,34 +1719,37 @@ kubectl logs --previous <pod>
 
 ---------------------------------------------------------
 
-
-### Multi-Container Pods
+✅ Multi-Container Pods
 ├── Concept: View logs from specific container.
 ├── Production: Sidecars (Istio, Vault Agent, FluentBit).
 ├── Best Practice: Always specify container name.
 ├── Interview Tip: kubectl defaults to first container.
 
+
+
 Useful Command
+
 
 kubectl logs <pod> -c <container>
 
 ---------------------------------------------------------
 
-
-### Describe
+✅ Describe
 ├── Concept: Displays Kubernetes object details and events.
 ├── Production: Check scheduling failures and probe failures.
 ├── Best Practice: Always inspect Events section.
 ├── Interview Tip: Most Kubernetes issues appear in Events.
 
+
+
 Useful Command
+
 
 kubectl describe pod <pod>
 
 ---------------------------------------------------------
 
-
-### Events
+✅ Events
 ├── Concept: Timeline of Kubernetes actions.
 ├── Production: Scheduling, OOMKilled, Probe Failures.
 ├── Best Practice: Check newest events first.
@@ -1585,14 +1757,19 @@ kubectl describe pod <pod>
 
 ---------------------------------------------------------
 
-
-### kubectl exec
+✅ kubectl exec
 ├── Concept: Execute commands inside a container.
 ├── Production: Validate connectivity and configuration.
 ├── Best Practice: Use for debugging only.
 ├── Interview Tip: Doesn't survive Pod recreation.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl exec -it <pod> -- sh
 
@@ -1600,8 +1777,7 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-
-### kubectl cp
+✅ kubectl cp
 ├── Concept: Copy files between local machine and Pod.
 ├── Production: Export logs, import configs.
 ├── Best Practice: Avoid modifying production Pods.
@@ -1609,8 +1785,7 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-
-### kubectl debug
+✅ kubectl debug
 ├── Concept: Launch temporary debugging container.
 ├── Production: Distroless container troubleshooting.
 ├── Best Practice: Remove debug containers after use.
@@ -1618,8 +1793,7 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-
-### Ephemeral Containers
+✅ Ephemeral Containers
 ├── Concept: Temporary containers used only for debugging.
 ├── Production: Troubleshoot minimal images.
 ├── Best Practice: Never use as permanent containers.
@@ -1627,13 +1801,15 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-
-### Metrics Server
+✅ Metrics Server
 ├── Concept: Collects CPU and Memory usage from kubelets.
 ├── Production: Required for HPA and kubectl top.
 ├── Best Practice: Install in every production cluster.
 ├── Interview Tip: Metrics Server stores short-term metrics only.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why does HPA need Metrics Server?
     A. Kubernetes doesn't calculate resource usage itself.
        Metrics Server provides CPU and Memory metrics.
@@ -1643,14 +1819,19 @@ kubectl exec -it <pod> -- bash
 
 ---------------------------------------------------------
 
-
-### kubectl top
+✅ kubectl top
 ├── Concept: Displays live CPU and Memory usage.
 ├── Production: Quick resource inspection.
 ├── Best Practice: Verify Metrics Server is running.
 ├── Interview Tip: Doesn't provide historical metrics.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl top pod
 
@@ -1658,32 +1839,35 @@ kubectl top node
 
 ---------------------------------------------------------
 
-
-### Liveness Probe
+✅ Liveness Probe
 ├── Concept: Checks whether application is alive.
 ├── Production: Restarts unhealthy containers.
 ├── Best Practice: Don't make probes too aggressive.
 ├── Interview Tip: Failure restarts container.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens if Liveness fails?
     A. kubelet restarts the container.
 
 ---------------------------------------------------------
 
-
-### Readiness Probe
+✅ Readiness Probe
 ├── Concept: Determines if Pod can receive traffic.
 ├── Production: Prevents traffic to unhealthy Pods.
 ├── Best Practice: Configure before exposing applications.
 ├── Interview Tip: Failure removes Pod from Service.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens if Readiness fails?
     A. Pod continues running but is removed from Service endpoints.
 
 ---------------------------------------------------------
 
-
-### Startup Probe
+✅ Startup Probe
 ├── Concept: Gives slow-starting applications time to initialize.
 ├── Production: Java/Spring Boot applications.
 ├── Best Practice: Use for long startup times.
@@ -1691,7 +1875,10 @@ kubectl top node
 
 ---------------------------------------------------------
 
+
+
 Probe Summary
+
 
 Startup
 ↓
@@ -1720,13 +1907,15 @@ Failure → Removed from Service
 
 ---------------------------------------------------------
 
-
-### Prometheus
+✅ Prometheus
 ├── Concept: Collects and stores time-series metrics.
 ├── Production: Monitoring and alerting.
 ├── Best Practice: Scrape only required metrics.
 ├── Interview Tip: Pull model, not Push.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. How does Prometheus collect metrics?
     A. Periodically scrapes HTTP /metrics endpoints.
 
@@ -1738,14 +1927,16 @@ Failure → Removed from Service
 
 ---------------------------------------------------------
 
-
-### Application Metrics
+✅ Application Metrics
 ├── Concept: Business and application-specific metrics.
 ├── Production: HTTP Requests, JVM, Cache, Queue Length.
 ├── Best Practice: Follow Prometheus metric naming.
 ├── Interview Tip: Exposed through /metrics endpoint.
 
+
+
 Examples
+
 
 http_requests_total
 
@@ -1755,8 +1946,7 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-
-### kubelet / cAdvisor Metrics
+✅ kubelet / cAdvisor Metrics
 ├── Concept: Container resource metrics.
 ├── Production: CPU, Memory, Network.
 ├── Best Practice: Used by Prometheus and Metrics Server.
@@ -1764,8 +1954,7 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-
-### Node Exporter
+✅ Node Exporter
 ├── Concept: OS-level metrics.
 ├── Production: CPU, Disk, Filesystem, Load Average.
 ├── Best Practice: Deploy as DaemonSet.
@@ -1773,8 +1962,7 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-
-### Grafana
+✅ Grafana
 ├── Concept: Visualizes Prometheus metrics.
 ├── Production: Dashboards for applications and clusters.
 ├── Best Practice: Build reusable dashboards.
@@ -1782,8 +1970,7 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-
-### Alertmanager
+✅ Alertmanager
 ├── Concept: Sends alerts from Prometheus.
 ├── Production: Slack, Teams, Email, PagerDuty.
 ├── Best Practice: Reduce alert fatigue.
@@ -1791,8 +1978,7 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
-
-### OpenTelemetry
+✅ OpenTelemetry
 ├── Concept: Standard framework for Metrics, Logs and Traces.
 ├── Production: Distributed tracing.
 ├── Best Practice: Instrument applications once.
@@ -1800,7 +1986,10 @@ jvm_memory_used_bytes
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Component | Purpose |
 |-----------|---------|
@@ -1814,7 +2003,10 @@ Quick Comparison
 | Node Exporter | OS Metrics |
 | OpenTelemetry | Metrics + Logs + Traces |
 
+
+
 Production Best Practices
+
 
 ✔ Check Events before logs.
 ✔ Configure Liveness & Readiness.
@@ -1825,7 +2017,10 @@ Production Best Practices
 ✔ Build Grafana dashboards.
 ✔ Alert on symptoms, not every metric.
 
+
+
 Memory Trick
+
 
 Logs
     │
@@ -1851,7 +2046,10 @@ Alertmanager
     │
 Notification
 
+
+
 Questions I Asked
+
 
 Q. Why does HPA require Metrics Server?
 A. Metrics Server provides CPU/Memory usage to HPA.
@@ -1872,21 +2070,29 @@ Q. What happens when Liveness fails?
 A. kubelet restarts the container.
 
 Understanding: 100%
-
+```
 
 # Module 9 - Autoscaling ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Horizontal Pod Autoscaler (HPA)
+✅ Horizontal Pod Autoscaler (HPA)
 ├── Concept: Automatically increases/decreases the number of Pods.
 ├── Production: Used for stateless applications.
 ├── Best Practice: Configure CPU/Memory Requests before enabling HPA.
 ├── Interview Tip: HPA scales Pods, NOT Nodes.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Kubernetes automatically scale Pods?
     A. No. HPA must be configured.
 
@@ -1895,20 +2101,21 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### Metrics Server
+✅ Metrics Server
 ├── Concept: Collects CPU and Memory usage from kubelets.
 ├── Production: Required by HPA.
 ├── Best Practice: Install on every cluster.
 ├── Interview Tip: Metrics Server stores short-term metrics only.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why does HPA need Metrics Server?
     A. Kubernetes doesn't calculate resource usage itself.
 
 ---------------------------------------------------------
 
-
-### HPA Algorithm
+✅ HPA Algorithm
 ├── Concept: Compares current utilization against target utilization.
 ├── Production: Continuously reconciles desired replica count.
 ├── Best Practice: Set realistic target utilization.
@@ -1932,8 +2139,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### CPU Scaling
+✅ CPU Scaling
 ├── Concept: Scale based on average CPU utilization.
 ├── Production: Most common HPA metric.
 ├── Best Practice: CPU Requests must be defined.
@@ -1941,8 +2147,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Memory Scaling
+✅ Memory Scaling
 ├── Concept: Scale based on average memory utilization.
 ├── Production: Useful for memory-intensive applications.
 ├── Best Practice: Monitor OOMKilled before enabling.
@@ -1950,8 +2155,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Custom Metrics
+✅ Custom Metrics
 ├── Concept: Scale using application metrics.
 ├── Production: Queue Length, HTTP Requests, Active Sessions.
 ├── Best Practice: Use Prometheus Adapter.
@@ -1959,8 +2163,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### External Metrics
+✅ External Metrics
 ├── Concept: Scale using external systems.
 ├── Production: Kafka, RabbitMQ, AWS SQS.
 ├── Best Practice: Usually implemented with KEDA.
@@ -1968,13 +2171,15 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Vertical Pod Autoscaler (VPA)
+✅ Vertical Pod Autoscaler (VPA)
 ├── Concept: Adjusts CPU and Memory Requests/Limits.
 ├── Production: Best for long-running workloads.
 ├── Best Practice: Start with Recommendation Mode.
 ├── Interview Tip: VPA changes Pod size, not Pod count.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What happens after VPA changes resources?
     A. Existing Pod is recreated (depending on mode).
 
@@ -1984,8 +2189,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Recommendation Mode
+✅ Recommendation Mode
 ├── Concept: Suggests optimal CPU/Memory.
 ├── Production: Most commonly used mode.
 ├── Best Practice: Review recommendations before applying.
@@ -1993,8 +2197,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Auto Mode
+✅ Auto Mode
 ├── Concept: Automatically updates resource requests.
 ├── Production: Less common.
 ├── Best Practice: Use carefully.
@@ -2002,13 +2205,15 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Cluster Autoscaler
+✅ Cluster Autoscaler
 ├── Concept: Adds or removes Worker Nodes.
 ├── Production: Cloud-managed node groups.
 ├── Best Practice: Configure min/max node counts.
 ├── Interview Tip: Triggered by Pending Pods.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Who creates the new worker node?
     A. Cluster Autoscaler talks to AWS/Azure/GCP APIs.
 
@@ -2020,8 +2225,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Node Groups
+✅ Node Groups
 ├── Concept: Group of worker nodes managed together.
 ├── Production: AWS ASG, Azure VMSS, GCP MIG.
 ├── Best Practice: Separate workloads by node groups.
@@ -2029,8 +2233,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Scale Up
+✅ Scale Up
 ├── Concept: Add Worker Nodes.
 ├── Production: Triggered by Pending Pods.
 ├── Best Practice: Ensure cloud quotas allow scaling.
@@ -2038,8 +2241,7 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### Scale Down
+✅ Scale Down
 ├── Concept: Remove underutilized Worker Nodes.
 ├── Production: Reduces infrastructure cost.
 ├── Best Practice: Drain nodes before removal.
@@ -2047,13 +2249,15 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
-
-### KEDA
+✅ KEDA
 ├── Concept: Event-driven autoscaling.
 ├── Production: Kafka, RabbitMQ, Azure Queue, SQS.
 ├── Best Practice: Use when CPU isn't the scaling factor.
 ├── Interview Tip: Creates HPA automatically.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Is KEDA cloud-specific?
     A. No. It works anywhere Kubernetes runs.
 
@@ -2065,7 +2269,10 @@ Pods = 4~6
 
 ---------------------------------------------------------
 
+
+
 Autoscaling Comparison
+
 
 | Component | Scales |
 |-----------|----------------------------------------------|
@@ -2076,7 +2283,10 @@ Autoscaling Comparison
 
 ---------------------------------------------------------
 
+
+
 Production Flow
+
 
 User Traffic
 
@@ -2118,7 +2328,10 @@ New Worker Node
 
 ---------------------------------------------------------
 
+
+
 Production Best Practices
+
 
 ✔ Always define Requests before HPA.
 ✔ Start VPA in Recommendation Mode.
@@ -2130,7 +2343,10 @@ Production Best Practices
 
 ---------------------------------------------------------
 
+
+
 Common Production Mistakes
+
 
 ❌ HPA without Metrics Server
 
@@ -2144,7 +2360,10 @@ Common Production Mistakes
 
 ---------------------------------------------------------
 
+
+
 Memory Trick
+
 
 Metrics Server
         │
@@ -2181,7 +2400,10 @@ Pods
 
 ---------------------------------------------------------
 
+
+
 Questions I Asked
+
 
 Q. Why does HPA need Metrics Server?
 A. Metrics Server provides CPU/Memory usage.
@@ -2217,28 +2439,35 @@ Q. Can Prometheus scale Pods?
 A. No. Prometheus exposes metrics. HPA performs scaling.
 
 Understanding: 100%
-
+```
 
 # Module 10 - Helm / GitOps / Platform Engineering ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Helm
+✅ Helm
 ├── Concept: Kubernetes Package Manager.
 ├── Production: Standard way to deploy applications.
 ├── Best Practice: One reusable chart per application.
 ├── Interview Tip: Helm generates Kubernetes YAML.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why Helm instead of plain YAML?
     A. Reuse templates across multiple environments.
 
 ---------------------------------------------------------
 
-
-### Charts
+✅ Charts
 ├── Concept: Package containing Kubernetes templates.
 ├── Production: One chart per application/platform component.
 ├── Best Practice: Keep charts reusable.
@@ -2246,8 +2475,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### values.yaml
+✅ values.yaml
 ├── Concept: Stores configurable values.
 ├── Production: Different values for Dev/QA/Prod.
 ├── Best Practice: Keep templates generic.
@@ -2255,8 +2483,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### Templates
+✅ Templates
 ├── Concept: Dynamic Kubernetes manifests.
 ├── Production: Deployment, Service, Ingress, HPA, etc.
 ├── Best Practice: Parameterize everything.
@@ -2264,8 +2491,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### Helm Functions
+✅ Helm Functions
 ├── default()
 ├── required()
 ├── quote()
@@ -2276,20 +2502,21 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### _helpers.tpl
+✅ _helpers.tpl
 ├── Concept: Reusable helper functions.
 ├── Production: Names, Labels, ServiceAccounts.
 ├── Best Practice: Avoid duplicate YAML.
 ├── Interview Tip: include() calls helper functions.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Why use _helpers.tpl?
     A. Centralizes reusable template logic.
 
 ---------------------------------------------------------
 
-
-### Chart Dependencies
+✅ Chart Dependencies
 ├── Concept: Helm charts depending on other charts.
 ├── Production: Redis, PostgreSQL, Common Libraries.
 ├── Best Practice: Pin chart versions.
@@ -2297,8 +2524,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### OCI Registry
+✅ OCI Registry
 ├── Concept: Stores Helm Charts like container images.
 ├── Production: JFrog, Harbor, Azure ACR.
 ├── Best Practice: Version charts.
@@ -2306,8 +2532,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### Helm Install
+✅ Helm Install
 ├── Concept: Deploy application.
 ├── Production: Usually automated through GitOps.
 ├── Best Practice: Avoid manual production installs.
@@ -2315,8 +2540,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### Helm Upgrade
+✅ Helm Upgrade
 ├── Concept: Update an existing release.
 ├── Production: Deploy new application versions.
 ├── Best Practice: Upgrade using GitOps.
@@ -2324,8 +2548,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### Helm Rollback
+✅ Helm Rollback
 ├── Concept: Restore previous release.
 ├── Production: Failed deployments.
 ├── Best Practice: Keep release history.
@@ -2333,84 +2556,84 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### FluxCD
+✅ FluxCD
 ├── Concept: GitOps operator.
 ├── Production: Continuously reconciles Git with Kubernetes.
 ├── Best Practice: Never kubectl apply directly in production.
 ├── Interview Tip: Git becomes the Source of Truth.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Can Flux replace Helm?
     A. No. Flux deploys Helm charts.
 
 ---------------------------------------------------------
 
-
-### Source Controller
+✅ Source Controller
 ├── Concept: Watches Git repositories.
 ├── Production: Detects Git changes.
 ├── Interview Tip: Downloads Git contents.
 
 ---------------------------------------------------------
 
-
-### Helm Controller
+✅ Helm Controller
 ├── Concept: Installs and upgrades Helm Releases.
 ├── Production: Most commonly used Flux controller.
 ├── Interview Tip: Executes Helm operations automatically.
 
 ---------------------------------------------------------
 
-
-### Kustomize Controller
+✅ Kustomize Controller
 ├── Concept: Deploys Kustomize resources.
 ├── Production: Platform components.
 ├── Interview Tip: Alternative to Helm.
 
 ---------------------------------------------------------
 
-
-### Notification Controller
+✅ Notification Controller
 ├── Concept: Sends GitOps events.
 ├── Production: Slack, Teams, Webhooks.
 ├── Interview Tip: Optional component.
 
 ---------------------------------------------------------
 
-
-### HelmRelease
+✅ HelmRelease
 ├── Concept: Kubernetes resource describing Helm deployment.
 ├── Production: Managed through Git.
 ├── Best Practice: Never edit directly in cluster.
 ├── Interview Tip: Flux watches HelmRelease objects.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. HelmRelease or helm install?
     A. HelmRelease for GitOps, helm install mostly for manual deployments.
 
 ---------------------------------------------------------
 
-
-### GitOps
+✅ GitOps
 ├── Concept: Git is the desired state.
 ├── Production: Every infrastructure change goes through Git.
 ├── Best Practice: Pull Requests for every change.
 ├── Interview Tip: Git is the Single Source of Truth.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Flux continuously monitor Git?
     A. Yes.
 
 ---------------------------------------------------------
 
-
-### GitHub
+✅ GitHub
 ├── Concept: Stores application, Helm and GitOps repositories.
 ├── Production: Version control and approvals.
 ├── Interview Tip: Nothing changes without Git.
 
 ---------------------------------------------------------
 
-
-### Jenkins
+✅ Jenkins
 ├── Concept: CI Pipeline.
 ├── Production: Build, Test, Scan, Push.
 ├── Best Practice: Build image only once.
@@ -2418,31 +2641,38 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### JFrog Artifactory
+✅ JFrog Artifactory
 ├── Concept: Artifact Repository.
 ├── Production: Docker Images and Helm Charts.
 ├── Best Practice: Promote same image across environments.
 ├── Interview Tip: Don't rebuild for QA/Prod.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. How is image promoted to QA?
     A. Same image tag is reused. GitOps updates Helm values.
 
 ---------------------------------------------------------
 
-
-### Rancher
+✅ Rancher
 ├── Concept: Kubernetes Cluster Management.
 ├── Production: RBAC, Cluster Provisioning, Monitoring.
 ├── Best Practice: Manage multiple clusters centrally.
 ├── Interview Tip: Rancher manages clusters, not deployments.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Rancher replace Flux?
     A. No.
 
 ---------------------------------------------------------
 
+
+
 GitOps Flow
+
 
 Developer
 
@@ -2500,7 +2730,10 @@ Kubernetes
 
 ---------------------------------------------------------
 
+
+
 Environment Promotion
+
 
 Dev
 
@@ -2534,7 +2767,10 @@ No rebuild.
 
 ---------------------------------------------------------
 
+
+
 Repository Structure
+
 
 Application Repo
 
@@ -2557,7 +2793,10 @@ GitOps Repo
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Component | Responsibility |
 |----------|----------------|
@@ -2571,7 +2810,10 @@ Quick Comparison
 
 ---------------------------------------------------------
 
+
+
 Production Best Practices
+
 
 ✔ Build image once.
 ✔ Promote same image across environments.
@@ -2584,7 +2826,10 @@ Production Best Practices
 
 ---------------------------------------------------------
 
+
+
 Common Production Mistakes
+
 
 ❌ Rebuilding images for QA/Prod.
 
@@ -2598,7 +2843,10 @@ Common Production Mistakes
 
 ---------------------------------------------------------
 
+
+
 Memory Trick
+
 
 Application Repo
         │
@@ -2618,7 +2866,10 @@ Kubernetes
 
 ---------------------------------------------------------
 
+
+
 Questions I Asked
+
 
 Q. Why use Helm?
 A. Reusable templates for multiple environments.
@@ -2642,16 +2893,21 @@ Q. Can Velero be installed through Flux?
 A. Yes. Platform components are commonly installed via HelmRelease.
 
 Understanding: 100%
-
+```
 
 # Module 11 - Backup & Disaster Recovery ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Backup Strategy
+✅ Backup Strategy
 ├── Concept: Protect Kubernetes configuration and business data.
 ├── Production: Multiple backup layers.
 ├── Best Practice: Regularly test restores.
@@ -2659,13 +2915,15 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### etcd
+✅ etcd
 ├── Concept: Stores Kubernetes desired state.
 ├── Production: HA cluster with 3 or 5 members.
 ├── Best Practice: Schedule regular snapshots.
 ├── Interview Tip: etcd stores metadata, not application data.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. What is stored in etcd?
     A. Deployments, Services, Secrets, ConfigMaps, RBAC, CRDs, etc.
 
@@ -2674,51 +2932,59 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### etcd Backup
+✅ etcd Backup
 ├── Concept: Snapshot of Kubernetes metadata.
 ├── Production: Self-managed clusters.
 ├── Best Practice: Store backups outside the cluster.
 ├── Interview Tip: Uses etcdctl.
 
+
+
 Useful Command
+
 
 etcdctl snapshot save backup.db
 
 ---------------------------------------------------------
 
-
-### etcd Restore
+✅ etcd Restore
 ├── Concept: Restore cluster metadata.
 ├── Production: Used after control plane failure.
 ├── Best Practice: Verify snapshot integrity.
 ├── Interview Tip: Restores desired state only.
 
+
+
 Useful Command
+
 
 etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### Managed Kubernetes
+✅ Managed Kubernetes
 ├── Concept: Cloud provider manages etcd.
 ├── Production: EKS, AKS, GKE.
 ├── Best Practice: Focus on workload backups.
 ├── Interview Tip: No direct etcd access.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Can we run etcdctl on EKS?
     A. No. Control Plane is managed by AWS.
 
 ---------------------------------------------------------
 
-
-### Velero
+✅ Velero
 ├── Concept: Backup and Restore Kubernetes Objects.
 ├── Production: Installed using Helm + FluxCD.
 ├── Best Practice: Schedule automated backups.
 ├── Interview Tip: Velero reads through API Server.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Velero backup etcd?
     A. No.
 
@@ -2727,8 +2993,7 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### Velero Restore
+✅ Velero Restore
 ├── Concept: Recreates Kubernetes resources.
 ├── Production: Namespace or cluster recovery.
 ├── Best Practice: Test restore regularly.
@@ -2736,8 +3001,7 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### What Velero Backs Up
+✅ What Velero Backs Up
 ├── Deployments
 ├── StatefulSets
 ├── Services
@@ -2747,14 +3011,16 @@ etcdctl snapshot restore backup.db
 ├── CRDs
 ├── PVC Metadata
 ├── Namespaces
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Velero backup running Pods?
     A. No. Pods are recreated from controllers.
 
 ---------------------------------------------------------
 
-
-### Persistent Volume Backup
+✅ Persistent Volume Backup
 ├── Concept: Backup business/application data.
 ├── Production: CSI Snapshots.
 ├── Best Practice: Snapshot databases frequently.
@@ -2762,20 +3028,21 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### CSI (Container Storage Interface)
+✅ CSI (Container Storage Interface)
 ├── Concept: Standard storage interface.
 ├── Production: AWS EBS, Azure Disk, vSphere, Longhorn.
 ├── Best Practice: Use vendor-supported CSI Driver.
 ├── Interview Tip: CSI = Storage, CNI = Networking.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Rancher provide CSI?
     A. No. Storage backend provides the CSI Driver.
 
 ---------------------------------------------------------
 
-
-### Volume Snapshot
+✅ Volume Snapshot
 ├── Concept: Point-in-time storage snapshot.
 ├── Production: Disaster Recovery.
 ├── Best Practice: Automate snapshot schedules.
@@ -2783,8 +3050,7 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### Volume Restore
+✅ Volume Restore
 ├── Concept: Restore PVC from snapshot.
 ├── Production: Database recovery.
 ├── Best Practice: Verify application consistency.
@@ -2792,32 +3058,35 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### Crash Consistent Backup
+✅ Crash Consistent Backup
 ├── Concept: Storage snapshot during normal writes.
 ├── Production: Common CSI snapshots.
 ├── Best Practice: Suitable for many workloads.
 ├── Interview Tip: Similar to sudden power failure.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Can database become inconsistent?
     A. Yes. Transactions may be incomplete.
 
 ---------------------------------------------------------
 
-
-### Application Consistent Backup
+✅ Application Consistent Backup
 ├── Concept: Application flushes writes before snapshot.
 ├── Production: Critical databases.
 ├── Best Practice: Combine with native database backups.
 ├── Interview Tip: Preferred for financial systems.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. How do databases achieve this?
     A. WAL, pg_dump, mysqldump, Oracle RMAN, etc.
 
 ---------------------------------------------------------
 
-
-### Database Native Backup
+✅ Database Native Backup
 ├── Concept: Backup created by database itself.
 ├── Production: PostgreSQL, MySQL, Oracle, MongoDB.
 ├── Best Practice: Combine with CSI snapshots.
@@ -2825,20 +3094,21 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### Backup Storage
+✅ Backup Storage
 ├── Concept: External backup repository.
 ├── Production: S3, Azure Blob, GCS, MinIO.
 ├── Best Practice: Store outside the cluster.
 ├── Interview Tip: Never keep only local backups.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Can Artifactory store backups?
     A. Possible but S3/Blob/MinIO is recommended.
 
 ---------------------------------------------------------
 
-
-### Backup Scheduling
+✅ Backup Scheduling
 ├── Concept: Automated recurring backups.
 ├── Production: Daily objects, hourly databases.
 ├── Best Practice: Define retention policy.
@@ -2846,8 +3116,7 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### Disaster Recovery (DR)
+✅ Disaster Recovery (DR)
 ├── Concept: Recover workloads after failure.
 ├── Production: Documented DR procedures.
 ├── Best Practice: Perform DR drills.
@@ -2855,23 +3124,24 @@ etcdctl snapshot restore backup.db
 
 ---------------------------------------------------------
 
-
-### RPO (Recovery Point Objective)
+✅ RPO (Recovery Point Objective)
 ├── Concept: Maximum acceptable data loss.
 ├── Production: Defines backup frequency.
 ├── Interview Tip: Lower RPO = More frequent backups.
 
 ---------------------------------------------------------
 
-
-### RTO (Recovery Time Objective)
+✅ RTO (Recovery Time Objective)
 ├── Concept: Maximum acceptable recovery time.
 ├── Production: Defines recovery expectations.
 ├── Interview Tip: Lower RTO = Faster recovery.
 
 ---------------------------------------------------------
 
+
+
 Recovery Scenarios
+
 
 Node Failure
 │
@@ -2920,7 +3190,10 @@ Applications Running
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Component | Responsibility |
 |-----------|----------------|
@@ -2933,7 +3206,10 @@ Quick Comparison
 
 ---------------------------------------------------------
 
+
+
 Production Best Practices
+
 
 ✔ Backup etcd.
 ✔ Backup Persistent Volumes.
@@ -2947,7 +3223,10 @@ Production Best Practices
 
 ---------------------------------------------------------
 
+
+
 Common Production Mistakes
+
 
 ❌ Never testing restores.
 
@@ -2961,7 +3240,10 @@ Common Production Mistakes
 
 ---------------------------------------------------------
 
+
+
 Memory Trick
+
 
 Metadata
         │
@@ -2993,7 +3275,10 @@ Disaster Recovery
 
 ---------------------------------------------------------
 
+
+
 Questions I Asked
+
 
 Q. Can Velero be installed by FluxCD?
 A. Yes.
@@ -3027,7 +3312,10 @@ A.
 
 Understanding: 100%
 
+
+
 Ownership
+
 
 Application Team
 ├── Database Native Backup
@@ -3047,16 +3335,21 @@ Cloud Team
 ├── Snapshot Storage
 ├── Cross Region Replication
 └── IAM Permissions
-
+```
 
 # Module 12 - Multi-Cluster Management ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Multi-Cluster
+✅ Multi-Cluster
 ├── Concept: Manage multiple Kubernetes clusters.
 ├── Production: Dev, QA, Stage, Prod or Multi-Region.
 ├── Best Practice: Separate production from non-production.
@@ -3064,8 +3357,7 @@ Cloud Team
 
 ---------------------------------------------------------
 
-
-### Why Multiple Clusters?
+✅ Why Multiple Clusters?
 ├── Environment Isolation
 ├── Security Isolation
 ├── Regional Deployment
@@ -3076,14 +3368,19 @@ Cloud Team
 
 ---------------------------------------------------------
 
-
-### kubeconfig
+✅ kubeconfig
 ├── Concept: Stores cluster connection information.
 ├── Production: Developers manage multiple clusters.
 ├── Best Practice: Keep kubeconfig secure.
 ├── Interview Tip: kubectl reads kubeconfig.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl config view
 
@@ -3091,14 +3388,19 @@ kubectl config get-contexts
 
 ---------------------------------------------------------
 
-
-### Context
+✅ Context
 ├── Concept: Active cluster + user + namespace.
 ├── Production: Switch between environments safely.
 ├── Best Practice: Verify current context before deployment.
 ├── Interview Tip: Wrong context = Wrong cluster deployment.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl config current-context
 
@@ -3106,8 +3408,7 @@ kubectl config use-context production
 
 ---------------------------------------------------------
 
-
-### Multiple Contexts
+✅ Multiple Contexts
 ├── Concept: Multiple clusters in one kubeconfig.
 ├── Production: Dev, QA, Stage, Prod.
 ├── Best Practice: Name contexts clearly.
@@ -3115,20 +3416,21 @@ kubectl config use-context production
 
 ---------------------------------------------------------
 
-
-### Rancher
+✅ Rancher
 ├── Concept: Centralized Kubernetes management.
 ├── Production: Manage hundreds of clusters.
 ├── Best Practice: Centralize RBAC and monitoring.
 ├── Interview Tip: Rancher manages clusters, not workloads.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does Rancher replace Flux?
     A. No. Rancher manages clusters. Flux manages deployments.
 
 ---------------------------------------------------------
 
-
-### Fleet (Rancher GitOps)
+✅ Fleet (Rancher GitOps)
 ├── Concept: GitOps for multiple clusters.
 ├── Production: Deploy same application to many clusters.
 ├── Best Practice: Organize clusters into groups.
@@ -3136,13 +3438,15 @@ kubectl config use-context production
 
 ---------------------------------------------------------
 
-
-### FluxCD Multi-Cluster
+✅ FluxCD Multi-Cluster
 ├── Concept: Each cluster runs its own Flux.
 ├── Production: Every cluster watches its own Git path.
 ├── Best Practice: Separate environment folders.
 ├── Interview Tip: Flux doesn't require Rancher.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Can Flux manage multiple clusters?
     A. Yes. Each cluster runs its own Flux controllers.
 
@@ -3161,8 +3465,7 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-
-### Cluster Registration
+✅ Cluster Registration
 ├── Concept: Register cluster with Rancher.
 ├── Production: Central visibility.
 ├── Best Practice: Secure cluster registration tokens.
@@ -3170,8 +3473,7 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-
-### Cluster Templates
+✅ Cluster Templates
 ├── Concept: Standardize cluster creation.
 ├── Production: Same configuration everywhere.
 ├── Best Practice: Version templates.
@@ -3179,8 +3481,7 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-
-### Multi-Region
+✅ Multi-Region
 ├── Concept: Deploy workloads across regions.
 ├── Production: Disaster Recovery and Low Latency.
 ├── Best Practice: Replicate critical workloads.
@@ -3188,8 +3489,7 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-
-### Disaster Recovery Cluster
+✅ Disaster Recovery Cluster
 ├── Concept: Secondary standby cluster.
 ├── Production: Business Continuity.
 ├── Best Practice: Test failover regularly.
@@ -3197,8 +3497,7 @@ Each cluster watches only its folder.
 
 ---------------------------------------------------------
 
-
-### Federation
+✅ Federation
 ├── Concept: Kubernetes-native multi-cluster management.
 ├── Production: Rarely used today.
 ├── Best Practice: GitOps is preferred.
@@ -3232,7 +3531,10 @@ Different Configuration
 
 ---------------------------------------------------------
 
+
+
 GitOps Flow
+
 
 GitHub
 
@@ -3270,7 +3572,10 @@ Production Cluster
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Component | Responsibility |
 |-----------|----------------|
@@ -3283,7 +3588,10 @@ Quick Comparison
 
 ---------------------------------------------------------
 
+
+
 Production Best Practices
+
 
 ✔ Separate Production cluster.
 ✔ Separate Dev/QA clusters.
@@ -3296,7 +3604,10 @@ Production Best Practices
 
 ---------------------------------------------------------
 
+
+
 Common Production Mistakes
+
 
 ❌ Deploying to wrong context.
 
@@ -3310,7 +3621,10 @@ Common Production Mistakes
 
 ---------------------------------------------------------
 
+
+
 Memory Trick
+
 
 Developer
 
@@ -3348,7 +3662,10 @@ Manage All Clusters
 
 ---------------------------------------------------------
 
+
+
 Questions I Asked
+
 
 Q. Does Rancher replace Flux?
 A. No.
@@ -3366,22 +3683,30 @@ Q. Is Federation commonly used?
 A. No. GitOps + Rancher/Fleet is more common today.
 
 Understanding: 100%
-
+```
 
 # Module 13 - CKA & Production Troubleshooting ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Troubleshooting Approach
+✅ Troubleshooting Approach
 ├── Concept: Follow a structured troubleshooting process.
 ├── Production: Don't jump to conclusions.
 ├── Best Practice: Start from the symptom and work downward.
 ├── Interview Tip: Verify each layer before moving deeper.
 
+
+
 Production Flow
+
 
 User
 │
@@ -3397,8 +3722,7 @@ Cluster
 
 ---------------------------------------------------------
 
-
-### Pod Pending
+✅ Pod Pending
 ├── Concept: Pod has not been scheduled.
 ├── Production: Usually scheduling issue.
 ├── Best Practice: Check Events first.
@@ -3411,7 +3735,13 @@ Cluster
     • Taints
     • PVC Pending
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl describe pod
 
@@ -3419,8 +3749,7 @@ kubectl get events
 
 ---------------------------------------------------------
 
-
-### CrashLoopBackOff
+✅ CrashLoopBackOff
 ├── Concept: Container repeatedly crashes.
 ├── Production: One of the most common incidents.
 ├── Best Practice: Check previous logs.
@@ -3432,7 +3761,13 @@ kubectl get events
     • Application Crash
     • Database Connection Failure
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl logs --previous
 
@@ -3440,8 +3775,7 @@ kubectl describe pod
 
 ---------------------------------------------------------
 
-
-### ImagePullBackOff
+✅ ImagePullBackOff
 ├── Concept: Kubernetes cannot download image.
 ├── Production: Registry or authentication issue.
 ├── Best Practice: Verify image tag and credentials.
@@ -3454,13 +3788,15 @@ kubectl describe pod
 
 ---------------------------------------------------------
 
-
-### OOMKilled
+✅ OOMKilled
 ├── Concept: Container exceeded Memory Limit.
 ├── Production: Very common.
 ├── Best Practice: Increase memory or optimize application.
 ├── Interview Tip: Memory cannot be throttled.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Difference from Eviction?
     A.
     OOMKilled = Container exceeded Memory Limit.
@@ -3468,26 +3804,33 @@ kubectl describe pod
 
 ---------------------------------------------------------
 
-
-### CPU Throttling
+✅ CPU Throttling
 ├── Concept: Container exceeded CPU Limit.
 ├── Production: Causes slow applications.
 ├── Best Practice: Review CPU Requests/Limits.
 ├── Interview Tip: Application continues running.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. Does container restart?
     A. No.
 
 ---------------------------------------------------------
 
-
-### Service Issues
+✅ Service Issues
 ├── Concept: Service cannot reach Pods.
 ├── Production: Label mismatch.
 ├── Best Practice: Verify Selectors.
 ├── Interview Tip: Service depends on Endpoints.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl get svc
 
@@ -3495,14 +3838,19 @@ kubectl get endpoints
 
 ---------------------------------------------------------
 
-
-### DNS Issues
+✅ DNS Issues
 ├── Concept: Service name resolution failure.
 ├── Production: CoreDNS problems.
 ├── Best Practice: Test DNS inside Pod.
 ├── Interview Tip: DNS is often overlooked.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 nslookup service
 
@@ -3510,8 +3858,7 @@ dig service
 
 ---------------------------------------------------------
 
-
-### Ingress Issues
+✅ Ingress Issues
 ├── Concept: External traffic cannot reach application.
 ├── Production: Most common ingress incidents.
 ├── Best Practice: Check Ingress Controller logs.
@@ -3519,14 +3866,19 @@ dig service
 
 ---------------------------------------------------------
 
-
-### Network Issues
+✅ Network Issues
 ├── Concept: Pod communication failures.
 ├── Production: CNI or NetworkPolicy.
 ├── Best Practice: Test connectivity from another Pod.
 ├── Interview Tip: Separate DNS from networking.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 ping
 
@@ -3536,8 +3888,7 @@ wget
 
 ---------------------------------------------------------
 
-
-### NetworkPolicy Issues
+✅ NetworkPolicy Issues
 ├── Concept: Traffic blocked.
 ├── Production: Security policy problem.
 ├── Best Practice: Start with Default Deny carefully.
@@ -3545,14 +3896,19 @@ wget
 
 ---------------------------------------------------------
 
-
-### Storage Issues
+✅ Storage Issues
 ├── Concept: PVC cannot bind.
 ├── Production: StorageClass or CSI issue.
 ├── Best Practice: Verify StorageClass.
 ├── Interview Tip: Pod waits until storage available.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl get pvc
 
@@ -3560,8 +3916,7 @@ kubectl describe pvc
 
 ---------------------------------------------------------
 
-
-### CSI Issues
+✅ CSI Issues
 ├── Concept: Storage Driver failure.
 ├── Production: Volume Attach failures.
 ├── Best Practice: Check CSI Controller logs.
@@ -3569,14 +3924,19 @@ kubectl describe pvc
 
 ---------------------------------------------------------
 
-
-### Node Issues
+✅ Node Issues
 ├── Concept: Worker unhealthy.
 ├── Production: Hardware or kubelet problems.
 ├── Best Practice: Check Node Conditions.
 ├── Interview Tip: Node Ready=False is important.
 
-Useful Commands
+
+
+
+
+Useful Command
+s
+
 
 kubectl get nodes
 
@@ -3584,8 +3944,7 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-
-### Scheduler Issues
+✅ Scheduler Issues
 ├── Concept: Scheduler unable to place Pod.
 ├── Production: Resource shortage.
 ├── Best Practice: Review Events.
@@ -3593,8 +3952,7 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-
-### RBAC Issues
+✅ RBAC Issues
 ├── Concept: Permission denied.
 ├── Production: ServiceAccount permissions.
 ├── Best Practice: Least Privilege.
@@ -3602,8 +3960,7 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-
-### Secret Issues
+✅ Secret Issues
 ├── Concept: Missing credentials.
 ├── Production: Vault/ESO synchronization.
 ├── Best Practice: Verify Secret exists.
@@ -3611,8 +3968,7 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-
-### ConfigMap Issues
+✅ ConfigMap Issues
 ├── Concept: Missing configuration.
 ├── Production: Wrong application config.
 ├── Best Practice: Validate mounted files.
@@ -3620,8 +3976,7 @@ kubectl describe node
 
 ---------------------------------------------------------
 
-
-### Control Plane Issues
+✅ Control Plane Issues
 ├── Concept: API Server unavailable.
 ├── Production: Cluster-wide outage.
 ├── Best Practice: Monitor control plane components.
@@ -3691,7 +4046,10 @@ Check Node
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Problem | First Check |
 |----------|-------------|
@@ -3708,7 +4066,10 @@ Quick Comparison
 
 ---------------------------------------------------------
 
+
+
 Production Best Practices
+
 
 ✔ Check Events first.
 ✔ Never guess.
@@ -3723,7 +4084,10 @@ Production Best Practices
 
 ---------------------------------------------------------
 
+
+
 Common Production Mistakes
+
 
 ❌ Restarting Pods immediately.
 
@@ -3739,7 +4103,10 @@ Common Production Mistakes
 
 ---------------------------------------------------------
 
+
+
 Memory Trick
+
 
 Pending
 │
@@ -3775,7 +4142,10 @@ CNI
 
 ---------------------------------------------------------
 
+
+
 Questions I Asked
+
 
 Q. What should I check first during production issues?
 A.
@@ -3800,16 +4170,21 @@ A.
 Scheduling constraints or insufficient resources.
 
 Understanding: 100%
-
+```
 
 # Module 14 - Complete Production Architecture ✅
 
-## Topics Covered
+``` text
+
+
+```text
+══════════════════════════════════════════════════════════
+Topics Covered
+══════════════════════════════════════════════════════════
 
 =========================================================
 
-
-### Developer
+✅ Developer
 ├── Concept: Develops application code.
 ├── Production: Feature branches and Pull Requests.
 ├── Best Practice: Merge only after CI passes.
@@ -3817,8 +4192,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### GitHub
+✅ GitHub
 ├── Concept: Source of Truth for Code and Infrastructure.
 ├── Production: Application Repo + GitOps Repo.
 ├── Best Practice: Protect main branch.
@@ -3826,8 +4200,7 @@ Understanding: 100%
 
 ---------------------------------------------------------
 
-
-### Jenkins (CI)
+✅ Jenkins (CI)
 ├── Concept: Continuous Integration.
 ├── Production: Build, Test, Scan and Publish.
 ├── Best Practice: Build image only once.
@@ -3859,8 +4232,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### JFrog Artifactory
+✅ JFrog Artifactory
 ├── Concept: Stores Docker Images and Helm Charts.
 ├── Production: Single artifact promoted across environments.
 ├── Best Practice: Never rebuild for QA/Stage/Prod.
@@ -3868,20 +4240,21 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### GitOps Repository
+✅ GitOps Repository
 ├── Concept: Stores deployment configuration.
 ├── Production: Dev/QA/Stage/Prod folders.
 ├── Best Practice: Pull Request for every deployment.
 ├── Interview Tip: Git is the Single Source of Truth.
-└── Questions I Asked
+└── 
+
+Questions I Asked
+
     Q. How does Dev become QA?
     A. Update GitOps values. Same Docker image.
 
 ---------------------------------------------------------
 
-
-### FluxCD
+✅ FluxCD
 ├── Concept: Continuously reconciles Git with Kubernetes.
 ├── Production: Deploys platform and applications.
 ├── Best Practice: No kubectl apply in Production.
@@ -3889,8 +4262,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Helm
+✅ Helm
 ├── Concept: Deploys reusable Kubernetes templates.
 ├── Production: Applications and Platform Components.
 ├── Best Practice: One Chart per application.
@@ -3898,8 +4270,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### API Server
+✅ API Server
 ├── Concept: Entry point into Kubernetes.
 ├── Production: All communication flows through API Server.
 ├── Best Practice: Never bypass API Server.
@@ -3907,8 +4278,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### etcd
+✅ etcd
 ├── Concept: Stores Kubernetes desired state.
 ├── Production: 3 or 5 member HA cluster.
 ├── Best Practice: Schedule snapshots.
@@ -3916,8 +4286,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Scheduler
+✅ Scheduler
 ├── Concept: Chooses worker node.
 ├── Production: Uses Requests, Affinity, Taints.
 ├── Best Practice: Define Requests.
@@ -3925,8 +4294,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### kubelet
+✅ kubelet
 ├── Concept: Node Agent.
 ├── Production: Runs Pods.
 ├── Best Practice: Monitor kubelet health.
@@ -3934,8 +4302,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### containerd
+✅ containerd
 ├── Concept: Container Runtime.
 ├── Production: Runs application containers.
 ├── Best Practice: Standard runtime.
@@ -3943,8 +4310,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### CNI
+✅ CNI
 ├── Concept: Provides Pod networking.
 ├── Production: Calico or Cilium.
 ├── Best Practice: Enable Network Policies.
@@ -3952,8 +4318,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### CSI
+✅ CSI
 ├── Concept: Provides Persistent Storage.
 ├── Production: AWS EBS, Azure Disk, Longhorn, vSphere.
 ├── Best Practice: Dynamic Provisioning.
@@ -3961,8 +4326,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Service
+✅ Service
 ├── Concept: Stable endpoint for Pods.
 ├── Production: Internal communication.
 ├── Best Practice: Never call Pod IPs.
@@ -3970,8 +4334,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Ingress
+✅ Ingress
 ├── Concept: External HTTP/HTTPS Routing.
 ├── Production: Single entry point.
 ├── Best Practice: Use Ingress Controller.
@@ -3979,8 +4342,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### CoreDNS
+✅ CoreDNS
 ├── Concept: Service Discovery.
 ├── Production: Internal DNS.
 ├── Best Practice: Use Service Names.
@@ -3988,8 +4350,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Prometheus
+✅ Prometheus
 ├── Concept: Collect Metrics.
 ├── Production: Infrastructure + Application Monitoring.
 ├── Best Practice: Scrape only required metrics.
@@ -3997,8 +4358,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Grafana
+✅ Grafana
 ├── Concept: Dashboard.
 ├── Production: Cluster Visualization.
 ├── Best Practice: Build reusable dashboards.
@@ -4006,8 +4366,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Alertmanager
+✅ Alertmanager
 ├── Concept: Alert Notification.
 ├── Production: Slack, Teams, PagerDuty.
 ├── Best Practice: Alert on symptoms.
@@ -4015,8 +4374,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Metrics Server
+✅ Metrics Server
 ├── Concept: Resource Metrics.
 ├── Production: CPU & Memory.
 ├── Best Practice: Install on every cluster.
@@ -4024,8 +4382,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### HPA
+✅ HPA
 ├── Concept: Scale Pods.
 ├── Production: CPU, Memory or Custom Metrics.
 ├── Best Practice: Define Requests.
@@ -4033,8 +4390,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### VPA
+✅ VPA
 ├── Concept: Resize Pods.
 ├── Production: Recommendation Mode.
 ├── Best Practice: Review recommendations.
@@ -4042,8 +4398,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Cluster Autoscaler
+✅ Cluster Autoscaler
 ├── Concept: Scale Worker Nodes.
 ├── Production: AWS ASG, Azure VMSS.
 ├── Best Practice: Configure min/max nodes.
@@ -4051,8 +4406,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Vault
+✅ Vault
 ├── Concept: Secret Management.
 ├── Production: Dynamic Secrets.
 ├── Best Practice: Never hardcode credentials.
@@ -4060,8 +4414,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### External Secrets Operator
+✅ External Secrets Operator
 ├── Concept: Sync Vault Secrets.
 ├── Production: Kubernetes Secret Synchronization.
 ├── Best Practice: Rotate Secrets.
@@ -4069,8 +4422,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Velero
+✅ Velero
 ├── Concept: Backup Kubernetes Objects.
 ├── Production: Scheduled Backups.
 ├── Best Practice: Test Restore.
@@ -4078,8 +4430,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### CSI Snapshot
+✅ CSI Snapshot
 ├── Concept: Backup Persistent Volumes.
 ├── Production: Database Recovery.
 ├── Best Practice: Combine with Database Backup.
@@ -4087,8 +4438,7 @@ Push Image
 
 ---------------------------------------------------------
 
-
-### Database Backup
+✅ Database Backup
 ├── Concept: Native Database Backup.
 ├── Production: PostgreSQL WAL, pg_dump, MySQL Dump.
 ├── Best Practice: Application Consistent Backups.
@@ -4096,7 +4446,10 @@ Push Image
 
 ---------------------------------------------------------
 
-Complete Production Flow
+Complete 
+
+Production Flow
+
 
 Developer
 
@@ -4321,7 +4674,10 @@ Backup
 
 ---------------------------------------------------------
 
+
+
 Quick Comparison
+
 
 | Component | Responsibility |
 |-----------|----------------|
@@ -4341,7 +4697,10 @@ Quick Comparison
 
 ---------------------------------------------------------
 
+
+
 Production Best Practices
+
 
 ✔ GitOps Everything
 
@@ -4371,7 +4730,10 @@ Production Best Practices
 
 ---------------------------------------------------------
 
+
+
 Common Production Mistakes
+
 
 ❌ Manual kubectl apply
 
@@ -4393,7 +4755,10 @@ Common Production Mistakes
 
 ---------------------------------------------------------
 
+
+
 Questions I Asked
+
 
 Q. How does application move Dev → QA?
 A. Same Docker image, GitOps updates configuration.
@@ -4428,4 +4793,5 @@ Understanding: 100%
 Congratulations!
 
 You now understand the complete Kubernetes production ecosystem from:
-Developer → CI/CD → GitOps → Kubernetes → Monitoring → Autoscaling → Backup → Disaster Recovery. 
+Developer → CI/CD → GitOps → Kubernetes → Monitoring → Autoscaling → Backup → Disaster Recovery.
+```
