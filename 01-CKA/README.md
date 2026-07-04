@@ -574,36 +574,262 @@ NetworkPolicy
 Traffic Control
 
 Understanding: 98%
-
-Module 5 - Storage ✅
-
-This became one of our deepest discussions.
+# Module 5 - Storage ✅
 
 We covered:
 
 ✅ Volumes
+├── Concept: Temporary storage attached to a Pod.
+├── Production: Used for sharing data between containers.
+├── Best Practice: Use only for ephemeral data.
+├── Interview Tip: Deleted when Pod is deleted (except Persistent Volumes).
+
+---------------------------------------------------------
+
 ✅ emptyDir
+├── Concept: Temporary storage created when Pod starts.
+├── Production: Cache, scratch space, shared files.
+├── Best Practice: Never store important data.
+├── Interview Tip: Removed when Pod is deleted.
+└── Questions I Asked
+    Q. Does emptyDir survive Pod restart?
+    A. Container restart = Yes. Pod recreation = No.
+
+---------------------------------------------------------
+
 ✅ hostPath
-✅ ConfigMap Volumes
-✅ Secret Volumes
-✅ PersistentVolume
-✅ PersistentVolumeClaim
+├── Concept: Mounts a directory from the worker node.
+├── Production: Mostly for system/infrastructure Pods.
+├── Best Practice: Avoid for application workloads.
+├── Interview Tip: Tightly couples Pod to a node.
+
+---------------------------------------------------------
+
+✅ ConfigMap Volume
+├── Concept: Mount configuration files into Pods.
+├── Production: Application configs.
+├── Best Practice: Store configuration only.
+├── Interview Tip: Never store secrets here.
+
+---------------------------------------------------------
+
+✅ Secret Volume
+├── Concept: Mount Kubernetes Secrets as files.
+├── Production: Certificates, passwords, API keys.
+├── Best Practice: Prefer External Secrets/Vault for production.
+├── Interview Tip: Secret values are Base64 encoded, not encrypted.
+
+---------------------------------------------------------
+
+✅ PersistentVolume (PV)
+├── Concept: Actual storage resource.
+├── Production: Database and application data.
+├── Best Practice: Provision dynamically using StorageClass.
+├── Interview Tip: Cluster resource.
+
+---------------------------------------------------------
+
+✅ PersistentVolumeClaim (PVC)
+├── Concept: Request for storage.
+├── Production: Applications consume PVCs instead of PVs.
+├── Best Practice: Applications should never reference PV directly.
+├── Interview Tip: Namespace resource.
+└── Questions I Asked
+    Q. Does Pod mount PV directly?
+    A. No. Pod mounts PVC, PVC binds to PV.
+
+---------------------------------------------------------
+
 ✅ StorageClass
-✅ CSI Driver
+├── Concept: Defines how storage is dynamically provisioned.
+├── Production: SSD, HDD, Premium, GP3, etc.
+├── Best Practice: Make one StorageClass default.
+├── Interview Tip: Enables Dynamic Provisioning.
+└── Questions I Asked
+    Q. Static vs Dynamic Provisioning?
+    A. Static = Admin creates PV. Dynamic = Kubernetes creates PV automatically.
+
+---------------------------------------------------------
+
+✅ CSI Driver (Container Storage Interface)
+├── Concept: Standard interface between Kubernetes and storage.
+├── Production: AWS EBS, Azure Disk, vSphere, Longhorn, Ceph.
+├── Best Practice: Use vendor-supported CSI drivers.
+├── Interview Tip: CSI is for Storage, CNI is for Networking.
+└── Questions I Asked
+    Q. Does Rancher provide CSI?
+    A. No. Rancher manages clusters; storage backend provides the CSI driver.
+
+---------------------------------------------------------
+
 ✅ Static Provisioning
+├── Concept: Administrator manually creates PVs.
+├── Production: Legacy environments.
+├── Best Practice: Use only when required.
+├── Interview Tip: Manual lifecycle management.
+
+---------------------------------------------------------
+
 ✅ Dynamic Provisioning
-✅ StatefulSets
-✅ Database Storage
+├── Concept: Kubernetes automatically creates PVs.
+├── Production: Most modern clusters.
+├── Best Practice: Use StorageClasses.
+├── Interview Tip: Recommended approach.
+
+---------------------------------------------------------
+
+✅ StatefulSet Storage
+├── Concept: Each Pod receives its own PersistentVolume.
+├── Production: PostgreSQL, MySQL, MongoDB.
+├── Best Practice: Never share database volumes.
+├── Interview Tip: Stable identity + Stable storage.
+└── Questions I Asked
+    Q. Why StatefulSet instead of Deployment?
+    A. Databases require stable hostname and dedicated storage.
+
+---------------------------------------------------------
+
 ✅ Access Modes
-✅ Reclaim Policies
+├── ReadWriteOnce (RWO)
+├── ReadOnlyMany (ROX)
+├── ReadWriteMany (RWX)
+├── ReadWriteOncePod (RWOP)
+├── Production: Choose based on storage backend.
+├── Interview Tip: Not every storage supports RWX.
+└── Questions I Asked
+    Q. Does AWS EBS support RWX?
+    A. No. EBS supports RWO. RWX typically requires EFS, CephFS, NFS, etc.
+
+---------------------------------------------------------
+
+✅ Reclaim Policy
+├── Retain
+├── Delete
+├── Recycle (Deprecated)
+├── Production: Retain for important databases.
+├── Interview Tip: Controls what happens after PVC deletion.
+└── Questions I Asked
+    Q. Which policy is safest for production databases?
+    A. Retain.
+
+---------------------------------------------------------
+
 ✅ Volume Expansion
+├── Concept: Increase PVC size without recreating it.
+├── Production: StorageClass must allow expansion.
+├── Best Practice: Verify application filesystem expansion.
+├── Interview Tip: Not all CSI drivers support expansion.
+
+---------------------------------------------------------
+
 ✅ Volume Binding Mode
-✅ Snapshots
+├── Immediate
+├── WaitForFirstConsumer
+├── Production: WaitForFirstConsumer avoids wrong zone allocation.
+├── Interview Tip: Commonly used in cloud environments.
+
+---------------------------------------------------------
+
 ✅ VolumeSnapshot
-✅ VolumeSnapshotContent
+├── Concept: Point-in-time snapshot of a PersistentVolume.
+├── Production: Backup and Disaster Recovery.
+├── Best Practice: Integrate with Velero.
+├── Interview Tip: Snapshot != Backup unless stored externally.
+
+---------------------------------------------------------
+
 ✅ VolumeSnapshotClass
+├── Concept: Defines snapshot provider and parameters.
+├── Production: Maps to CSI Driver.
+├── Interview Tip: Similar to StorageClass but for snapshots.
+
+---------------------------------------------------------
+
+✅ VolumeSnapshotContent
+├── Concept: Represents the actual snapshot in the storage backend.
+├── Production: Managed automatically.
+├── Interview Tip: Similar relationship as PV ↔ PVC.
+
+---------------------------------------------------------
+
 ✅ Restore
-✅ CSI Internals
+├── Concept: Create a new PVC from a VolumeSnapshot.
+├── Production: Disaster Recovery.
+├── Best Practice: Test restores regularly.
+├── Interview Tip: Backups without restore testing are incomplete.
+
+---------------------------------------------------------
+
+Quick Comparison
+
+| Resource               | Purpose                              |
+|------------------------|--------------------------------------|
+| Volume                 | Temporary Pod Storage                |
+| emptyDir               | Ephemeral Storage                    |
+| hostPath               | Node Storage                         |
+| ConfigMap Volume       | Configuration Files                  |
+| Secret Volume          | Sensitive Files                      |
+| PV                     | Actual Storage                       |
+| PVC                    | Storage Request                      |
+| StorageClass           | Dynamic Provisioning                 |
+| CSI                    | Storage Interface                    |
+| StatefulSet            | Stable Storage                       |
+| VolumeSnapshot         | Point-in-time Snapshot               |
+| VolumeSnapshotClass    | Snapshot Configuration               |
+| VolumeSnapshotContent  | Actual Snapshot                      |
+
+Production Best Practices
+
+✔ Use Dynamic Provisioning.
+✔ Never mount PV directly.
+✔ Use StatefulSets for databases.
+✔ Use Retain for production databases.
+✔ Use CSI drivers.
+✔ Test restore procedures regularly.
+✔ Monitor storage capacity.
+✔ Use StorageClasses consistently.
+
+Memory Trick
+
+Pod
+ │
+PVC
+ │
+PV
+ │
+StorageClass
+ │
+CSI Driver
+ │
+Cloud Storage
+
+Snapshot
+ │
+VolumeSnapshot
+ │
+Restore
+
+Questions I Asked
+
+Q. Does Rancher provide CSI?
+A. No. Storage backend provides the CSI Driver.
+
+Q. Can Velero snapshot PVs?
+A. Yes. Through CSI drivers.
+
+Q. Does Velero backup etcd?
+A. No. It backs up Kubernetes objects via the API Server.
+
+Q. Crash Consistent vs Application Consistent?
+A. CSI Snapshot = Crash Consistent.
+   Production DBs also use native backups (WAL, pg_dump, etc.).
+
+Q. What should be backed up?
+A.
+• etcd (Cluster Metadata)
+• Kubernetes Objects (Velero)
+• Persistent Volumes (CSI)
+• Database Native Backups
 
 Understanding: 98%
 
