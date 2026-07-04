@@ -378,24 +378,200 @@ Preemption
 
 Understanding: 95%
 
-Module 4 - Networking ✅
+# Module 4 - Networking ✅
 
-We covered in great detail:
+We covered:
 
-✅ CNI
+✅ CNI (Container Network Interface)
+├── Concept: Standard interface that provides Pod networking.
+├── Production: Every cluster requires one CNI plugin.
+├── Best Practice: Use Calico or Cilium for production.
+├── Interview Tip: Kubernetes provides the interface (CNI), plugins provide networking.
+└── Questions I Asked
+    Q. Does Rancher provide CNI?
+    A. No. Rancher installs/configures a CNI plugin (Calico, Cilium, etc.).
+
+---------------------------------------------------------
+
 ✅ Calico
+├── Concept: CNI plugin providing networking and NetworkPolicies.
+├── Production: One of the most widely used enterprise CNIs.
+├── Best Practice: Use when strong NetworkPolicy support is required.
+├── Interview Tip: Uses iptables/eBPF depending on configuration.
+
+---------------------------------------------------------
+
 ✅ Cilium
+├── Concept: eBPF-based CNI with advanced networking and security.
+├── Production: High-performance networking and observability.
+├── Best Practice: Preferred for modern Kubernetes platforms.
+├── Interview Tip: eBPF reduces dependence on iptables.
+
+---------------------------------------------------------
+
 ✅ Flannel
+├── Concept: Lightweight CNI providing Pod networking only.
+├── Production: Common in small or learning environments.
+├── Best Practice: Pair with another solution if NetworkPolicies are needed.
+├── Interview Tip: Simpler than Calico or Cilium.
+
+---------------------------------------------------------
+
 ✅ Pod Networking
+├── Concept: Every Pod receives its own IP address.
+├── Production: Pods communicate directly without NAT.
+├── Best Practice: Never assume Pod IPs are permanent.
+├── Interview Tip: Pod IP changes when Pod is recreated.
+└── Questions I Asked
+    Q. Can Pods communicate directly?
+    A. Yes. Kubernetes networking allows Pod-to-Pod communication.
+
+---------------------------------------------------------
+
 ✅ ClusterIP
+├── Concept: Internal Service accessible only inside the cluster.
+├── Production: Default Service type.
+├── Best Practice: Use for internal microservice communication.
+├── Interview Tip: Not accessible outside the cluster.
+└── Questions I Asked
+    Q. Is ClusterIP reachable from outside?
+    A. No. Only from within the cluster.
+
+---------------------------------------------------------
+
 ✅ NodePort
+├── Concept: Exposes Service on a static port of every node.
+├── Production: Mostly used for testing or behind external load balancers.
+├── Best Practice: Avoid exposing production applications directly.
+├── Interview Tip: Opens the same port on every worker node.
+
+---------------------------------------------------------
+
 ✅ LoadBalancer
+├── Concept: Creates an external cloud load balancer.
+├── Production: AWS ALB/NLB, Azure Load Balancer, GCP Load Balancer.
+├── Best Practice: Preferred cloud-native external access.
+├── Interview Tip: Requires cloud provider integration.
+└── Questions I Asked
+    Q. Who creates the LoadBalancer?
+    A. Cloud Controller Manager communicates with the cloud provider.
+
+---------------------------------------------------------
+
 ✅ Ingress
+├── Concept: HTTP/HTTPS routing for multiple Services.
+├── Production: Single entry point for applications.
+├── Best Practice: Use Ingress instead of multiple LoadBalancers.
+├── Interview Tip: Ingress requires an Ingress Controller.
+└── Questions I Asked
+    Q. Does Ingress route traffic by itself?
+    A. No. The Ingress Controller implements the routing.
+
+---------------------------------------------------------
+
 ✅ Ingress Controller
+├── Concept: Watches Ingress resources and configures routing.
+├── Production: NGINX, Traefik, HAProxy, AWS Load Balancer Controller.
+├── Best Practice: Deploy at least two replicas for HA.
+├── Interview Tip: Similar to a Kubernetes Operator.
+└── Questions I Asked
+    Q. Who develops the Ingress Controller?
+    A. Platform team installs and manages it; application teams only create Ingress resources.
+
+---------------------------------------------------------
+
 ✅ CoreDNS
+├── Concept: Kubernetes DNS server.
+├── Production: Resolves Service names to ClusterIPs.
+├── Best Practice: Applications should use Service names instead of Pod IPs.
+├── Interview Tip: CoreDNS replaces kube-dns.
+└── Questions I Asked
+    Q. How does payment.default resolve?
+    A. CoreDNS returns the ClusterIP of the Service.
+
+---------------------------------------------------------
+
 ✅ Endpoints
+├── Concept: Stores the Pod IPs behind a Service.
+├── Production: Automatically managed by Kubernetes.
+├── Best Practice: Never create manually.
+├── Interview Tip: Services forward traffic using Endpoints.
+
+---------------------------------------------------------
+
 ✅ EndpointSlices
+├── Concept: Scalable replacement for Endpoints.
+├── Production: Used automatically in large clusters.
+├── Best Practice: Required for thousands of Pods.
+├── Interview Tip: Improves scalability and performance.
+
+---------------------------------------------------------
+
 ✅ NetworkPolicies
+├── Concept: Firewall rules for Pod-to-Pod communication.
+├── Production: Implements Zero Trust networking.
+├── Best Practice: Default deny, explicitly allow required traffic.
+├── Interview Tip: Requires a CNI supporting NetworkPolicies.
+└── Questions I Asked
+    Q. Does Kubernetes enforce NetworkPolicies?
+    A. No. The CNI plugin (Calico/Cilium) enforces them.
+
+---------------------------------------------------------
+
+Quick Comparison
+
+| Resource            | Primary Purpose                       |
+|--------------------|----------------------------------------|
+| CNI                | Provides Pod Networking                |
+| Calico             | Networking + NetworkPolicies           |
+| Cilium             | eBPF Networking + Security             |
+| Flannel            | Basic Pod Networking                   |
+| ClusterIP          | Internal Service                       |
+| NodePort           | External Access via Node Port          |
+| LoadBalancer       | Cloud Load Balancer                    |
+| Ingress            | HTTP/HTTPS Routing                     |
+| Ingress Controller | Implements Ingress                     |
+| CoreDNS            | Service Discovery                      |
+| Endpoints          | Pod IP List                            |
+| EndpointSlices     | Scalable Endpoints                     |
+| NetworkPolicies    | Pod Firewall                           |
+
+Production Best Practices
+
+✔ Use ClusterIP for internal services.
+✔ Use Ingress instead of multiple LoadBalancers.
+✔ Never use Pod IPs directly.
+✔ Use DNS (Service Names).
+✔ Enable NetworkPolicies.
+✔ Use Calico or Cilium in production.
+✔ Deploy multiple Ingress Controller replicas.
+✔ Monitor CoreDNS health.
+
+Memory Trick
+
+Internet
+     │
+LoadBalancer
+     │
+Ingress
+     │
+ClusterIP Service
+     │
+Endpoints
+     │
+Pods
+
+CoreDNS
+     │
+Service Discovery
+
+CNI
+     │
+Pod Networking
+
+NetworkPolicy
+     │
+Traffic Control
 
 Understanding: 98%
 
