@@ -833,53 +833,312 @@ A.
 
 Understanding: 98%
 
-Module 6 - Security ✅
+# Module 6 - Security ✅
 
 We covered:
 
-Identity
+=========================================================
+
 ✅ Users
+├── Concept: External identities authenticated outside Kubernetes.
+├── Production: Admins, DevOps Engineers, CI/CD Systems.
+├── Best Practice: Integrate with OIDC/LDAP instead of certificates.
+├── Interview Tip: Kubernetes does NOT manage Users internally.
+
+---------------------------------------------------------
+
 ✅ Groups
-✅ ServiceAccounts
-Authentication
+├── Concept: Collection of Users.
+├── Production: DevOps, Developers, QA, Security Teams.
+├── Best Practice: Assign RBAC to Groups instead of individual Users.
+├── Interview Tip: Simplifies permission management.
+
+---------------------------------------------------------
+
+✅ ServiceAccount
+├── Concept: Identity used by Pods.
+├── Production: Every application should use its own ServiceAccount.
+├── Best Practice: Never use default ServiceAccount in production.
+├── Interview Tip: Pods authenticate using ServiceAccounts.
+└── Questions I Asked
+    Q. Difference between User and ServiceAccount?
+    A. Users are for humans; ServiceAccounts are for Pods.
+
+---------------------------------------------------------
+
+✅ Authentication
+├── Concept: Verifies identity.
+├── Production: OIDC, Certificates, ServiceAccount Tokens.
+├── Best Practice: Use OIDC for enterprise authentication.
+├── Interview Tip: Authentication answers "Who are you?"
+
+---------------------------------------------------------
+
 ✅ OIDC
-✅ ServiceAccount Tokens
+├── Concept: External identity provider integration.
+├── Production: Azure AD, Okta, Keycloak, Google.
+├── Best Practice: Centralize authentication.
+├── Interview Tip: Most enterprises use OIDC.
+
+---------------------------------------------------------
+
 ✅ Certificates
-Authorization
+├── Concept: TLS certificates authenticate Kubernetes components.
+├── Production: API Server, kubelet, etcd.
+├── Best Practice: Rotate certificates before expiration.
+├── Interview Tip: kubeadm manages certificates automatically.
+
+---------------------------------------------------------
+
 ✅ RBAC
+├── Concept: Controls permissions inside Kubernetes.
+├── Production: Least Privilege Access.
+├── Best Practice: Never grant cluster-admin unnecessarily.
+├── Interview Tip: Authorization answers "What can you do?"
+└── Questions I Asked
+    Q. Authentication vs Authorization?
+    A. Authentication verifies identity. RBAC authorizes actions.
+
+---------------------------------------------------------
+
 ✅ Role
+├── Concept: Namespace-level permissions.
+├── Production: Application namespace access.
+├── Best Practice: Prefer Role over ClusterRole when possible.
+├── Interview Tip: Namespace scoped.
+
+---------------------------------------------------------
+
 ✅ ClusterRole
+├── Concept: Cluster-wide permissions.
+├── Production: Platform components and administrators.
+├── Best Practice: Grant only when cluster-wide access is required.
+├── Interview Tip: Not limited to one namespace.
+
+---------------------------------------------------------
+
 ✅ RoleBinding
+├── Concept: Assigns Role to User, Group or ServiceAccount.
+├── Production: Namespace access.
+├── Best Practice: Use Groups instead of individual Users.
+├── Interview Tip: Namespace scoped.
+
+---------------------------------------------------------
+
 ✅ ClusterRoleBinding
-Admission
+├── Concept: Assigns ClusterRole cluster-wide.
+├── Production: Platform administrators.
+├── Best Practice: Limit usage carefully.
+├── Interview Tip: Highest permission scope.
+
+---------------------------------------------------------
+
 ✅ Admission Controllers
-✅ Mutating
-✅ Validating
+├── Concept: Validate or modify requests before persistence.
+├── Production: Policy enforcement.
+├── Best Practice: Enable required admission plugins.
+├── Interview Tip: Executes before objects are stored.
+
+---------------------------------------------------------
+
+✅ Mutating Admission
+├── Concept: Modifies Kubernetes objects.
+├── Production: Inject sidecars, labels, annotations.
+├── Best Practice: Keep mutations predictable.
+├── Interview Tip: Runs before Validation.
+
+---------------------------------------------------------
+
+✅ Validating Admission
+├── Concept: Accepts or rejects requests.
+├── Production: Security and compliance.
+├── Best Practice: Reject insecure workloads.
+├── Interview Tip: Runs after Mutation.
+
+---------------------------------------------------------
+
 ✅ Pod Security Admission
-Runtime Security
+├── Concept: Enforces Pod security standards.
+├── Production: Restricted, Baseline, Privileged.
+├── Best Practice: Use Restricted policy whenever possible.
+├── Interview Tip: Replaces PodSecurityPolicy.
+
+---------------------------------------------------------
+
 ✅ SecurityContext
-✅ Pod Security
+├── Concept: Defines container security settings.
+├── Production: Non-root containers.
+├── Best Practice: Drop unnecessary Linux capabilities.
+├── Interview Tip: First place to harden workloads.
+└── Questions I Asked
+    Q. Why runAsNonRoot?
+    A. Reduces privilege escalation risk.
+
+---------------------------------------------------------
+
 ✅ Privileged Containers
+├── Concept: Containers with host-level privileges.
+├── Production: Only infrastructure components.
+├── Best Practice: Avoid unless absolutely necessary.
+├── Interview Tip: Large security risk.
+
+---------------------------------------------------------
+
 ✅ Linux Capabilities
-✅ runAsNonRoot
+├── Concept: Fine-grained Linux privileges.
+├── Production: Grant only required capabilities.
+├── Best Practice: Drop ALL, then add only what is needed.
+├── Interview Tip: Better than privileged containers.
+
+---------------------------------------------------------
+
 ✅ readOnlyRootFilesystem
-Secret Management
+├── Concept: Makes container filesystem read-only.
+├── Production: Prevents runtime modifications.
+├── Best Practice: Enable wherever possible.
+├── Interview Tip: Limits malware persistence.
+
+---------------------------------------------------------
+
 ✅ Kubernetes Secrets
+├── Concept: Stores sensitive information.
+├── Production: Small secrets only.
+├── Best Practice: Avoid storing production secrets directly.
+├── Interview Tip: Base64 encoding is NOT encryption.
+└── Questions I Asked
+    Q. Are Kubernetes Secrets secure?
+    A. Better than ConfigMaps, but use Vault for production.
+
+---------------------------------------------------------
+
 ✅ Vault
+├── Concept: External Secret Management.
+├── Production: Dynamic credentials and secret rotation.
+├── Best Practice: Never hardcode production credentials.
+├── Interview Tip: Industry standard for enterprise secrets.
+└── Questions I Asked
+    Q. Why use Vault if Kubernetes has Secrets?
+    A. Vault provides encryption, auditing, rotation and dynamic secrets.
+
+---------------------------------------------------------
+
 ✅ External Secrets Operator
+├── Concept: Synchronizes external secrets into Kubernetes.
+├── Production: Vault, AWS Secrets Manager, Azure Key Vault.
+├── Best Practice: Keep Kubernetes Secrets synchronized automatically.
+├── Interview Tip: Kubernetes never stores master credentials.
+└── Questions I Asked
+    Q. Does ESO continuously sync?
+    A. Yes. Secrets are automatically refreshed.
+
+---------------------------------------------------------
+
 ✅ Vault Agent
+├── Concept: Sidecar that retrieves secrets directly from Vault.
+├── Production: Dynamic secret injection.
+├── Best Practice: Avoid application code talking directly to Vault.
+├── Interview Tip: Secrets can be injected without Kubernetes Secrets.
+
+---------------------------------------------------------
+
 ✅ Secrets Store CSI Driver
+├── Concept: Mounts external secrets directly into Pods.
+├── Production: Vault, Azure Key Vault, AWS Secrets Manager.
+├── Best Practice: Avoid persisting secrets inside Kubernetes.
+├── Interview Tip: Secrets are mounted as files.
+└── Questions I Asked
+    Q. Difference between ESO and CSI Driver?
+    A. ESO creates Kubernetes Secrets. CSI mounts secrets directly into Pods.
+
+---------------------------------------------------------
+
 ✅ Secret Rotation
-Image Security
-✅ Image Registry Policies
-✅ Image Scanning
-✅ Image Signing
-✅ Immutable Tags
-Network Security
-✅ NetworkPolicies
-✅ Zero Trust
-Audit Logging
-✅ Kubernetes Audit Logs
+├── Concept: Automatically updates credentials.
+├── Production: Database passwords, API keys, certificates.
+├── Best Practice: Rotate secrets regularly.
+├── Interview Tip: Applications should support secret reload.
+
+---------------------------------------------------------
+
+✅ Image Security
+├── Concept: Secure container images.
+├── Production: Scan every image before deployment.
+├── Best Practice: Use immutable image tags.
+├── Interview Tip: Never deploy latest in production.
+
+---------------------------------------------------------
+
+✅ Audit Logs
+├── Concept: Records Kubernetes API activity.
+├── Production: Security investigations and compliance.
+├── Best Practice: Store logs centrally.
+├── Interview Tip: Every API request can be audited.
+
+---------------------------------------------------------
+
+Quick Comparison
+
+| Component | Purpose |
+|-----------|---------|
+| User | Human Identity |
+| ServiceAccount | Pod Identity |
+| Authentication | Verify Identity |
+| Authorization (RBAC) | Verify Permissions |
+| Vault | Secret Management |
+| ESO | Sync Secrets |
+| CSI Secret Store | Mount Secrets |
+| SecurityContext | Container Security |
+| Audit Logs | API Tracking |
+
+Production Best Practices
+
+✔ Use OIDC.
+✔ Never use default ServiceAccount.
+✔ Apply Least Privilege RBAC.
+✔ Use Vault for production secrets.
+✔ Enable Secret Rotation.
+✔ Run containers as Non-Root.
+✔ Use readOnlyRootFilesystem.
+✔ Scan every container image.
+✔ Enable Audit Logging.
+
+Memory Trick
+
+Authentication
+        │
+Who Are You?
+
+Authorization
+        │
+What Can You Do?
+
+Vault
+        │
+Secret Source
+
+ESO
+        │
+Kubernetes Secret
+
+CSI Secret Store
+        │
+Mounted Secret
+
+Questions I Asked
+
+Q. Vault vs Kubernetes Secrets?
+A. Vault manages secrets. Kubernetes consumes them.
+
+Q. Vault Agent vs External Secrets?
+A. Vault Agent injects secrets directly.
+   ESO syncs secrets into Kubernetes.
+
+Q. ESO vs CSI Secret Store?
+A. ESO creates Kubernetes Secrets.
+   CSI mounts secrets directly without creating Kubernetes Secrets.
+
+Q. Why Secret Rotation?
+A. Limits impact of credential leaks.
 
 Understanding: 95%
 
