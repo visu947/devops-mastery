@@ -1658,7 +1658,348 @@ A. Yes. That's the recommended production setup.
 
 Understanding: 100%
 
+# Module 8 - Observability & Troubleshooting ✅
 
+We covered:
+
+=========================================================
+
+✅ Logs
+├── Concept: View application and container logs.
+├── Production: First step during application failures.
+├── Best Practice: Centralize logs (ELK/Loki/Splunk).
+├── Interview Tip: Logs show application behavior, not cluster state.
+└── Questions I Asked
+    Q. Which should I check first?
+    A. kubectl logs, then kubectl describe.
+
+---------------------------------------------------------
+
+✅ kubectl logs
+├── Concept: Display container logs.
+├── Production: Troubleshoot application issues.
+├── Best Practice: Use --previous for crashed containers.
+├── Interview Tip: Reads stdout/stderr only.
+
+Useful Commands
+
+kubectl logs <pod>
+kubectl logs -f <pod>
+kubectl logs --previous <pod>
+
+---------------------------------------------------------
+
+✅ Previous Logs
+├── Concept: Shows logs from previous container instance.
+├── Production: Useful after CrashLoopBackOff.
+├── Best Practice: Always check previous logs after restart.
+├── Interview Tip: Current logs may be empty after restart.
+
+---------------------------------------------------------
+
+✅ Multi-Container Pods
+├── Concept: View logs from specific container.
+├── Production: Sidecars (Istio, Vault Agent, FluentBit).
+├── Best Practice: Always specify container name.
+├── Interview Tip: kubectl defaults to first container.
+
+Useful Command
+
+kubectl logs <pod> -c <container>
+
+---------------------------------------------------------
+
+✅ Describe
+├── Concept: Displays Kubernetes object details and events.
+├── Production: Check scheduling failures and probe failures.
+├── Best Practice: Always inspect Events section.
+├── Interview Tip: Most Kubernetes issues appear in Events.
+
+Useful Command
+
+kubectl describe pod <pod>
+
+---------------------------------------------------------
+
+✅ Events
+├── Concept: Timeline of Kubernetes actions.
+├── Production: Scheduling, OOMKilled, Probe Failures.
+├── Best Practice: Check newest events first.
+├── Interview Tip: Fastest way to identify cluster problems.
+
+---------------------------------------------------------
+
+✅ kubectl exec
+├── Concept: Execute commands inside a container.
+├── Production: Validate connectivity and configuration.
+├── Best Practice: Use for debugging only.
+├── Interview Tip: Doesn't survive Pod recreation.
+
+Useful Commands
+
+kubectl exec -it <pod> -- sh
+
+kubectl exec -it <pod> -- bash
+
+---------------------------------------------------------
+
+✅ kubectl cp
+├── Concept: Copy files between local machine and Pod.
+├── Production: Export logs, import configs.
+├── Best Practice: Avoid modifying production Pods.
+├── Interview Tip: Useful for collecting diagnostics.
+
+---------------------------------------------------------
+
+✅ kubectl debug
+├── Concept: Launch temporary debugging container.
+├── Production: Distroless container troubleshooting.
+├── Best Practice: Remove debug containers after use.
+├── Interview Tip: Doesn't modify application image.
+
+---------------------------------------------------------
+
+✅ Ephemeral Containers
+├── Concept: Temporary containers used only for debugging.
+├── Production: Troubleshoot minimal images.
+├── Best Practice: Never use as permanent containers.
+├── Interview Tip: Created only for debugging sessions.
+
+---------------------------------------------------------
+
+✅ Metrics Server
+├── Concept: Collects CPU and Memory usage from kubelets.
+├── Production: Required for HPA and kubectl top.
+├── Best Practice: Install in every production cluster.
+├── Interview Tip: Metrics Server stores short-term metrics only.
+└── Questions I Asked
+    Q. Why does HPA need Metrics Server?
+    A. Kubernetes doesn't calculate resource usage itself.
+       Metrics Server provides CPU and Memory metrics.
+
+    Q. Does Kubernetes scale automatically?
+    A. No. HPA needs Metrics Server.
+
+---------------------------------------------------------
+
+✅ kubectl top
+├── Concept: Displays live CPU and Memory usage.
+├── Production: Quick resource inspection.
+├── Best Practice: Verify Metrics Server is running.
+├── Interview Tip: Doesn't provide historical metrics.
+
+Useful Commands
+
+kubectl top pod
+
+kubectl top node
+
+---------------------------------------------------------
+
+✅ Liveness Probe
+├── Concept: Checks whether application is alive.
+├── Production: Restarts unhealthy containers.
+├── Best Practice: Don't make probes too aggressive.
+├── Interview Tip: Failure restarts container.
+└── Questions I Asked
+    Q. What happens if Liveness fails?
+    A. kubelet restarts the container.
+
+---------------------------------------------------------
+
+✅ Readiness Probe
+├── Concept: Determines if Pod can receive traffic.
+├── Production: Prevents traffic to unhealthy Pods.
+├── Best Practice: Configure before exposing applications.
+├── Interview Tip: Failure removes Pod from Service.
+└── Questions I Asked
+    Q. What happens if Readiness fails?
+    A. Pod continues running but is removed from Service endpoints.
+
+---------------------------------------------------------
+
+✅ Startup Probe
+├── Concept: Gives slow-starting applications time to initialize.
+├── Production: Java/Spring Boot applications.
+├── Best Practice: Use for long startup times.
+├── Interview Tip: Prevents premature restarts.
+
+---------------------------------------------------------
+
+Probe Summary
+
+Startup
+↓
+
+Application Starting
+
+Failure → Restart
+
+----------------------------
+
+Liveness
+↓
+
+Application Alive?
+
+Failure → Restart
+
+----------------------------
+
+Readiness
+↓
+
+Ready for Traffic?
+
+Failure → Removed from Service
+
+---------------------------------------------------------
+
+✅ Prometheus
+├── Concept: Collects and stores time-series metrics.
+├── Production: Monitoring and alerting.
+├── Best Practice: Scrape only required metrics.
+├── Interview Tip: Pull model, not Push.
+└── Questions I Asked
+    Q. How does Prometheus collect metrics?
+    A. Periodically scrapes HTTP /metrics endpoints.
+
+    Q. Does application expose metrics?
+    A. Yes. Application team usually implements /metrics.
+
+    Q. Does Prometheus collect system metrics too?
+    A. Yes. Through kubelet/cAdvisor and Node Exporter.
+
+---------------------------------------------------------
+
+✅ Application Metrics
+├── Concept: Business and application-specific metrics.
+├── Production: HTTP Requests, JVM, Cache, Queue Length.
+├── Best Practice: Follow Prometheus metric naming.
+├── Interview Tip: Exposed through /metrics endpoint.
+
+Examples
+
+http_requests_total
+
+http_request_duration_seconds
+
+jvm_memory_used_bytes
+
+---------------------------------------------------------
+
+✅ kubelet / cAdvisor Metrics
+├── Concept: Container resource metrics.
+├── Production: CPU, Memory, Network.
+├── Best Practice: Used by Prometheus and Metrics Server.
+├── Interview Tip: No application changes required.
+
+---------------------------------------------------------
+
+✅ Node Exporter
+├── Concept: OS-level metrics.
+├── Production: CPU, Disk, Filesystem, Load Average.
+├── Best Practice: Deploy as DaemonSet.
+├── Interview Tip: Node metrics, not application metrics.
+
+---------------------------------------------------------
+
+✅ Grafana
+├── Concept: Visualizes Prometheus metrics.
+├── Production: Dashboards for applications and clusters.
+├── Best Practice: Build reusable dashboards.
+├── Interview Tip: Grafana doesn't collect metrics.
+
+---------------------------------------------------------
+
+✅ Alertmanager
+├── Concept: Sends alerts from Prometheus.
+├── Production: Slack, Teams, Email, PagerDuty.
+├── Best Practice: Reduce alert fatigue.
+├── Interview Tip: Prometheus detects, Alertmanager notifies.
+
+---------------------------------------------------------
+
+✅ OpenTelemetry
+├── Concept: Standard framework for Metrics, Logs and Traces.
+├── Production: Distributed tracing.
+├── Best Practice: Instrument applications once.
+├── Interview Tip: Vendor-neutral observability.
+
+---------------------------------------------------------
+
+Quick Comparison
+
+| Component | Purpose |
+|-----------|---------|
+| Logs | Application Output |
+| Describe | Kubernetes Events |
+| Metrics Server | CPU & Memory |
+| kubectl top | Live Usage |
+| Prometheus | Metrics Collection |
+| Grafana | Dashboards |
+| Alertmanager | Notifications |
+| Node Exporter | OS Metrics |
+| OpenTelemetry | Metrics + Logs + Traces |
+
+Production Best Practices
+
+✔ Check Events before logs.
+✔ Configure Liveness & Readiness.
+✔ Don't expose traffic until Readiness succeeds.
+✔ Install Metrics Server.
+✔ Monitor Prometheus itself.
+✔ Deploy Node Exporter.
+✔ Build Grafana dashboards.
+✔ Alert on symptoms, not every metric.
+
+Memory Trick
+
+Logs
+    │
+Application
+
+Describe
+    │
+Kubernetes
+
+Metrics Server
+    │
+HPA
+
+Prometheus
+    │
+Metrics
+
+Grafana
+    │
+Visualization
+
+Alertmanager
+    │
+Notification
+
+Questions I Asked
+
+Q. Why does HPA require Metrics Server?
+A. Metrics Server provides CPU/Memory usage to HPA.
+
+Q. Does Kubernetes automatically know CPU usage?
+A. No. kubelet exposes metrics; Metrics Server aggregates them.
+
+Q. Who implements /metrics?
+A. Usually the application team.
+
+Q. Does Prometheus collect system metrics automatically?
+A. Yes. Through kubelet/cAdvisor and Node Exporter.
+
+Q. What happens when Readiness fails?
+A. Pod stays Running but is removed from Service endpoints.
+
+Q. What happens when Liveness fails?
+A. kubelet restarts the container.
+
+Understanding: 100%
 
 
 
