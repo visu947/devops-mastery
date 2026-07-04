@@ -2732,9 +2732,389 @@ A. Yes. Platform components are commonly installed via HelmRelease.
 
 Understanding: 100%
 
+# Module 11 - Backup & Disaster Recovery ✅
 
+We covered:
 
+=========================================================
 
+✅ Backup Strategy
+├── Concept: Protect Kubernetes configuration and business data.
+├── Production: Multiple backup layers.
+├── Best Practice: Regularly test restores.
+├── Interview Tip: Backup without restore testing is incomplete.
+
+---------------------------------------------------------
+
+✅ etcd
+├── Concept: Stores Kubernetes desired state.
+├── Production: HA cluster with 3 or 5 members.
+├── Best Practice: Schedule regular snapshots.
+├── Interview Tip: etcd stores metadata, not application data.
+└── Questions I Asked
+    Q. What is stored in etcd?
+    A. Deployments, Services, Secrets, ConfigMaps, RBAC, CRDs, etc.
+
+    Q. What is NOT stored?
+    A. Images, Logs, Persistent Volume Data.
+
+---------------------------------------------------------
+
+✅ etcd Backup
+├── Concept: Snapshot of Kubernetes metadata.
+├── Production: Self-managed clusters.
+├── Best Practice: Store backups outside the cluster.
+├── Interview Tip: Uses etcdctl.
+
+Useful Command
+
+etcdctl snapshot save backup.db
+
+---------------------------------------------------------
+
+✅ etcd Restore
+├── Concept: Restore cluster metadata.
+├── Production: Used after control plane failure.
+├── Best Practice: Verify snapshot integrity.
+├── Interview Tip: Restores desired state only.
+
+Useful Command
+
+etcdctl snapshot restore backup.db
+
+---------------------------------------------------------
+
+✅ Managed Kubernetes
+├── Concept: Cloud provider manages etcd.
+├── Production: EKS, AKS, GKE.
+├── Best Practice: Focus on workload backups.
+├── Interview Tip: No direct etcd access.
+└── Questions I Asked
+    Q. Can we run etcdctl on EKS?
+    A. No. Control Plane is managed by AWS.
+
+---------------------------------------------------------
+
+✅ Velero
+├── Concept: Backup and Restore Kubernetes Objects.
+├── Production: Installed using Helm + FluxCD.
+├── Best Practice: Schedule automated backups.
+├── Interview Tip: Velero reads through API Server.
+└── Questions I Asked
+    Q. Does Velero backup etcd?
+    A. No.
+
+    Q. How does Velero read objects?
+    A. Through Kubernetes API Server.
+
+---------------------------------------------------------
+
+✅ Velero Restore
+├── Concept: Recreates Kubernetes resources.
+├── Production: Namespace or cluster recovery.
+├── Best Practice: Test restore regularly.
+├── Interview Tip: Similar to kubectl apply for backed-up objects.
+
+---------------------------------------------------------
+
+✅ What Velero Backs Up
+├── Deployments
+├── StatefulSets
+├── Services
+├── ConfigMaps
+├── Secrets
+├── Ingress
+├── CRDs
+├── PVC Metadata
+├── Namespaces
+└── Questions I Asked
+    Q. Does Velero backup running Pods?
+    A. No. Pods are recreated from controllers.
+
+---------------------------------------------------------
+
+✅ Persistent Volume Backup
+├── Concept: Backup business/application data.
+├── Production: CSI Snapshots.
+├── Best Practice: Snapshot databases frequently.
+├── Interview Tip: Separate from etcd backup.
+
+---------------------------------------------------------
+
+✅ CSI (Container Storage Interface)
+├── Concept: Standard storage interface.
+├── Production: AWS EBS, Azure Disk, vSphere, Longhorn.
+├── Best Practice: Use vendor-supported CSI Driver.
+├── Interview Tip: CSI = Storage, CNI = Networking.
+└── Questions I Asked
+    Q. Does Rancher provide CSI?
+    A. No. Storage backend provides the CSI Driver.
+
+---------------------------------------------------------
+
+✅ Volume Snapshot
+├── Concept: Point-in-time storage snapshot.
+├── Production: Disaster Recovery.
+├── Best Practice: Automate snapshot schedules.
+├── Interview Tip: Storage-level snapshot.
+
+---------------------------------------------------------
+
+✅ Volume Restore
+├── Concept: Restore PVC from snapshot.
+├── Production: Database recovery.
+├── Best Practice: Verify application consistency.
+├── Interview Tip: Creates new PVC.
+
+---------------------------------------------------------
+
+✅ Crash Consistent Backup
+├── Concept: Storage snapshot during normal writes.
+├── Production: Common CSI snapshots.
+├── Best Practice: Suitable for many workloads.
+├── Interview Tip: Similar to sudden power failure.
+└── Questions I Asked
+    Q. Can database become inconsistent?
+    A. Yes. Transactions may be incomplete.
+
+---------------------------------------------------------
+
+✅ Application Consistent Backup
+├── Concept: Application flushes writes before snapshot.
+├── Production: Critical databases.
+├── Best Practice: Combine with native database backups.
+├── Interview Tip: Preferred for financial systems.
+└── Questions I Asked
+    Q. How do databases achieve this?
+    A. WAL, pg_dump, mysqldump, Oracle RMAN, etc.
+
+---------------------------------------------------------
+
+✅ Database Native Backup
+├── Concept: Backup created by database itself.
+├── Production: PostgreSQL, MySQL, Oracle, MongoDB.
+├── Best Practice: Combine with CSI snapshots.
+├── Interview Tip: Application-aware backup.
+
+---------------------------------------------------------
+
+✅ Backup Storage
+├── Concept: External backup repository.
+├── Production: S3, Azure Blob, GCS, MinIO.
+├── Best Practice: Store outside the cluster.
+├── Interview Tip: Never keep only local backups.
+└── Questions I Asked
+    Q. Can Artifactory store backups?
+    A. Possible but S3/Blob/MinIO is recommended.
+
+---------------------------------------------------------
+
+✅ Backup Scheduling
+├── Concept: Automated recurring backups.
+├── Production: Daily objects, hourly databases.
+├── Best Practice: Define retention policy.
+├── Interview Tip: Automation is mandatory.
+
+---------------------------------------------------------
+
+✅ Disaster Recovery (DR)
+├── Concept: Recover workloads after failure.
+├── Production: Documented DR procedures.
+├── Best Practice: Perform DR drills.
+├── Interview Tip: Recovery Time matters.
+
+---------------------------------------------------------
+
+✅ RPO (Recovery Point Objective)
+├── Concept: Maximum acceptable data loss.
+├── Production: Defines backup frequency.
+├── Interview Tip: Lower RPO = More frequent backups.
+
+---------------------------------------------------------
+
+✅ RTO (Recovery Time Objective)
+├── Concept: Maximum acceptable recovery time.
+├── Production: Defines recovery expectations.
+├── Interview Tip: Lower RTO = Faster recovery.
+
+---------------------------------------------------------
+
+Recovery Scenarios
+
+Node Failure
+│
+Pods recreated automatically.
+
+────────────────────────
+
+Namespace Deleted
+│
+Velero Restore.
+
+────────────────────────
+
+Worker Node Lost
+│
+Pods rescheduled.
+
+────────────────────────
+
+Control Plane Lost
+│
+Restore etcd.
+
+────────────────────────
+
+Database Corruption
+│
+Restore CSI Snapshot +
+Database Backup.
+
+────────────────────────
+
+Entire Cluster Lost
+│
+Create Cluster
+↓
+Install FluxCD
+↓
+Install Platform Components
+↓
+Restore Velero
+↓
+Restore PVCs
+↓
+Applications Running
+
+---------------------------------------------------------
+
+Quick Comparison
+
+| Component | Responsibility |
+|-----------|----------------|
+| etcd | Kubernetes Metadata |
+| Velero | Kubernetes Objects |
+| CSI | Persistent Volumes |
+| Database Backup | Application Data |
+| S3 | Backup Storage |
+| FluxCD | Platform Recovery |
+
+---------------------------------------------------------
+
+Production Best Practices
+
+✔ Backup etcd.
+✔ Backup Persistent Volumes.
+✔ Backup Kubernetes Objects.
+✔ Test Restore Monthly.
+✔ Store backups off-cluster.
+✔ Use encrypted backups.
+✔ Automate schedules.
+✔ Define RPO/RTO.
+✔ Practice Disaster Recovery.
+
+---------------------------------------------------------
+
+Common Production Mistakes
+
+❌ Never testing restores.
+
+❌ Storing backups on same cluster.
+
+❌ Only backing up etcd.
+
+❌ Forgetting database consistency.
+
+❌ No retention policy.
+
+---------------------------------------------------------
+
+Memory Trick
+
+Metadata
+        │
+etcd
+
+──────────────
+
+Objects
+        │
+Velero
+
+──────────────
+
+Business Data
+        │
+CSI Snapshot
+
+──────────────
+
+Critical Databases
+        │
+Native Backup
+
+──────────────
+
+Everything
+        │
+Disaster Recovery
+
+---------------------------------------------------------
+
+Questions I Asked
+
+Q. Can Velero be installed by FluxCD?
+A. Yes.
+
+Q. Does Velero backup etcd?
+A. No.
+
+Q. How does Velero read resources?
+A. API Server.
+
+Q. Does Rancher provide CSI?
+A. No.
+
+Q. Where are backups stored?
+A. S3, Blob Storage, GCS or MinIO.
+
+Q. Can Artifactory store backups?
+A. Possible, but object storage is recommended.
+
+Q. Crash Consistent vs Application Consistent?
+A.
+Crash = Storage snapshot.
+Application = Database flushes writes first.
+
+Q. What should production backup include?
+A.
+• etcd
+• Kubernetes Objects
+• Persistent Volumes
+• Database Native Backups
+
+Understanding: 100%
+
+Ownership
+
+Application Team
+├── Database Native Backup
+├── Application Recovery Testing
+└── RPO Requirements
+
+Platform Team
+├── Velero
+├── CSI
+├── etcd Backup
+├── Backup Storage
+├── Restore Automation
+└── Disaster Recovery
+
+Cloud Team
+├── S3
+├── Snapshot Storage
+├── Cross Region Replication
+└── IAM Permissions
 
 
 
