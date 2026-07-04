@@ -94,15 +94,137 @@ Understanding: 100%
 
 Module 2 - Workloads ✅
 
+# Module 2 - Workloads ✅
+
 We covered:
 
 ✅ Pod
+├── Concept: Smallest deployable unit in Kubernetes containing one or more containers.
+├── Production: Usually one container per Pod (sidecars are common exceptions).
+├── Best Practice: Never create standalone Pods in production.
+├── Interview Tip: Pods are ephemeral; Deployments manage their lifecycle.
+└── Questions I Asked
+    Q. Should we create Pods directly?
+    A. No. Use Deployments, StatefulSets, DaemonSets or Jobs.
+
+---------------------------------------------------------
+
 ✅ ReplicaSet
+├── Concept: Maintains the desired number of Pod replicas.
+├── Production: Automatically created and managed by Deployments.
+├── Best Practice: Rarely create ReplicaSets manually.
+├── Interview Tip: ReplicaSet only manages Pod count.
+└── Questions I Asked
+    Q. Do we create ReplicaSets manually?
+    A. Usually no. Deployments create and manage them.
+
+---------------------------------------------------------
+
 ✅ Deployment
+├── Concept: Manages ReplicaSets and provides rolling updates.
+├── Production: Most stateless applications run as Deployments.
+├── Best Practice: Always use RollingUpdate strategy.
+├── Interview Tip: Deployment → ReplicaSet → Pods.
+└── Questions I Asked
+    Q. If a Pod dies, who recreates it?
+    A. ReplicaSet recreates the Pod; Deployment manages the ReplicaSet.
+
+    Q. Can Deployment manage Stateful applications?
+    A. No. Stateful applications should use StatefulSets.
+
+---------------------------------------------------------
+
 ✅ DaemonSet
+├── Concept: Ensures one Pod runs on every selected node.
+├── Production: Used for monitoring, logging and networking agents.
+├── Best Practice: Use Node Selectors/Taints if only certain nodes require it.
+├── Interview Tip: New node joins → DaemonSet automatically schedules a Pod.
+└── Questions I Asked
+    Q. Give real examples?
+    A. Prometheus Node Exporter, Fluent Bit, Calico, Cilium, Security Agents.
+
+---------------------------------------------------------
+
 ✅ StatefulSet
-✅ Jobs
-✅ CronJobs
+├── Concept: Manages stateful applications with stable identity and storage.
+├── Production: Used for databases and clustered applications.
+├── Best Practice: Use PersistentVolumes with StatefulSets.
+├── Interview Tip: Pods are created and deleted in order.
+└── Questions I Asked
+    Q. Why not Deployment for PostgreSQL?
+    A. Deployment Pods are interchangeable. Databases require stable identity and persistent storage.
+
+    Q. Can each Pod have its own volume?
+    A. Yes. Each StatefulSet replica gets its own PersistentVolumeClaim.
+
+---------------------------------------------------------
+
+✅ Job
+├── Concept: Runs a task until it completes successfully.
+├── Production: Database migrations, backups, data imports.
+├── Best Practice: Jobs should be idempotent whenever possible.
+├── Interview Tip: Job finishes once the task completes successfully.
+└── Questions I Asked
+    Q. What happens if the Pod fails?
+    A. Kubernetes retries until the Job succeeds or reaches the backoff limit.
+
+---------------------------------------------------------
+
+✅ CronJob
+├── Concept: Runs Jobs on a schedule.
+├── Production: Nightly backups, cleanup tasks, reports.
+├── Best Practice: Configure concurrencyPolicy to avoid overlapping executions.
+├── Interview Tip: CronJob creates Jobs; Jobs create Pods.
+└── Questions I Asked
+    Q. Does CronJob run Pods directly?
+    A. No. CronJob creates a Job, which then creates the Pod.
+
+---------------------------------------------------------
+
+Quick Comparison
+
+| Resource     | Primary Purpose                           |
+|--------------|-------------------------------------------|
+| Pod          | Runs one or more containers               |
+| ReplicaSet   | Maintains desired Pod count               |
+| Deployment   | Rolling updates & stateless applications  |
+| DaemonSet    | One Pod per node                          |
+| StatefulSet  | Stateful workloads with stable identity   |
+| Job          | One-time task                             |
+| CronJob      | Scheduled task                            |
+
+Production Best Practices
+
+✔ Don't create standalone Pods.
+✔ Use Deployments for stateless applications.
+✔ Use StatefulSets for databases.
+✔ Use DaemonSets for cluster-wide agents.
+✔ Use Jobs for one-time operations.
+✔ Use CronJobs for scheduled operations.
+
+Memory Trick
+
+Pod
+    │
+ReplicaSet
+    │
+Deployment
+
+CronJob
+    │
+Job
+    │
+Pod
+
+StatefulSet
+    │
+Stable Pod + Stable Storage
+
+DaemonSet
+    │
+One Pod per Node
+
+Understanding: 100%
 
 Understanding: 100%
 
