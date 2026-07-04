@@ -1,5 +1,3 @@
-``` text
-
 I'll summarize everything we've completed
 
 
@@ -4430,4 +4428,4 @@ Understanding: 100%
 Congratulations!
 
 You now understand the complete Kubernetes production ecosystem from:
-Developer → CI/CD → GitOps → Kubernetes → Monitoring → Autoscaling → Backup → Disaster Recovery. ```
+Developer → CI/CD → GitOps → Kubernetes → Monitoring → Autoscaling → Backup → Disaster Recovery. 
