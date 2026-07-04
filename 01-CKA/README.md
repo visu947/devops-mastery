@@ -1,3 +1,4 @@
+```text
 I'll summarize everything we've completed
 
 # Module 1 - Kubernetes Architecture ✅
@@ -90,6 +91,8 @@ We covered:
 ├── Interview Tip: kubelet communicates with runtime through CRI.
 
 Understanding: 100%
+
+Module 2 - Workloads ✅
 
 # Module 2 - Workloads ✅
 
@@ -4171,4 +4174,4 @@ Understanding: 100%
 Congratulations!
 
 You now understand the complete Kubernetes production ecosystem from:
-Developer → CI/CD → GitOps → Kubernetes → Monitoring → Autoscaling → Backup → Disaster Recovery.
+Developer → CI/CD → GitOps → Kubernetes → Monitoring → Autoscaling → Backup → Disaster Recovery. ```
