@@ -1,19 +1,94 @@
 ``` text
 I'll summarize everything we've completed
 
-Module 1 - Kubernetes Architecture ✅
+# Module 1 - Kubernetes Architecture ✅
 
 We covered:
 
 ✅ Control Plane
+├── Concept: Brain of Kubernetes containing management components.
+├── Production: Usually 3 Control Plane nodes for High Availability.
+├── Best Practice: Never run a single control plane in production.
+├── Interview Tip: Worker nodes can fail; control plane should remain available.
+└── Questions I Asked
+    Q. What is the most important component?
+    A. etcd. Without etcd Kubernetes loses its desired state.
+
+---------------------------------------------------------
+
 ✅ API Server
+├── Concept: Entry point for every Kubernetes request.
+├── Production: All components communicate through the API Server.
+├── Best Practice: Never access etcd directly from applications.
+├── Interview Tip: API Server is stateless; etcd stores the data.
+└── Questions I Asked
+    Q. Does Scheduler talk directly to etcd?
+    A. No. Scheduler communicates only with the API Server.
+
+---------------------------------------------------------
+
 ✅ Scheduler
+├── Concept: Chooses the best worker node for Pods.
+├── Production: Uses Requests, Affinity, Taints, Resources and Policies.
+├── Best Practice: Always define CPU/Memory Requests.
+├── Interview Tip: Scheduler never starts Pods; kubelet does.
+└── Questions I Asked
+    Q. Does Scheduler use Limits?
+    A. No. Scheduling decisions are based on Requests.
+
+---------------------------------------------------------
+
 ✅ Controller Manager
+├── Concept: Continuously reconciles actual state to desired state.
+├── Production: Runs Deployment, ReplicaSet, Node and Job controllers.
+├── Best Practice: Never manually recreate Pods managed by Deployments.
+├── Interview Tip: Controllers continuously watch the API Server.
+
+---------------------------------------------------------
+
 ✅ etcd
+├── Concept: Distributed key-value database storing Kubernetes desired state.
+├── Production: Run 3 or 5 member HA clusters.
+├── Best Practice: Take regular snapshots.
+├── Interview Tip: etcd stores metadata, not application data.
+└── Questions I Asked
+    Q. What should be backed up?
+    A. etcd + Persistent Volumes.
+
+    Q. Does Velero backup etcd?
+    A. No. Velero backs up Kubernetes objects via the API Server.
+
+---------------------------------------------------------
+
 ✅ Worker Nodes
+├── Concept: Execute application workloads.
+├── Production: Scale horizontally using Cluster Autoscaler.
+├── Best Practice: Keep workers stateless.
+├── Interview Tip: Losing a worker shouldn't affect the cluster permanently.
+
+---------------------------------------------------------
+
 ✅ kubelet
+├── Concept: Kubernetes agent running on every worker node.
+├── Production: Communicates with the API Server.
+├── Best Practice: kubelet should never be stopped manually.
+├── Interview Tip: kubelet creates Pods through the container runtime.
+
+---------------------------------------------------------
+
 ✅ kube-proxy
+├── Concept: Implements Kubernetes Services networking.
+├── Production: Maintains iptables/IPVS rules.
+├── Best Practice: Usually managed automatically.
+├── Interview Tip: kube-proxy is not the CNI plugin.
+
+---------------------------------------------------------
+
 ✅ Container Runtime
+├── Concept: Runs containers (containerd, CRI-O, etc.).
+├── Production: containerd is most commonly used today.
+├── Best Practice: Docker Engine is no longer required.
+├── Interview Tip: kubelet communicates with runtime through CRI.
 
 Understanding: 100%
 
