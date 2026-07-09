@@ -1,3 +1,439 @@
+
+# CKA YAML Skeleton Cheat Sheet
+
+> Goal: **Remember the skeleton, not the entire YAML.** Fill only the
+> values required by the question.
+
+------------------------------------------------------------------------
+
+# 1. Pod
+
+``` yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name:
+
+spec:
+  containers:
+  - name:
+    image:
+```
+
+Common additions:
+
+``` yaml
+command:
+args:
+env:
+ports:
+resources:
+volumeMounts:
+```
+
+------------------------------------------------------------------------
+
+# 2. Deployment
+
+``` yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:
+
+spec:
+  replicas:
+
+  selector:
+    matchLabels:
+      app:
+
+  template:
+    metadata:
+      labels:
+        app:
+
+    spec:
+      containers:
+      - name:
+        image:
+```
+
+Common additions:
+
+``` yaml
+command:
+env:
+resources:
+volumeMounts:
+```
+
+------------------------------------------------------------------------
+
+# 3. Service
+
+``` yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name:
+
+spec:
+  selector:
+    app:
+
+  ports:
+  - port:
+    targetPort:
+```
+
+NodePort:
+
+``` yaml
+spec:
+  type: NodePort
+
+  ports:
+  - port:
+    targetPort:
+    nodePort:
+```
+
+------------------------------------------------------------------------
+
+# 4. ConfigMap
+
+``` yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:
+
+data:
+  key: value
+```
+
+------------------------------------------------------------------------
+
+# 5. Secret
+
+``` yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name:
+
+type: Opaque
+
+data:
+  key:
+```
+
+------------------------------------------------------------------------
+
+# 6. PersistentVolumeClaim (PVC)
+
+``` yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name:
+
+spec:
+  accessModes:
+  - ReadWriteOnce
+
+  resources:
+    requests:
+      storage:
+
+  storageClassName:
+```
+
+------------------------------------------------------------------------
+
+# 7. PersistentVolume (PV)
+
+``` yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name:
+
+spec:
+  capacity:
+    storage:
+
+  accessModes:
+  - ReadWriteOnce
+
+  storageClassName:
+
+  hostPath:
+    path:
+```
+
+------------------------------------------------------------------------
+
+# 8. StorageClass
+
+``` yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name:
+
+provisioner:
+
+parameters:
+```
+
+------------------------------------------------------------------------
+
+# 9. Ingress
+
+``` yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name:
+
+spec:
+  rules:
+  - http:
+      paths:
+      - path:
+        pathType: Prefix
+
+        backend:
+          service:
+            name:
+            port:
+              number:
+```
+
+SSL Redirect:
+
+``` yaml
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+```
+
+------------------------------------------------------------------------
+
+# 10. NetworkPolicy
+
+``` yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name:
+
+spec:
+  podSelector:
+
+  policyTypes:
+  - Ingress
+
+  ingress:
+```
+
+------------------------------------------------------------------------
+
+# 11. Namespace
+
+``` yaml
+apiVersion: v1
+kind: Namespace
+
+metadata:
+  name:
+```
+
+------------------------------------------------------------------------
+
+# 12. ServiceAccount
+
+``` yaml
+apiVersion: v1
+kind: ServiceAccount
+
+metadata:
+  name:
+```
+
+------------------------------------------------------------------------
+
+# 13. Role
+
+``` yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+
+metadata:
+  name:
+
+rules:
+- apiGroups:
+  resources:
+  verbs:
+```
+
+------------------------------------------------------------------------
+
+# 14. RoleBinding
+
+``` yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+
+metadata:
+  name:
+
+subjects:
+
+roleRef:
+```
+
+------------------------------------------------------------------------
+
+# 15. CronJob
+
+``` yaml
+apiVersion: batch/v1
+kind: CronJob
+
+metadata:
+  name:
+
+spec:
+  schedule:
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          restartPolicy:
+```
+
+------------------------------------------------------------------------
+
+# 16. Job
+
+``` yaml
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name:
+
+spec:
+  template:
+    spec:
+      containers:
+      restartPolicy:
+```
+
+------------------------------------------------------------------------
+
+# 17. DaemonSet
+
+``` yaml
+apiVersion: apps/v1
+kind: DaemonSet
+
+metadata:
+  name:
+
+spec:
+  selector:
+
+  template:
+    metadata:
+
+    spec:
+      containers:
+```
+
+------------------------------------------------------------------------
+
+# 18. StatefulSet
+
+``` yaml
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  name:
+
+spec:
+  serviceName:
+
+  replicas:
+
+  selector:
+
+  template:
+
+  volumeClaimTemplates:
+```
+
+------------------------------------------------------------------------
+
+# 19. HorizontalPodAutoscaler (HPA)
+
+``` yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name:
+
+spec:
+  scaleTargetRef:
+
+  minReplicas:
+
+  maxReplicas:
+
+  metrics:
+```
+
+------------------------------------------------------------------------
+
+# CKA Memory Rule
+
+    Can kubectl generate it?
+
+    YES
+    ↓
+    Generate → Edit → Apply
+
+    NO
+    ↓
+    Use Skeleton
+    ↓
+    Fill values
+    ↓
+    Apply
+
+# High-Priority Skeletons
+
+1.  Pod
+2.  Deployment
+3.  Service
+4.  PVC
+5.  Ingress
+6.  NetworkPolicy
+
+
+
+
+
 # Services & Networking - Cheat Sheet
 
 > **One-page quick revision guide for Kubernetes Services, Networking, DNS, and Ingress**
