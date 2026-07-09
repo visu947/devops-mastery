@@ -24,7 +24,7 @@ Think of every Kubernetes YAML as answering four questions:
 | **metadata**   | Information that identifies the object (name, namespac, labels, annotations, ownerReferences, finalizers)                               |  Who am I?      |
 | **spec**       | The desired state that Kubernetes should create and maintain (containers, volumes, restartPolicy, nodeSelector, affinity, tolerations)  | What do I want? |
 
-
+```text
 metadata
 
 ├── name            → Your name
@@ -33,7 +33,7 @@ metadata
 ├── annotations     → Extra notes
 ├── ownerReferences → Who owns you
 └── finalizers      → Cleanup before deletion
-
+```
 
                    
 
