@@ -17,13 +17,13 @@ spec:
 
 Think of every Kubernetes YAML as answering four questions:
 
-| Field          | Meaning                                                                                                   | Memory Trick    |
-| -------------- | ----------------------------------------------------------------------------------------------------------| --------------- |
-| **apiVersion** | Which Kubernetes API understands this resource?                                                           | Which API?      |
-| **kind**       | What Kubernetes object are you creating?                                                                  | What object?    |
-| **metadata**   | Information that identifies the object (name, namespac, labels, annotations, ownerReferences, finalizers) | Who am I?       |
-| **spec**       | The desired state that Kubernetes should create and maintain                                              | What do I want? |
-                   (containers, volumes, restartPolicy, nodeSelector, affinity, tolerations)
+| Field          | Meaning                                                                                                                                 | Memory Trick    |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------| --------------- |
+| **apiVersion** | Which Kubernetes API understands this resource?                                                                                         | Which API?      |
+| **kind**       | What Kubernetes object are you creating?                                                                                                | What object?    |
+| **metadata**   | Information that identifies the object (name, namespac, labels, annotations, ownerReferences, finalizers)                               |  Who am I?      |
+| **spec**       | The desired state that Kubernetes should create and maintain (containers, volumes, restartPolicy, nodeSelector, affinity, tolerations)  | What do I want? |
+                   
 
 ---
 
