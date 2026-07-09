@@ -23,6 +23,18 @@ Think of every Kubernetes YAML as answering four questions:
 | **kind**       | What Kubernetes object are you creating?                                                                                                | What object?    |
 | **metadata**   | Information that identifies the object (name, namespac, labels, annotations, ownerReferences, finalizers)                               |  Who am I?      |
 | **spec**       | The desired state that Kubernetes should create and maintain (containers, volumes, restartPolicy, nodeSelector, affinity, tolerations)  | What do I want? |
+
+
+metadata
+
+├── name            → Your name
+├── namespace       → Your city
+├── labels          → Categories/tags
+├── annotations     → Extra notes
+├── ownerReferences → Who owns you
+└── finalizers      → Cleanup before deletion
+
+
                    
 
 ---
