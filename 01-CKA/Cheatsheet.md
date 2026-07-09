@@ -4,6 +4,263 @@
 > Goal: **Remember the skeleton, not the entire YAML.** Fill only the
 > values required by the question.
 
+# Kubernetes YAML Fundamentals
+
+Before learning any Kubernetes resource, remember that **most Kubernetes objects follow the same structure**.
+
+```yaml
+apiVersion:
+kind:
+metadata:
+spec:
+```
+
+Think of every Kubernetes YAML as answering four questions:
+
+| Field          | Meaning                                                                       | Memory Trick    |
+| -------------- | ----------------------------------------------------------------------------- | --------------- |
+| **apiVersion** | Which Kubernetes API understands this resource?                               | Which API?      |
+| **kind**       | What Kubernetes object are you creating?                                      | What object?    |
+| **metadata**   | Information that identifies the object (name, namespace, labels, annotations) | Who am I?       |
+| **spec**       | The desired state that Kubernetes should create and maintain                  | What do I want? |
+
+---
+
+## Mental Model
+
+```text
+Kubernetes Object
+
+↓
+
+Which API?
+
+↓
+
+What Object?
+
+↓
+
+Who am I?
+
+↓
+
+What do I want Kubernetes to build?
+```
+
+or simply:
+
+```text
+API
+↓
+
+Object
+↓
+
+Identity
+↓
+
+Desired State
+```
+
+---
+
+## Examples
+
+### Pod
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+
+spec:
+  containers:
+```
+
+### Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+
+spec:
+  replicas:
+```
+
+### Service
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+
+spec:
+  selector:
+  ports:
+```
+
+### PersistentVolumeClaim (PVC)
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc
+
+spec:
+  accessModes:
+```
+
+### Ingress
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+
+spec:
+  rules:
+```
+
+Notice that the first three fields stay the same. **Only the contents of `spec` change depending on the resource.**
+
+---
+
+# Resources That Do NOT Use `spec`
+
+Some Kubernetes objects simply store configuration or data.
+
+## ConfigMap
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+
+data:
+  color: blue
+```
+
+## Secret
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+
+type: Opaque
+
+data:
+  password: <base64-value>
+```
+
+These resources use **`data`** instead of **`spec`** because Kubernetes is storing information rather than managing a running workload.
+
+---
+
+# CKA Memory Rule
+
+If the resource **runs or manages something**, it almost always follows:
+
+```yaml
+apiVersion:
+kind:
+metadata:
+spec:
+```
+
+Examples:
+
+* Pod
+* Deployment
+* Service
+* DaemonSet
+* StatefulSet
+* Job
+* CronJob
+* Ingress
+* NetworkPolicy
+* PersistentVolume
+* PersistentVolumeClaim
+* HorizontalPodAutoscaler
+
+If the resource **stores configuration or data**, it usually follows:
+
+```yaml
+apiVersion:
+kind:
+metadata:
+data:
+```
+
+or
+
+```yaml
+apiVersion:
+kind:
+metadata:
+type:
+data:
+```
+
+Examples:
+
+* ConfigMap
+* Secret
+
+---
+
+# Interview Tip
+
+**apiVersion**
+
+> Which Kubernetes API group/version manages this resource.
+
+**kind**
+
+> The type of Kubernetes object to create.
+
+**metadata**
+
+> Identity of the object (name, namespace, labels, annotations).
+
+**spec**
+
+> The desired state Kubernetes should maintain.
+
+---
+
+# CKA Gold Tip
+
+Don't memorize dozens of YAML files.
+
+Memorize this:
+
+```text
+apiVersion
+↓
+
+kind
+↓
+
+metadata
+↓
+
+spec
+```
+
+Then learn only **what goes inside `spec`** for each resource. That is how experienced Kubernetes engineers think and how you should approach the CKA exam.
+
+
+
 ------------------------------------------------------------------------
 
 # 1. Pod
