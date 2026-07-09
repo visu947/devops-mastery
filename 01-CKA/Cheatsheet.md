@@ -34,7 +34,188 @@ metadata
 ├── ownerReferences → Who owns you
 └── finalizers      → Cleanup before deletion
 ```
+```text
+## spec – Desired State (What should Kubernetes build?)
 
+```text
+spec
+
+├── replicas
+│      → How many Pods?
+│      → Resource: Deployment, ReplicaSet, StatefulSet
+│
+├── selector
+│      → Which objects?
+│      → Resource: Deployment, ReplicaSet, Service, NetworkPolicy
+│
+├── template
+│      → What should be created?
+│      → Resource: Deployment, ReplicaSet, DaemonSet, StatefulSet, Job, CronJob
+│
+├── containers
+│      → What runs?
+│      → Resource: Pod
+│
+├── image
+│      → Which application?
+│      → Resource: Pod
+│
+├── command
+│      → Override container ENTRYPOINT
+│      → Resource: Pod
+│
+├── args
+│      → Override container CMD
+│      → Resource: Pod
+│
+├── env
+│      → Environment variables
+│      → Resource: Pod
+│
+├── ports
+│      → Network ports
+│      → Resource: Pod, Service
+│
+├── resources
+│      → CPU & Memory requests/limits
+│      → Resource: Pod
+│
+├── volumes
+│      → Storage definitions
+│      → Resource: Pod
+│
+├── volumeMounts
+│      → Mount storage into containers
+│      → Resource: Pod
+│
+├── accessModes
+│      → Storage access (RWO, ROX, RWX)
+│      → Resource: PersistentVolume, PersistentVolumeClaim
+│
+├── storageClassName
+│      → Which storage backend?
+│      → Resource: PersistentVolumeClaim, PersistentVolume
+│
+├── type
+│      → Service type (ClusterIP, NodePort, LoadBalancer)
+│      → Resource: Service
+│
+├── rules
+│      → HTTP routing rules
+│      → Resource: Ingress
+│
+├── policyTypes
+│      → Ingress/Egress policy
+│      → Resource: NetworkPolicy
+│
+├── ingress
+│      → Incoming traffic rules
+│      → Resource: NetworkPolicy, Ingress
+│
+├── egress
+│      → Outgoing traffic rules
+│      → Resource: NetworkPolicy
+│
+├── restartPolicy
+│      → Pod restart behavior
+│      → Resource: Pod, Job, CronJob
+│
+├── serviceName
+│      → Headless Service used by StatefulSet
+│      → Resource: StatefulSet
+│
+├── schedule
+│      → Cron expression
+│      → Resource: CronJob
+│
+├── jobTemplate
+│      → Template for Jobs created on schedule
+│      → Resource: CronJob
+│
+└── tls
+       → HTTPS certificates
+       → Resource: Ingress
+```
+
+### Memory Trick
+
+```text
+spec
+
+├── Scaling
+│      replicas
+│
+├── Selection
+│      selector
+│
+├── Pod Configuration
+│      template
+│      containers
+│      image
+│      command
+│      args
+│      env
+│      ports
+│      resources
+│      volumes
+│      volumeMounts
+│      restartPolicy
+│
+├── Storage
+│      accessModes
+│      storageClassName
+│
+├── Networking
+│      type
+│      rules
+│      ingress
+│      egress
+│      policyTypes
+│      tls
+│
+└── Scheduling
+       schedule
+       jobTemplate
+       serviceName
+```
+
+### CKA Golden Rule
+
+```text
+Deployment
+    ↓
+replicas + selector + template
+
+Pod
+    ↓
+containers + image + command + env + volumes
+
+Service
+    ↓
+selector + type + ports
+
+Ingress
+    ↓
+rules + backend + tls
+
+PVC
+    ↓
+accessModes + storage + storageClassName
+
+NetworkPolicy
+    ↓
+podSelector + ingress + egress
+
+StatefulSet
+    ↓
+replicas + serviceName + volumeClaimTemplates
+
+CronJob
+    ↓
+schedule + jobTemplate
+```
+
+```
                    
 
 ---
