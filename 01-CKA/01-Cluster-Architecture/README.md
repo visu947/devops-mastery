@@ -172,11 +172,15 @@ If etcd data is lost and no backup exists, the cluster state is lost.
 
 ```bash
 ETCDCTL_API=3 etcdctl snapshot save backup.db
+
 ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1:2379 \
  --cacert="/etc/kubernetes/pki/etcd/ca.crt" \
  --cert="/etc/kubernetes/pki/etcd/server.crt" \
  --key="/etc/kubernetes/pki/etcd/server.key" \
 snapshot save /opt/cluster_backup.db 2>&1 | tee backup.txt
+
+etcdutl snapshot restore /opt/cluster_backup.db \
+  --data-dir=/root/default.etcd > restore.txt 2>&1
 ```
 
 ---
