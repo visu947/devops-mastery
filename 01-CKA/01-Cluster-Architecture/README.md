@@ -181,7 +181,189 @@ snapshot save /opt/cluster_backup.db 2>&1 | tee backup.txt
 
 etcdutl snapshot restore /opt/cluster_backup.db \
   --data-dir=/root/default.etcd > restore.txt 2>&1
+
 ```
+
+```
+# Kubernetes Control Plane Upgrade (kubeadm)
+
+## 1. Check available versions
+
+```bash
+apt update
+apt list --upgradable
+apt-cache madison kubeadm
+```
+
+## 2. Check current Kubernetes versions
+
+```bash
+kubectl get nodes
+kubeadm version
+kubelet --version
+```
+
+## 3. Drain the control plane
+
+```bash
+kubectl drain controlplane --ignore-daemonsets
+```
+
+If required:
+
+```bash
+kubectl drain controlplane --ignore-daemonsets --delete-emptydir-data
+```
+
+---
+
+## 4. Upgrade kubeadm
+
+```bash
+apt-mark unhold kubeadm
+apt update
+apt-get install -y kubeadm=<TARGET_VERSION>
+apt-mark hold kubeadm
+```
+
+Example:
+
+```bash
+apt-get install -y kubeadm=1.35.2-1.1
+```
+
+Verify:
+
+```bash
+kubeadm version
+```
+
+---
+
+## 5. Upgrade the Control Plane
+
+```bash
+kubeadm upgrade plan
+kubeadm upgrade apply v<TARGET_VERSION>
+```
+
+Example:
+
+```bash
+kubeadm upgrade apply v1.35.2
+```
+
+---
+
+## 6. Upgrade kubelet and kubectl
+
+```bash
+apt-mark unhold kubelet kubectl
+
+apt-get install -y kubelet=<TARGET_VERSION>
+apt-get install -y kubectl=<TARGET_VERSION>
+
+apt-mark hold kubelet kubectl
+```
+
+Example:
+
+```bash
+apt-get install -y kubelet=1.35.2-1.1
+apt-get install -y kubectl=1.35.2-1.1
+```
+
+---
+
+## 7. Restart kubelet
+
+```bash
+systemctl daemon-reload
+systemctl restart kubelet
+systemctl status kubelet
+```
+
+---
+
+## 8. Uncordon the node
+
+```bash
+kubectl uncordon controlplane
+```
+
+---
+
+## 9. Verify
+
+```bash
+kubectl get nodes
+kubeadm version
+kubelet --version
+kubectl version --client
+```
+
+---
+
+# Memory Flow
+
+```
+Check Versions
+      ↓
+Drain
+      ↓
+Upgrade kubeadm
+      ↓
+Plan
+      ↓
+Apply
+      ↓
+Upgrade kubelet & kubectl
+      ↓
+Restart kubelet
+      ↓
+Uncordon
+      ↓
+Verify
+```
+
+---
+
+# Worker Node Upgrade
+
+```
+Drain
+      ↓
+SSH to Worker
+      ↓
+Upgrade kubeadm
+      ↓
+kubeadm upgrade node
+      ↓
+Upgrade kubelet & kubectl
+      ↓
+Restart kubelet
+      ↓
+Uncordon
+      ↓
+Verify
+```
+
+### Difference to Remember
+
+Control Plane:
+
+```bash
+kubeadm upgrade apply v<TARGET_VERSION>
+```
+
+Worker Node:
+
+```bash
+kubeadm upgrade node
+```
+
+```
+
 
 ---
 
