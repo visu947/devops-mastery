@@ -184,7 +184,7 @@ etcdutl snapshot restore /opt/cluster_backup.db \
 
 ```
 
-```
+
 # Kubernetes Control Plane Upgrade (kubeadm)
 
 ## 1. Check available versions
@@ -362,7 +362,6 @@ Worker Node:
 kubeadm upgrade node
 ```
 
-```
 
 
 ---
