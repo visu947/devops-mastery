@@ -1,5 +1,5 @@
                     Kubernetes Cluster
-
+``` text
 Core Components
 ──────────────────────────────────────
 API Server
@@ -40,3 +40,4 @@ Network Policies
 Kyverno / OPA
 Falco
 Trivy
+```
